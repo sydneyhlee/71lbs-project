@@ -1,0 +1,25 @@
+[project]
+name = "carrier-contract-parser"
+version = "0.1.0"
+description = "Production-grade contract parsing pipeline for carrier agreements."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "pdfplumber>=0.11.0",
+  "pdf2image>=1.17.0",
+  "pytesseract>=0.3.10",
+  "pydantic>=2.8.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.2.0",
+]
+
+[build-system]
+requires = ["setuptools>=68.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
