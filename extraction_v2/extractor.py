@@ -50,6 +50,27 @@ from extraction_v2.metadata_extractor import extract_metadata
 
 logger = logging.getLogger(__name__)
 
+_INVOICE_SERVICE_TOTAL_PATTERN = re.compile(
+    r"([A-Za-z][A-Za-z &/\-]{3,80}?)\s+Total Charges\s+USD\s+\$?([\d,]+(?:\.\d{2})?)",
+    re.IGNORECASE,
+)
+_TOTAL_INVOICE_PATTERN = re.compile(
+    r"TOTAL\s+THIS\s+INVOICE\s+USD\s+\$?([\d,]+(?:\.\d{2})?)",
+    re.IGNORECASE,
+)
+_FUEL_SURCHARGE_PATTERN = re.compile(
+    r"Fuel Surcharge\s+([\d,]+(?:\.\d{2})?)",
+    re.IGNORECASE,
+)
+_UPS_TRANSPORT_CHARGE_PATTERN = re.compile(
+    r"Transportation Charges\s+([\d,]+(?:\.\d{2})?)",
+    re.IGNORECASE,
+)
+_INVOICE_NUMBER_PATTERN = re.compile(
+    r"Invoice Number\s+([A-Z0-9\-]+)",
+    re.IGNORECASE,
+)
+
 
 # ---------------------------------------------------------------------------
 # Deterministic → Schema conversion
@@ -181,6 +202,204 @@ def _special_provision_to_schema(sp: SpecialProvision) -> SpecialTerm:
             source_page=sp.source_page, source_text=sp.value[:120],
         ),
     )
+
+
+def _is_likely_invoice(full_text: str) -> bool:
+    """Heuristic detector for invoice-style documents."""
+    head = full_text[:4000]
+    return (
+        ("Invoice Number" in head and "Invoice Date" in head)
+        or ("Delivery Service Invoice" in head)
+    )
+
+
+def _extract_invoice_signals(
+    full_text: str,
+) -> tuple[list[ServiceTerm], list[Surcharge], list[SpecialTerm]]:
+    """
+    Deterministic extraction for invoice-style files.
+
+    These docs are not pricing contracts, so this extracts stable invoice
+    signals (summary charges / totals / surcharge presence) to avoid
+    unnecessary LLM fallback.
+    """
+    service_terms: list[ServiceTerm] = []
+    surcharges: list[Surcharge] = []
+    special_terms: list[SpecialTerm] = []
+    special_terms.append(
+        SpecialTerm(
+            term_name=ev(
+                value="Document Type",
+                confidence=0.95,
+                source_page=1,
+                source_text="Invoice",
+            ),
+            term_value=ev(
+                value="Invoice",
+                confidence=0.95,
+                source_page=1,
+                source_text="Invoice Number",
+            ),
+            conditions=ev(
+                value="Classified by deterministic invoice markers",
+                confidence=0.75,
+                source_page=1,
+                source_text="Invoice Number / Invoice Date",
+            ),
+        )
+    )
+    invoice_number_match = _INVOICE_NUMBER_PATTERN.search(full_text)
+    if invoice_number_match:
+        special_terms.append(
+            SpecialTerm(
+                term_name=ev(
+                    value="Invoice Number",
+                    confidence=0.90,
+                    source_page=1,
+                    source_text="Invoice Number",
+                ),
+                term_value=ev(
+                    value=invoice_number_match.group(1),
+                    confidence=0.90,
+                    source_page=1,
+                    source_text=invoice_number_match.group(0)[:120],
+                ),
+                conditions=ev(
+                    value="Derived from invoice header",
+                    confidence=0.70,
+                    source_page=1,
+                    source_text="Invoice header",
+                ),
+            )
+        )
+
+    seen_services = set()
+    for m in _INVOICE_SERVICE_TOTAL_PATTERN.finditer(full_text):
+        service_name = " ".join(m.group(1).split())
+        amount = m.group(2)
+        key = service_name.lower()
+        if key in seen_services:
+            continue
+        seen_services.add(key)
+
+        service_terms.append(
+            ServiceTerm(
+                service_type=ev(
+                    value=service_name,
+                    confidence=0.80,
+                    source_page=1,
+                    source_text=service_name,
+                ),
+                applicable_zones=ev(
+                    value=["Invoice Summary"],
+                    confidence=0.70,
+                    source_page=1,
+                    source_text="Invoice Summary",
+                ),
+                base_rate_adjustment=ev(
+                    value=f"Total Charges USD {amount}",
+                    confidence=0.80,
+                    source_page=1,
+                    source_text=m.group(0)[:120],
+                ),
+                conditions=ev(
+                    value="Derived from invoice summary charge line",
+                    confidence=0.70,
+                    source_page=1,
+                    source_text="Invoice Summary",
+                ),
+            )
+        )
+        if len(service_terms) >= 5:
+            break
+
+    total_m = _TOTAL_INVOICE_PATTERN.search(full_text)
+    if total_m:
+        amount = total_m.group(1)
+        special_terms.append(
+            SpecialTerm(
+                term_name=ev(
+                    value="Invoice Total",
+                    confidence=0.90,
+                    source_page=1,
+                    source_text="TOTAL THIS INVOICE",
+                ),
+                term_value=ev(
+                    value=f"USD {amount}",
+                    confidence=0.90,
+                    source_page=1,
+                    source_text=total_m.group(0)[:120],
+                ),
+                conditions=ev(
+                    value="Captured from invoice summary",
+                    confidence=0.70,
+                    source_page=1,
+                    source_text="Invoice Summary",
+                ),
+            )
+        )
+
+    fuel_m = _FUEL_SURCHARGE_PATTERN.search(full_text)
+    if fuel_m:
+        surcharges.append(
+            Surcharge(
+                surcharge_name=ev(
+                    value="Fuel Surcharge",
+                    confidence=0.80,
+                    source_page=1,
+                    source_text="Fuel Surcharge",
+                ),
+                application=ev(
+                    value="Invoice line item",
+                    confidence=0.70,
+                    source_page=1,
+                    source_text=fuel_m.group(0)[:120],
+                ),
+                modification=ev(
+                    value=f"Observed amount {fuel_m.group(1)}",
+                    confidence=0.70,
+                    source_page=1,
+                    source_text=fuel_m.group(0)[:120],
+                ),
+            )
+        )
+
+    # UPS invoices often expose transportation charge lines rather than service
+    # summary blocks; include one deterministic signal for those documents.
+    if not service_terms:
+        transport_m = _UPS_TRANSPORT_CHARGE_PATTERN.search(full_text)
+        if transport_m:
+            amount = transport_m.group(1)
+            service_terms.append(
+                ServiceTerm(
+                    service_type=ev(
+                        value="UPS Transportation Charges",
+                        confidence=0.75,
+                        source_page=1,
+                        source_text="Transportation Charges",
+                    ),
+                    applicable_zones=ev(
+                        value=["Invoice"],
+                        confidence=0.60,
+                        source_page=1,
+                        source_text="Delivery Service Invoice",
+                    ),
+                    base_rate_adjustment=ev(
+                        value=f"Transportation Charges {amount}",
+                        confidence=0.75,
+                        source_page=1,
+                        source_text=transport_m.group(0)[:120],
+                    ),
+                    conditions=ev(
+                        value="Derived from UPS invoice line item",
+                        confidence=0.65,
+                        source_page=1,
+                        source_text="Transportation Charges",
+                    ),
+                )
+            )
+
+    return service_terms, surcharges, special_terms
 
 
 # ---------------------------------------------------------------------------
@@ -461,6 +680,38 @@ def extract_contract_v2(
             all_special_terms.append(_special_provision_to_schema(prov))
             deterministic_hits += 1
 
+    # --- Phase 2b: Deterministic invoice-mode extraction for non-contract docs ---
+    if deterministic_hits < 3 and _is_likely_invoice(full_text):
+        logger.info("Phase 2b: Low coverage invoice detected — extracting invoice signals")
+        inv_terms, inv_surcharges, inv_special_terms = _extract_invoice_signals(full_text)
+
+        existing_service_names = {
+            (st.service_type.value or "").strip().lower() for st in all_service_terms
+        }
+        for st in inv_terms:
+            name = (st.service_type.value or "").strip().lower()
+            if name and name not in existing_service_names:
+                all_service_terms.append(st)
+                deterministic_hits += 1
+
+        existing_surcharge_names = {
+            (sc.surcharge_name.value or "").strip().lower() for sc in all_surcharges
+        }
+        for sc in inv_surcharges:
+            name = (sc.surcharge_name.value or "").strip().lower()
+            if name and name not in existing_surcharge_names:
+                all_surcharges.append(sc)
+                deterministic_hits += 1
+
+        existing_special_names = {
+            (sp.term_name.value or "").strip().lower() for sp in all_special_terms
+        }
+        for sp in inv_special_terms:
+            name = (sp.term_name.value or "").strip().lower()
+            if name and name not in existing_special_names:
+                all_special_terms.append(sp)
+                deterministic_hits += 1
+
     # --- Phase 3: Amendment detection ---
     logger.info("Phase 3: Detecting amendments")
     amendments = []
@@ -484,7 +735,7 @@ def extract_contract_v2(
     )
 
     # --- Phase 5: LLM fallback for low-coverage documents ---
-    if deterministic_hits < 3:
+    if deterministic_hits < 3 and not _is_likely_invoice(full_text):
         logger.info(
             "Phase 5: Low deterministic coverage (%d hits) — trying LLM fallback "
             "(provider: %s, model: %s)",
@@ -495,6 +746,12 @@ def extract_contract_v2(
         llm_data = _llm_fallback(combined)
         if llm_data:
             extraction = _merge_llm_results(extraction, llm_data)
+    elif deterministic_hits < 3 and _is_likely_invoice(full_text):
+        logger.info(
+            "Phase 5: Low deterministic coverage (%d hits) but invoice-mode "
+            "document detected — skipping LLM fallback",
+            deterministic_hits,
+        )
     else:
         logger.info(
             "Phase 5: Good deterministic coverage (%d hits) — skipping LLM",
