@@ -32,13 +32,14 @@ from app.models.schema import (
     ev,
 )
 from app.pipeline.pdf_parser import ParsedDocument
-from app.pipeline.chunker import DocumentChunk, chunk_document
+from app.pipeline.chunker import chunk_document
 
 from extraction_v2.table_parser import (
     extract_pricing_from_tables,
     extract_service_pricing_from_text,
     extract_ups_text_incentives,
     _extract_dim_from_all_tables,
+    _extract_special_provisions,
     ServicePricing,
     SurchargeModification,
     EarnedDiscountTier,
@@ -452,7 +453,6 @@ def extract_contract_v2(
             all_dim_rules.append(_dim_spec_to_rule(ud))
             deterministic_hits += 1
 
-        from extraction_v2.table_parser import _extract_special_provisions
         provisions = _extract_special_provisions(page.text, page.page_number)
         for prov in provisions:
             all_special_terms.append(_special_provision_to_schema(prov))

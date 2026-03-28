@@ -90,14 +90,6 @@ class SpecialProvision:
 
 _PCT_RE = re.compile(r"(\d+(?:\.\d+)?)\s*%")
 
-_FEDEX_SERVICE_NAMES = {
-    "fedex priority overnight", "fedex standard overnight",
-    "fedex 2day a.m.", "fedex 2day", "fedex express saver",
-    "fedex 1day freight", "fedex 2day freight", "fedex 3day freight",
-    "fedex ground economy", "fedex ground", "fedex home delivery",
-    "fedex first overnight",
-}
-
 
 def _is_zone_table(headers: List[str]) -> bool:
     """Check if table headers indicate a Zones => pricing table (FedEx style)."""
@@ -174,7 +166,6 @@ def extract_pricing_from_tables(
             )
             service_pricings.extend(sp_list)
 
-    dim_specs.extend(_extract_dim_from_surcharge_tables(surcharges, page_number))
     special_provisions.extend(_extract_special_provisions(page_text, page_number))
 
     return service_pricings, surcharges, earned_discounts, dim_specs, special_provisions
@@ -355,17 +346,6 @@ def _parse_surcharge_table(
         ))
 
     return results
-
-
-def _extract_dim_from_surcharge_tables(
-    surcharges: List[SurchargeModification],
-    page_number: int,
-) -> List[DIMSpec]:
-    """
-    DIM specs sometimes appear in surcharge tables as rows like:
-    DIM <=1 Cu FT | Domestic Express | - | 250
-    """
-    return []
 
 
 def _extract_dim_from_all_tables(

@@ -19,6 +19,9 @@ data/approved/*
 !data/samples/
 !data/*/.gitkeep
 
+# Generated test outputs
+extraction_v2/test_outputs/
+
 # IDE
 .vscode/
 .idea/

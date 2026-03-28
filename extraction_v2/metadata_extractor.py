@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import re
 import logging
-from typing import Optional, Tuple
+from typing import Optional
 
 from app.models.schema import ContractMetadata, ExtractedValue, ev
 
@@ -46,16 +46,6 @@ _AGREEMENT_PATTERNS = [
 _VERSION_PATTERNS = [
     re.compile(r"Version\s*(?:Number|#|No\.?)?\s*[:\-]?\s*(\d+)", re.IGNORECASE),
     re.compile(r"(?:Pricing\s+Proposal)\s+(\d+)", re.IGNORECASE),
-]
-
-_DATE_PATTERNS = [
-    re.compile(
-        r"(?:January|February|March|April|May|June|July|August|September"
-        r"|October|November|December)\s+\d{1,2},?\s+\d{4}",
-        re.IGNORECASE,
-    ),
-    re.compile(r"\d{1,2}/\d{1,2}/\d{4}"),
-    re.compile(r"\d{4}-\d{2}-\d{2}"),
 ]
 
 _EFFECTIVE_DATE_PATTERNS = [

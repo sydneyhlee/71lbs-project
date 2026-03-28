@@ -1,211 +1,144 @@
-# 71lbs Contract Extraction Pipeline — Phase 1 MVP
+# 71lbs Contract Extraction Pipeline
 
-AI-powered extraction of structured pricing and audit rules from shipping carrier contract PDFs.
+Extracts structured pricing data from FedEx and UPS shipping contract PDFs.
 
-## What This Does
+## How It Works (The Short Version)
 
-Phase 1 turns messy carrier contract PDFs into clean, reviewable structured data:
+The pipeline takes a contract PDF and turns it into clean, structured JSON data. Here's the flow:
 
-1. **Upload** a contract PDF (text-based or scanned)
-2. **Parse** text, tables, clauses, and footnotes (OCR fallback for scans)
-3. **Extract** structured fields via LLM (OpenAI GPT-4o)
-4. **Score** confidence per field and flag low-confidence values
-5. **Review** extractions in a simple web UI — edit, approve, or reject
-6. **Export** approved data as canonical JSON for downstream use
+```
+  PDF file
+    │
+    ▼
+┌──────────────┐
+│  1. PARSE    │  pdfplumber reads the PDF → text + tables per page
+│  (pdf_parser)│  Falls back to OCR (pytesseract) for scanned PDFs
+└──────┬───────┘
+       │  ParsedDocument (pages with text + table data)
+       ▼
+┌──────────────┐
+│  2. EXTRACT  │  Deterministic regex/table logic pulls out:
+│  (extractor) │   • Service terms (zones, weight tiers, discounts)
+│              │   • Surcharge modifications (e.g., "- 50%")
+│              │   • DIM divisor rules (e.g., 194, 225)
+│              │   • Earned discount programs (grace periods, tiers)
+│              │   • Special terms (Money-Back Guarantee waivers)
+│              │   • Contract metadata (customer, account, carrier)
+│              │  LLM (OpenAI) only used as fallback for ambiguous text
+└──────┬───────┘
+       │  ContractExtraction (structured Pydantic model)
+       ▼
+┌──────────────┐
+│  3. SCORE    │  Checks each field's confidence (0.0–1.0)
+│  (confidence)│  Flags anything below threshold for human review
+└──────┬───────┘
+       │
+       ▼
+┌──────────────┐
+│  4. RESOLVE  │  If the doc is an amendment, applies changes
+│  (resolver)  │  to create an active_terms_snapshot
+└──────┬───────┘
+       │
+       ▼
+   JSON output
+```
 
-Currently targets **FedEx** contracts. Designed to extend to UPS, DHL, 3PL, and freight.
+Every extracted field is wrapped in an `ExtractedValue` that tracks:
+- `value` — the actual data
+- `confidence` — how sure we are (0.0 to 1.0)
+- `source_page` — which PDF page it came from
+- `source_text` — the raw text snippet for provenance
 
 ## Project Structure
 
 ```
 71lbs-project/
-├── app/
-│   ├── config.py                  # Environment-based configuration
-│   ├── main.py                    # FastAPI application
-│   ├── models/
-│   │   └── schema.py              # Pydantic canonical schema
+├── app/                          # Base system (shared across teams)
+│   ├── models/schema.py          # Canonical Pydantic schema
 │   ├── pipeline/
-│   │   ├── ingestion.py           # Orchestrates the full pipeline
-│   │   ├── pdf_parser.py          # PDF text + OCR extraction
-│   │   ├── chunker.py             # Document segmentation
-│   │   ├── extractor.py           # LLM extraction (+ mock mode)
-│   │   ├── confidence.py          # Confidence scoring & review flagging
-│   │   └── resolver.py            # Amendment precedence resolution
-│   ├── api/
-│   │   └── routes.py              # REST API endpoints
-│   ├── storage/
-│   │   └── store.py               # JSON file-based persistence
-│   └── review/
-│       └── ui.py                  # Streamlit review interface
-├── data/
-│   ├── uploads/                   # Uploaded PDFs
-│   ├── extracted/                 # Raw extraction results
-│   ├── approved/                  # Human-approved outputs
-│   └── samples/                   # Example JSON outputs
-├── run_api.py                     # Start FastAPI server
-├── run_ui.py                      # Start Streamlit UI
+│   │   ├── pdf_parser.py         # PDF → text + tables (Parsing Team)
+│   │   ├── chunker.py            # Splits docs for LLM processing
+│   │   ├── extractor.py          # Original LLM-only extractor
+│   │   ├── confidence.py         # Confidence scoring (Validation Team)
+│   │   ├── resolver.py           # Amendment resolution
+│   │   └── ingestion.py          # Full pipeline orchestrator
+│   ├── api/routes.py             # REST API endpoints
+│   ├── storage/store.py          # JSON file persistence
+│   └── review/ui.py              # Streamlit review UI
+│
+├── extraction_v2/                # Refined extraction (Aidan & Aria)
+│   ├── table_parser.py           # Deterministic table parsing
+│   ├── metadata_extractor.py     # Regex-based metadata extraction
+│   ├── extractor.py              # Main extraction engine (v2)
+│   └── run_pipeline.py           # Test runner
+│
+├── data/samples/                 # Example JSON outputs
 ├── requirements.txt
-├── .env.example
-└── README.md
+└── .env.example
 ```
 
 ## Quick Start
 
-### 1. Prerequisites
-
-- Python 3.10+
-- (Optional) Tesseract OCR — only needed for scanned PDFs
-- (Optional) Poppler — required by `pdf2image` for OCR
-
-### 2. Install Dependencies
-
 ```bash
-python -m venv venv
-# Windows
-venv\Scripts\activate
-# macOS/Linux
-source venv/bin/activate
-
+# 1. Install dependencies
 pip install -r requirements.txt
+
+# 2. Run extraction on a PDF
+python -m extraction_v2.run_pipeline path/to/contract.pdf
+
+# 3. Output is saved to extraction_v2/test_outputs/
 ```
 
-### 3. Configure Environment
+No OpenAI API key needed — the pipeline uses deterministic logic first. Set `OPENAI_API_KEY` in a `.env` file only if you want LLM fallback for documents the regex can't handle.
 
-```bash
-cp .env.example .env
+## What Gets Extracted
+
+| Category | Examples |
+|----------|----------|
+| **Metadata** | Customer name, account number, agreement number, carrier, effective date |
+| **Service Terms** | FedEx Priority Overnight: Zone 2 = 57% discount, 1-10 lbs |
+| **Surcharges** | Residential Delivery Surcharge: -50% modification |
+| **DIM Rules** | Dimensional Weight Divisor: 250 for Domestic Express |
+| **Earned Discounts** | Grace Discount: 10%, $1.83M-$3M threshold = 7% |
+| **Special Terms** | Money-Back Guarantee: Waived |
+| **Amendments** | Agreement 895468978-102-07, effective Dec 8, 2025 |
+
+## How FedEx vs UPS Differ
+
+**FedEx contracts** use `Zones => All Zones` table headers with weight tiers below:
+```
+FedEx Priority Overnight Envelope
+Zones => All Zones
+Envelope  57%
 ```
 
-Edit `.env` and add your OpenAI API key. **If you leave it blank**, the app runs
-with a mock extractor that returns realistic sample data — useful for development
-and demos without any API cost.
+**UPS contracts** use `Weight (lbs) / Zones` tables with multi-line cells and text-based incentives:
+```
+UPS Ground - Commercial Package - Incentives Off Effective Rates
+Weight   Zones  2     3     4     ...
+1-5            34%   34%   34%   ...
+```
 
-### 4. Run the API Server
+The pipeline handles both formats automatically.
+
+## Running the API + UI (Optional)
 
 ```bash
+# API server (FastAPI)
 python run_api.py
-```
+# → http://localhost:8000/docs
 
-The API runs at `http://localhost:8000`. Interactive docs at `http://localhost:8000/docs`.
-
-### 5. Run the Review UI
-
-In a separate terminal:
-
-```bash
+# Review UI (Streamlit)
 python run_ui.py
+# → http://localhost:8501
 ```
-
-The Streamlit UI opens at `http://localhost:8501`.
-
-### 6. Try It Out
-
-**Option A — via the UI:**
-1. Open `http://localhost:8501`
-2. Upload a PDF on the Upload page
-3. Review extracted fields on the Review Queue page
-4. Approve and export from the Approved page
-
-**Option B — via the API:**
-```bash
-# Upload and extract
-curl -X POST http://localhost:8000/api/upload -F "file=@contract.pdf"
-
-# List extractions
-curl http://localhost:8000/api/extractions
-
-# Approve
-curl -X POST http://localhost:8000/api/extractions/{id}/approve
-
-# Export
-curl http://localhost:8000/api/extractions/{id}/export
-```
-
-## Canonical Schema
-
-Every extracted field is wrapped in `ExtractedValue` with:
-- `value` — the extracted data
-- `confidence` — 0.0 to 1.0 score
-- `source_page` — PDF page number
-- `source_text` — raw text snippet (provenance)
-- `needs_review` — flagged if below confidence threshold
-- `reviewer_override` — human-corrected value
-
-Top-level structure of a `ContractExtraction`:
-
-| Section | Description |
-|---------|-------------|
-| `metadata` | Agreement number, version, dates, carrier, customer, account |
-| `service_terms[]` | Per-service pricing: type, zones, discount %, conditions |
-| `surcharges[]` | Surcharge name, application, modification, discount % |
-| `dim_rules[]` | DIM divisor, applicable services, conditions |
-| `special_terms[]` | Money-back guarantee, earned discounts, special provisions |
-| `amendments[]` | Amendment-specific overrides with their own terms |
-| `active_terms_snapshot` | Resolved view after applying all amendments by date |
-
-See `data/samples/` for complete example outputs.
-
-## OCR Setup (For Scanned PDFs)
-
-If you need to process scanned/image-based PDFs:
-
-**Windows:**
-1. Install Tesseract: https://github.com/UB-Mannheim/tesseract/wiki
-2. Install Poppler: download from https://github.com/oschwartz10612/poppler-windows/releases
-3. Add both to your PATH
-
-**macOS:**
-```bash
-brew install tesseract poppler
-```
-
-**Linux:**
-```bash
-sudo apt-get install tesseract-ocr poppler-utils
-```
-
-## API Reference
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/upload` | Upload PDF and run extraction |
-| GET | `/api/extractions` | List all extractions (optional `?status=` filter) |
-| GET | `/api/extractions/{id}` | Get single extraction |
-| PUT | `/api/extractions/{id}/review` | Submit review edits |
-| POST | `/api/extractions/{id}/approve` | Approve extraction |
-| POST | `/api/extractions/{id}/reject` | Reject extraction |
-| GET | `/api/extractions/{id}/export` | Export as JSON |
-| DELETE | `/api/extractions/{id}` | Delete extraction |
 
 ## Configuration
 
-All settings via environment variables (or `.env` file):
+Copy `.env.example` to `.env` and edit as needed:
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `OPENAI_API_KEY` | (none) | OpenAI API key; blank = mock mode |
-| `OPENAI_MODEL` | `gpt-4o` | Model for extraction |
-| `DATA_DIR` | `./data` | Base data directory |
+| Variable | Default | What it does |
+|----------|---------|--------------|
+| `OPENAI_API_KEY` | (blank) | Set for LLM fallback. Blank = deterministic only |
+| `OPENAI_MODEL` | `gpt-4o` | Which model to use |
 | `CONFIDENCE_THRESHOLD` | `0.7` | Below this → flagged for review |
-| `API_HOST` | `0.0.0.0` | API bind address |
-| `API_PORT` | `8000` | API port |
-| `LOG_LEVEL` | `INFO` | Logging level |
-
-## Phase 2 Roadmap (TODO)
-
-The following are planned for Phase 2 — invoice audit engine:
-
-- [ ] **Invoice ingestion pipeline** — parse carrier invoices (CSV/EDI/PDF)
-- [ ] **Rules engine** — compare invoice line items against contract terms
-- [ ] **Discrepancy detection** — flag overcharges, missed discounts, wrong DIM
-- [ ] **Audit dashboard** — visualization of savings opportunities
-- [ ] **Multi-carrier support** — UPS, DHL, USPS rate structures
-- [ ] **Database migration** — move from JSON files to PostgreSQL
-- [ ] **User authentication** — role-based access for reviewers
-- [ ] **Batch processing** — handle multiple contracts concurrently
-- [ ] **Webhook notifications** — alert on low-confidence extractions
-- [ ] **Contract versioning** — full history and diff between versions
-- [ ] **ML confidence calibration** — train on reviewer corrections to improve scoring
-
-## License
-
-Proprietary — 71lbs / VCG
