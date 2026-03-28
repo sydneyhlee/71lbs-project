@@ -15,8 +15,11 @@ EXTRACTED_DIR = DATA_DIR / "extracted"
 APPROVED_DIR = DATA_DIR / "approved"
 SAMPLES_DIR = DATA_DIR / "samples"
 
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
-OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o")
+LLM_BASE_URL = os.getenv(
+    "LLM_BASE_URL", "https://generativelanguage.googleapis.com/v1beta/openai/"
+)
+LLM_API_KEY = os.getenv("LLM_API_KEY", "")
+LLM_MODEL = os.getenv("LLM_MODEL", "gemini-2.0-flash")
 
 CONFIDENCE_THRESHOLD = float(os.getenv("CONFIDENCE_THRESHOLD", "0.7"))
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")

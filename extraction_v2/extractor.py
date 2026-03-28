@@ -19,7 +19,7 @@ import logging
 import re
 from typing import Any, Dict, List, Optional
 
-from app.config import OPENAI_API_KEY, OPENAI_MODEL
+from app.config import LLM_BASE_URL, LLM_API_KEY, LLM_MODEL
 from app.models.schema import (
     Amendment,
     ContractExtraction,
@@ -228,17 +228,20 @@ def _raw_field_to_ev(raw: Any) -> ExtractedValue:
 
 
 def _llm_fallback(text: str) -> Dict[str, Any]:
-    """Call LLM for text that couldn't be parsed deterministically."""
-    if not OPENAI_API_KEY:
-        logger.info("No OPENAI_API_KEY — skipping LLM fallback")
+    """Call LLM for text that couldn't be parsed deterministically.
+
+    Works with any OpenAI-compatible API: Ollama, OpenAI, Groq, LM Studio, etc.
+    """
+    if not LLM_API_KEY:
+        logger.info("No LLM_API_KEY set — skipping LLM fallback")
         return {}
 
     try:
         from openai import OpenAI
-        client = OpenAI(api_key=OPENAI_API_KEY)
+        client = OpenAI(base_url=LLM_BASE_URL, api_key=LLM_API_KEY)
 
         response = client.chat.completions.create(
-            model=OPENAI_MODEL,
+            model=LLM_MODEL,
             response_format={"type": "json_object"},
             messages=[
                 {"role": "system", "content": _LLM_FALLBACK_PROMPT},
@@ -482,22 +485,16 @@ def extract_contract_v2(
 
     # --- Phase 5: LLM fallback for low-coverage documents ---
     if deterministic_hits < 3:
-        if OPENAI_API_KEY:
-            logger.info(
-                "Phase 5: Low deterministic coverage (%d hits) — using LLM fallback",
-                deterministic_hits,
-            )
-            chunks = chunk_document(doc)
-            combined = "\n\n".join(c.text for c in chunks)
-            llm_data = _llm_fallback(combined)
-            if llm_data:
-                extraction = _merge_llm_results(extraction, llm_data)
-        else:
-            logger.info(
-                "Phase 5: Low deterministic coverage (%d hits), "
-                "no OPENAI_API_KEY set — LLM fallback unavailable",
-                deterministic_hits,
-            )
+        logger.info(
+            "Phase 5: Low deterministic coverage (%d hits) — trying LLM fallback "
+            "(provider: %s, model: %s)",
+            deterministic_hits, LLM_BASE_URL, LLM_MODEL,
+        )
+        chunks = chunk_document(doc)
+        combined = "\n\n".join(c.text for c in chunks)
+        llm_data = _llm_fallback(combined)
+        if llm_data:
+            extraction = _merge_llm_results(extraction, llm_data)
     else:
         logger.info(
             "Phase 5: Good deterministic coverage (%d hits) — skipping LLM",

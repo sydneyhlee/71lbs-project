@@ -1,144 +1,107 @@
 # 71lbs Contract Extraction Pipeline
 
-Extracts structured pricing data from FedEx and UPS shipping contract PDFs.
+Convert FedEx and UPS contract PDFs into structured JSON for pricing analysis and auditing.
 
-## How It Works (The Short Version)
+## What This Project Does
 
-The pipeline takes a contract PDF and turns it into clean, structured JSON data. Here's the flow:
+The pipeline processes one PDF and returns:
+- contract metadata (customer, account, agreement, dates, carrier)
+- service discounts (zones, weight tiers, percentages)
+- surcharge changes
+- DIM rules
+- special terms and amendments
 
-```
-  PDF file
-    │
-    ▼
-┌──────────────┐
-│  1. PARSE    │  pdfplumber reads the PDF → text + tables per page
-│  (pdf_parser)│  Falls back to OCR (pytesseract) for scanned PDFs
-└──────┬───────┘
-       │  ParsedDocument (pages with text + table data)
-       ▼
-┌──────────────┐
-│  2. EXTRACT  │  Deterministic regex/table logic pulls out:
-│  (extractor) │   • Service terms (zones, weight tiers, discounts)
-│              │   • Surcharge modifications (e.g., "- 50%")
-│              │   • DIM divisor rules (e.g., 194, 225)
-│              │   • Earned discount programs (grace periods, tiers)
-│              │   • Special terms (Money-Back Guarantee waivers)
-│              │   • Contract metadata (customer, account, carrier)
-│              │  LLM (OpenAI) only used as fallback for ambiguous text
-└──────┬───────┘
-       │  ContractExtraction (structured Pydantic model)
-       ▼
-┌──────────────┐
-│  3. SCORE    │  Checks each field's confidence (0.0–1.0)
-│  (confidence)│  Flags anything below threshold for human review
-└──────┬───────┘
-       │
-       ▼
-┌──────────────┐
-│  4. RESOLVE  │  If the doc is an amendment, applies changes
-│  (resolver)  │  to create an active_terms_snapshot
-└──────┬───────┘
-       │
-       ▼
-   JSON output
-```
+It uses deterministic parsing first, then optional LLM fallback for ambiguous text only.
 
-Every extracted field is wrapped in an `ExtractedValue` that tracks:
-- `value` — the actual data
-- `confidence` — how sure we are (0.0 to 1.0)
-- `source_page` — which PDF page it came from
-- `source_text` — the raw text snippet for provenance
+## 5-Minute Setup (Recommended for New Users)
 
-## Project Structure
-
-```
-71lbs-project/
-├── app/                          # Base system (shared across teams)
-│   ├── models/schema.py          # Canonical Pydantic schema
-│   ├── pipeline/
-│   │   ├── pdf_parser.py         # PDF → text + tables (Parsing Team)
-│   │   ├── chunker.py            # Splits docs for LLM processing
-│   │   ├── extractor.py          # Original LLM-only extractor
-│   │   ├── confidence.py         # Confidence scoring (Validation Team)
-│   │   ├── resolver.py           # Amendment resolution
-│   │   └── ingestion.py          # Full pipeline orchestrator
-│   ├── api/routes.py             # REST API endpoints
-│   ├── storage/store.py          # JSON file persistence
-│   └── review/ui.py              # Streamlit review UI
-│
-├── extraction_v2/                # Refined extraction (Aidan & Aria)
-│   ├── table_parser.py           # Deterministic table parsing
-│   ├── metadata_extractor.py     # Regex-based metadata extraction
-│   ├── extractor.py              # Main extraction engine (v2)
-│   └── run_pipeline.py           # Test runner
-│
-├── data/samples/                 # Example JSON outputs
-├── requirements.txt
-└── .env.example
-```
-
-## Quick Start
+### 1) Install Python dependencies
 
 ```bash
-# 1. Install dependencies
 pip install -r requirements.txt
-
-# 2. Run extraction on a PDF
-python -m extraction_v2.run_pipeline path/to/contract.pdf
-
-# 3. Output is saved to extraction_v2/test_outputs/
 ```
 
-No OpenAI API key needed — the pipeline uses deterministic logic first. Set `OPENAI_API_KEY` in a `.env` file only if you want LLM fallback for documents the regex can't handle.
+### 2) Create your local env file
 
-## What Gets Extracted
-
-| Category | Examples |
-|----------|----------|
-| **Metadata** | Customer name, account number, agreement number, carrier, effective date |
-| **Service Terms** | FedEx Priority Overnight: Zone 2 = 57% discount, 1-10 lbs |
-| **Surcharges** | Residential Delivery Surcharge: -50% modification |
-| **DIM Rules** | Dimensional Weight Divisor: 250 for Domestic Express |
-| **Earned Discounts** | Grace Discount: 10%, $1.83M-$3M threshold = 7% |
-| **Special Terms** | Money-Back Guarantee: Waived |
-| **Amendments** | Agreement 895468978-102-07, effective Dec 8, 2025 |
-
-## How FedEx vs UPS Differ
-
-**FedEx contracts** use `Zones => All Zones` table headers with weight tiers below:
-```
-FedEx Priority Overnight Envelope
-Zones => All Zones
-Envelope  57%
+Windows PowerShell:
+```powershell
+Copy-Item .env.example .env
 ```
 
-**UPS contracts** use `Weight (lbs) / Zones` tables with multi-line cells and text-based incentives:
-```
-UPS Ground - Commercial Package - Incentives Off Effective Rates
-Weight   Zones  2     3     4     ...
-1-5            34%   34%   34%   ...
+macOS/Linux:
+```bash
+cp .env.example .env
 ```
 
-The pipeline handles both formats automatically.
+### 3) Add an LLM key (Gemini free tier recommended)
 
-## Running the API + UI (Optional)
+1. Create a free key at [Google AI Studio](https://aistudio.google.com/apikey)
+2. Open `.env`
+3. Set:
 
 ```bash
-# API server (FastAPI)
-python run_api.py
-# → http://localhost:8000/docs
-
-# Review UI (Streamlit)
-python run_ui.py
-# → http://localhost:8501
+LLM_API_KEY=your_key_here
 ```
 
-## Configuration
+That is all you need. Defaults already point to Gemini.
 
-Copy `.env.example` to `.env` and edit as needed:
+### 4) Run extraction on a PDF
 
-| Variable | Default | What it does |
-|----------|---------|--------------|
-| `OPENAI_API_KEY` | (blank) | Set for LLM fallback. Blank = deterministic only |
-| `OPENAI_MODEL` | `gpt-4o` | Which model to use |
-| `CONFIDENCE_THRESHOLD` | `0.7` | Below this → flagged for review |
+```bash
+python -m extraction_v2.run_pipeline path/to/contract.pdf
+```
+
+### 5) Find output JSON
+
+Output files are written to `extraction_v2/test_outputs/`.
+
+## LLM Options
+
+The project supports any OpenAI-compatible endpoint through these env vars:
+- `LLM_BASE_URL`
+- `LLM_API_KEY`
+- `LLM_MODEL`
+
+### Default (already configured): Gemini
+- free key, quick signup, strong usage limits for student/testing workflows
+
+### Optional: Ollama (local, no cloud key)
+If you want no external API calls:
+1. Install [Ollama](https://ollama.com)
+2. Run `ollama pull llama3.1`
+3. In `.env`, set:
+
+```bash
+LLM_BASE_URL=http://localhost:11434/v1
+LLM_API_KEY=ollama
+LLM_MODEL=llama3.1
+```
+
+## Pipeline Flow
+
+1. `pdf_parser` reads PDF pages and tables (OCR fallback when needed)
+2. `extraction_v2` extracts structured pricing data
+3. `confidence` scores field-level certainty
+4. `resolver` applies amendment logic to produce active terms
+
+## Core Files
+
+- `app/config.py`: environment-based runtime configuration
+- `app/pipeline/pdf_parser.py`: PDF parsing and OCR fallback
+- `extraction_v2/extractor.py`: refined extraction engine
+- `extraction_v2/table_parser.py`: deterministic table logic
+- `extraction_v2/run_pipeline.py`: end-to-end test runner
+
+## Optional API and UI
+
+```bash
+python run_api.py
+```
+
+FastAPI docs: `http://localhost:8000/docs`
+
+```bash
+python run_ui.py
+```
+
+Streamlit review UI: `http://localhost:8501`

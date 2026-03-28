@@ -12,7 +12,7 @@ import json
 import logging
 from typing import Any, Dict, List, Optional
 
-from app.config import OPENAI_API_KEY, OPENAI_MODEL
+from app.config import LLM_BASE_URL, LLM_API_KEY, LLM_MODEL
 from app.models.schema import (
     Amendment,
     ContractExtraction,
@@ -227,18 +227,21 @@ def _parse_llm_response(data: Dict[str, Any]) -> Dict[str, Any]:
 
 
 # ---------------------------------------------------------------------------
-# LLM extraction (OpenAI)
+# LLM extraction (OpenAI-compatible APIs)
 # ---------------------------------------------------------------------------
 
-def _call_openai(chunks: List[DocumentChunk]) -> Dict[str, Any]:
-    """Send chunks to OpenAI and parse the JSON response."""
+def _call_llm(chunks: List[DocumentChunk]) -> Dict[str, Any]:
+    """Send chunks to any OpenAI-compatible API and parse the JSON response.
+
+    Works with Ollama, OpenAI, Groq, LM Studio, or any compatible provider.
+    """
     from openai import OpenAI
 
-    client = OpenAI(api_key=OPENAI_API_KEY)
+    client = OpenAI(base_url=LLM_BASE_URL, api_key=LLM_API_KEY)
     combined_text = "\n\n".join(c.text for c in chunks)
 
     response = client.chat.completions.create(
-        model=OPENAI_MODEL,
+        model=LLM_MODEL,
         response_format={"type": "json_object"},
         messages=[
             {"role": "system", "content": _SYSTEM_PROMPT},
@@ -256,7 +259,7 @@ def _call_openai(chunks: List[DocumentChunk]) -> Dict[str, Any]:
 
 def _mock_extract(chunks: List[DocumentChunk]) -> Dict[str, Any]:
     """Return realistic mock data for development/demo without an API key."""
-    logger.warning("Using MOCK extractor (no OPENAI_API_KEY configured)")
+    logger.warning("Using MOCK extractor (no LLM_API_KEY configured)")
 
     page_nums = []
     for c in chunks:
@@ -393,17 +396,17 @@ def extract_contract(
     """
     Extract structured contract data from document chunks.
 
-    Uses OpenAI if OPENAI_API_KEY is set, otherwise falls back to mock data.
+    Uses configured LLM provider when available, otherwise falls back to mock data.
     """
-    if OPENAI_API_KEY:
-        logger.info("Extracting with OpenAI (%s)", OPENAI_MODEL)
-        try:
-            raw_data = _call_openai(chunks)
-        except Exception as exc:
-            logger.error("OpenAI extraction failed: %s — falling back to mock", exc)
-            raw_data = _mock_extract(chunks)
-    else:
+    if not LLM_API_KEY:
         raw_data = _mock_extract(chunks)
+    else:
+        logger.info("Extracting with LLM (base_url=%s, model=%s)", LLM_BASE_URL, LLM_MODEL)
+        try:
+            raw_data = _call_llm(chunks)
+        except Exception as exc:
+            logger.error("LLM extraction failed: %s — falling back to mock", exc)
+            raw_data = _mock_extract(chunks)
 
     parsed = _parse_llm_response(raw_data)
 
