@@ -2,46 +2,98 @@
 
 Convert FedEx and UPS PDFs into structured JSON for pricing analysis and auditing.
 
-## Quick Start (No Keys Needed)
+## Full Setup Instructions (Ollama, No Keys)
 
-This repo is configured to run on **local Ollama** by default.
+This project is configured to run with **local Ollama** by default, so you do not need any API key.
 
-### 1) Install dependencies
+## 0) Prerequisites
+
+- Python 3.10+ installed
+- `pip` available
+- Ollama installed from [ollama.com](https://ollama.com)
+
+## 1) Open a terminal in this project
+
+Use a terminal at the project root (`71lbs-project`).
+
+Windows (PowerShell):
+```powershell
+cd "c:\Users\Ajone\71lbs-project"
+```
+
+macOS/Linux:
+```bash
+cd /path/to/71lbs-project
+```
+
+## 2) Install Python dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 2) Install and start Ollama
+## 3) Start Ollama and download the model
 
-1. Install from [ollama.com](https://ollama.com)
-2. Pull the default model:
+Open a **new terminal window/tab** (keep it separate from your project terminal if you want).
 
+Run:
 ```bash
 ollama pull llama3.2
 ```
 
-### 3) Create `.env` (optional but recommended)
+Then verify Ollama is available:
+```bash
+ollama list
+```
+
+You should see `llama3.2` in the list.
+
+## 4) Create local environment file
+
+Back in your project terminal:
 
 Windows PowerShell:
-
 ```powershell
 Copy-Item .env.example .env
 ```
 
 macOS/Linux:
-
 ```bash
 cp .env.example .env
 ```
 
-### 4) Run extraction
+Default `.env` values (already set for local Ollama):
+```bash
+LLM_BASE_URL=http://localhost:11434/v1
+LLM_API_KEY=ollama
+LLM_MODEL=llama3.2
+```
+
+## 5) Run extraction on one PDF
 
 ```bash
-python -m extraction_v2.run_pipeline path/to/contract.pdf
+python -m extraction_v2.run_pipeline "path/to/contract.pdf"
+```
+
+Example (Windows):
+```powershell
+python -m extraction_v2.run_pipeline "C:\some-folder\contract.pdf"
 ```
 
 Output JSON files are saved in `extraction_v2/test_outputs/`.
+
+## 6) Run built-in FedEx + UPS test set
+
+```bash
+python -m extraction_v2.run_pipeline --test-all
+```
+
+## Troubleshooting
+
+- **`ollama` command not found**: reinstall Ollama, then open a new terminal.
+- **Model missing**: run `ollama pull llama3.2`.
+- **Connection errors to `localhost:11434`**: make sure Ollama is running.
+- **No output file**: check terminal logs and confirm PDF path is correct.
 
 ## What It Extracts
 
@@ -52,25 +104,6 @@ Output JSON files are saved in `extraction_v2/test_outputs/`.
 - Special terms and amendments
 
 The pipeline is deterministic-first. LLM fallback is only used for ambiguous, low-coverage docs.
-
-## LLM Configuration
-
-Default (local Ollama):
-
-```bash
-LLM_BASE_URL=http://localhost:11434/v1
-LLM_API_KEY=ollama
-LLM_MODEL=llama3.2
-```
-
-You can still switch providers (Gemini/OpenAI/Groq) by changing `LLM_BASE_URL`, `LLM_API_KEY`, and `LLM_MODEL` in `.env`.
-
-## Pipeline Flow
-
-1. `pdf_parser`: reads PDF text + tables (OCR fallback when needed)
-2. `extraction_v2`: deterministic extraction (plus optional LLM fallback)
-3. `confidence`: scores extracted fields
-4. `resolver`: resolves amendment effects to active terms
 
 ## Optional API and UI
 
@@ -85,3 +118,7 @@ python run_ui.py
 ```
 
 Streamlit UI: `http://localhost:8501`
+
+## In Plain English
+
+You give the system a shipping PDF. It reads the pages, finds pricing-related data (discounts, surcharges, DIM rules, dates, account info), and saves a clean JSON file that is much easier to review or use in downstream auditing tools.
