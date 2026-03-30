@@ -1,0 +1,23 @@
+[build-system]
+requires = ["hatchling>=1.25.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "contract-parser"
+version = "0.1.0"
+description = "PDF contract parser extracting pricing rules, surcharges, discount tiers, and service terms into a canonical model."
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+  "pdfplumber>=0.11.4",
+  "pydantic>=2.8.2",
+  "python-dateutil>=2.9.0.post0",
+  "rich>=13.8.1",
+  "typer>=0.12.5",
+]
+
+[project.scripts]
+contract-parse = "contract_parser.cli:app"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/contract_parser"]
