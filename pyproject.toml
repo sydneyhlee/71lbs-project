@@ -18,6 +18,7 @@ dependencies = [
 
 [project.scripts]
 contract-parse = "contract_parser.cli:app"
+contract-parse-refined = "contract_pipeline_refined.cli:app"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/contract_parser"]
+packages = ["src/contract_parser", "src/contract_pipeline_refined"]
