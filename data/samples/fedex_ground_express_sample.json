@@ -1,0 +1,846 @@
+{
+  "id": "sample-fedex-001",
+  "file_name": "FedEx_Pricing_Agreement_2024.pdf",
+  "file_path": "data/uploads/FedEx_Pricing_Agreement_2024.pdf",
+  "extraction_timestamp": "2024-11-15T14:30:00",
+  "status": "approved",
+  "metadata": {
+    "customer_name": {
+      "value": "Acme Shipping Corp",
+      "confidence": 0.95,
+      "source_page": 1,
+      "source_text": "Customer: Acme Shipping Corp, dba Acme Logistics",
+      "needs_review": false,
+      "reviewer_override": null
+    },
+    "account_number": {
+      "value": "1234-5678-9",
+      "confidence": 0.93,
+      "source_page": 1,
+      "source_text": "Account Number: 1234-5678-9",
+      "needs_review": false,
+      "reviewer_override": null
+    },
+    "agreement_number": {
+      "value": "FX-2024-00456",
+      "confidence": 0.97,
+      "source_page": 1,
+      "source_text": "FedEx Pricing Agreement No. FX-2024-00456",
+      "needs_review": false,
+      "reviewer_override": null
+    },
+    "version_number": {
+      "value": "3",
+      "confidence": 0.88,
+      "source_page": 1,
+      "source_text": "Version 3 — Effective January 15, 2024",
+      "needs_review": false,
+      "reviewer_override": null
+    },
+    "effective_date": {
+      "value": "2024-01-15",
+      "confidence": 0.96,
+      "source_page": 1,
+      "source_text": "Effective Date: January 15, 2024",
+      "needs_review": false,
+      "reviewer_override": null
+    },
+    "term_start": {
+      "value": "2024-01-15",
+      "confidence": 0.93,
+      "source_page": 1,
+      "source_text": "Term: January 15, 2024 through January 14, 2026",
+      "needs_review": false,
+      "reviewer_override": null
+    },
+    "term_end": {
+      "value": "2026-01-14",
+      "confidence": 0.93,
+      "source_page": 1,
+      "source_text": "Term: January 15, 2024 through January 14, 2026",
+      "needs_review": false,
+      "reviewer_override": null
+    },
+    "payment_terms": {
+      "value": "Net 15",
+      "confidence": 0.89,
+      "source_page": 2,
+      "source_text": "Payment Terms: Net 15 days from invoice date",
+      "needs_review": false,
+      "reviewer_override": null
+    },
+    "carrier": {
+      "value": "FedEx",
+      "confidence": 0.99,
+      "source_page": 1,
+      "source_text": "FedEx Corporation",
+      "needs_review": false,
+      "reviewer_override": null
+    }
+  },
+  "service_terms": [
+    {
+      "service_type": {
+        "value": "FedEx Ground",
+        "confidence": 0.96,
+        "source_page": 3,
+        "source_text": "FedEx Ground — Domestic Package Services",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": ["2", "3", "4", "5", "6", "7", "8"],
+        "confidence": 0.88,
+        "source_page": 3,
+        "source_text": "Applicable to shipments in Zones 2 through 8",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 50.0,
+        "confidence": 0.94,
+        "source_page": 3,
+        "source_text": "50.00% discount off published list rates",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "base_rate_adjustment": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "conditions": {
+        "value": "Based on published list rates effective at time of shipment",
+        "confidence": 0.82,
+        "source_page": 3,
+        "source_text": "discount applied to published list rates in effect at time of shipment",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": "2024-01-15",
+        "confidence": 0.91,
+        "source_page": 3,
+        "source_text": "Effective January 15, 2024",
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "service_type": {
+        "value": "FedEx Express Saver",
+        "confidence": 0.95,
+        "source_page": 4,
+        "source_text": "FedEx Express Saver (3 Business Days)",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": ["2", "3", "4", "5"],
+        "confidence": 0.85,
+        "source_page": 4,
+        "source_text": "Zones 2 through 5",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 45.0,
+        "confidence": 0.92,
+        "source_page": 4,
+        "source_text": "45.00% discount off published rates",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "base_rate_adjustment": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "conditions": {
+        "value": "Packages not exceeding 150 lbs actual weight",
+        "confidence": 0.78,
+        "source_page": 4,
+        "source_text": "for packages not exceeding 150 lbs",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": "2024-01-15",
+        "confidence": 0.91,
+        "source_page": 4,
+        "source_text": "Effective January 15, 2024",
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "service_type": {
+        "value": "FedEx Home Delivery",
+        "confidence": 0.94,
+        "source_page": 4,
+        "source_text": "FedEx Home Delivery",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": ["2", "3", "4", "5", "6", "7", "8"],
+        "confidence": 0.86,
+        "source_page": 4,
+        "source_text": "All zones (2-8)",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 48.0,
+        "confidence": 0.93,
+        "source_page": 4,
+        "source_text": "48.00% discount off published list rates",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "base_rate_adjustment": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "conditions": {
+        "value": "Residential delivery addresses only",
+        "confidence": 0.84,
+        "source_page": 4,
+        "source_text": "applicable to residential delivery addresses",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": "2024-01-15",
+        "confidence": 0.91,
+        "source_page": 4,
+        "source_text": "Effective January 15, 2024",
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "service_type": {
+        "value": "FedEx 2Day",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "FedEx 2Day",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": ["2", "3", "4", "5", "6", "7", "8"],
+        "confidence": 0.84,
+        "source_page": 5,
+        "source_text": "All zones",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 42.0,
+        "confidence": 0.91,
+        "source_page": 5,
+        "source_text": "42.00% discount",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "base_rate_adjustment": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "conditions": {
+        "value": "Standard packaging, up to 150 lbs",
+        "confidence": 0.76,
+        "source_page": 5,
+        "source_text": "standard packaging up to 150 lbs",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": "2024-01-15",
+        "confidence": 0.91,
+        "source_page": 5,
+        "source_text": "Effective January 15, 2024",
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "service_type": {
+        "value": "FedEx Priority Overnight",
+        "confidence": 0.94,
+        "source_page": 5,
+        "source_text": "FedEx Priority Overnight",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": ["2", "3", "4", "5", "6", "7", "8"],
+        "confidence": 0.83,
+        "source_page": 5,
+        "source_text": "All zones",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 38.0,
+        "confidence": 0.90,
+        "source_page": 5,
+        "source_text": "38.00% discount off published rates",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "base_rate_adjustment": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "conditions": {
+        "value": "Next business day by 10:30 AM",
+        "confidence": 0.80,
+        "source_page": 5,
+        "source_text": "delivery by 10:30 AM next business day",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": "2024-01-15",
+        "confidence": 0.91,
+        "source_page": 5,
+        "source_text": "Effective January 15, 2024",
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    }
+  ],
+  "surcharges": [
+    {
+      "surcharge_name": {
+        "value": "Residential Delivery Surcharge",
+        "confidence": 0.95,
+        "source_page": 6,
+        "source_text": "Residential Delivery Surcharge",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "Per package to residential addresses",
+        "confidence": 0.90,
+        "source_page": 6,
+        "source_text": "applied per package to residential addresses",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "Discount applied",
+        "confidence": 0.87,
+        "source_page": 6,
+        "source_text": "discount on residential delivery surcharge",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 40.0,
+        "confidence": 0.91,
+        "source_page": 6,
+        "source_text": "40.00% discount on residential delivery surcharge",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": "2024-01-15",
+        "confidence": 0.88,
+        "source_page": 6,
+        "source_text": "effective with agreement date",
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "surcharge_name": {
+        "value": "Fuel Surcharge",
+        "confidence": 0.97,
+        "source_page": 6,
+        "source_text": "Fuel Surcharge",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "Per shipment, variable rate",
+        "confidence": 0.86,
+        "source_page": 6,
+        "source_text": "variable rate fuel surcharge per shipment",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "Standard published rates apply (no discount)",
+        "confidence": 0.82,
+        "source_page": 6,
+        "source_text": "standard published fuel surcharge rates shall apply",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": "2024-01-15",
+        "confidence": 0.88,
+        "source_page": 6,
+        "source_text": "effective with agreement",
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "surcharge_name": {
+        "value": "Additional Handling Surcharge",
+        "confidence": 0.93,
+        "source_page": 7,
+        "source_text": "Additional Handling Surcharge",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "Per package exceeding dimensional limits",
+        "confidence": 0.85,
+        "source_page": 7,
+        "source_text": "per package exceeding 48 inches on longest side",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "Discount applied",
+        "confidence": 0.84,
+        "source_page": 7,
+        "source_text": "discount on additional handling",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 25.0,
+        "confidence": 0.87,
+        "source_page": 7,
+        "source_text": "25.00% discount on additional handling surcharge",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": "2024-01-15",
+        "confidence": 0.88,
+        "source_page": 7,
+        "source_text": "effective with agreement",
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "surcharge_name": {
+        "value": "Delivery Area Surcharge (Extended)",
+        "confidence": 0.91,
+        "source_page": 7,
+        "source_text": "Delivery Area Surcharge — Extended",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "Per package to extended delivery areas",
+        "confidence": 0.83,
+        "source_page": 7,
+        "source_text": "applied to packages shipped to extended areas",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "No discount",
+        "confidence": 0.75,
+        "source_page": 7,
+        "source_text": "published rates apply",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": "2024-01-15",
+        "confidence": 0.88,
+        "source_page": 7,
+        "source_text": "effective with agreement",
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    }
+  ],
+  "dim_rules": [
+    {
+      "dim_divisor": {
+        "value": 139.0,
+        "confidence": 0.96,
+        "source_page": 8,
+        "source_text": "Dimensional Weight Divisor: 139 for Ground services",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_services": {
+        "value": ["FedEx Ground", "FedEx Home Delivery"],
+        "confidence": 0.92,
+        "source_page": 8,
+        "source_text": "applicable to FedEx Ground and FedEx Home Delivery",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "conditions": {
+        "value": "Packages exceeding 3 cubic feet (5,184 cubic inches)",
+        "confidence": 0.85,
+        "source_page": 8,
+        "source_text": "for packages exceeding 3 cubic feet",
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "dim_divisor": {
+        "value": 166.0,
+        "confidence": 0.94,
+        "source_page": 8,
+        "source_text": "Dimensional Weight Divisor: 166 for Express services",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_services": {
+        "value": ["FedEx Express Saver", "FedEx 2Day", "FedEx Priority Overnight"],
+        "confidence": 0.90,
+        "source_page": 8,
+        "source_text": "applicable to FedEx Express Saver, 2Day, and Priority Overnight",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "conditions": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    }
+  ],
+  "special_terms": [
+    {
+      "term_name": {
+        "value": "Money-Back Guarantee",
+        "confidence": 0.97,
+        "source_page": 9,
+        "source_text": "FedEx Money-Back Guarantee",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "term_value": {
+        "value": "Waived",
+        "confidence": 0.95,
+        "source_page": 9,
+        "source_text": "Customer agrees to waive the FedEx Money-Back Guarantee for all services",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "conditions": {
+        "value": "Applies to all services under this agreement for the full term",
+        "confidence": 0.83,
+        "source_page": 9,
+        "source_text": "for all services under this agreement during the term",
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "term_name": {
+        "value": "Earned Discount Program",
+        "confidence": 0.84,
+        "source_page": 9,
+        "source_text": "Earned Discount Program Eligibility",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "term_value": {
+        "value": "Eligible — Tier 2",
+        "confidence": 0.78,
+        "source_page": 9,
+        "source_text": "eligible for Tier 2 earned discount incentives",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "conditions": {
+        "value": "Weekly revenue threshold of $5,000 or more",
+        "confidence": 0.75,
+        "source_page": 9,
+        "source_text": "maintaining weekly revenue of $5,000 or more",
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "term_name": {
+        "value": "Automation/Electronic Shipping Incentive",
+        "confidence": 0.80,
+        "source_page": 10,
+        "source_text": "Electronic Shipping Incentive",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "term_value": {
+        "value": "Additional 2% discount for 95%+ electronic shipping",
+        "confidence": 0.72,
+        "source_page": 10,
+        "source_text": "additional 2% discount when 95% or more of shipments are processed electronically",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "conditions": {
+        "value": "Measured quarterly; must maintain 95%+ electronic processing rate",
+        "confidence": 0.68,
+        "source_page": 10,
+        "source_text": "measured on a quarterly basis",
+        "needs_review": true,
+        "reviewer_override": null
+      }
+    }
+  ],
+  "amendments": [
+    {
+      "amendment_number": {
+        "value": "AMD-001",
+        "confidence": 0.93,
+        "source_page": 12,
+        "source_text": "Amendment No. AMD-001 to Agreement FX-2024-00456",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": "2024-07-01",
+        "confidence": 0.95,
+        "source_page": 12,
+        "source_text": "Effective Date: July 1, 2024",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "supersedes_version": {
+        "value": "3",
+        "confidence": 0.88,
+        "source_page": 12,
+        "source_text": "This amendment supersedes the applicable terms of Version 3",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "description": {
+        "value": "Increases FedEx Ground discount and changes DIM divisor for Ground services",
+        "confidence": 0.85,
+        "source_page": 12,
+        "source_text": "modifies Ground pricing discount and dimensional weight divisor",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modified_service_terms": [
+        {
+          "service_type": {
+            "value": "FedEx Ground",
+            "confidence": 0.95,
+            "source_page": 12,
+            "source_text": "FedEx Ground",
+            "needs_review": false,
+            "reviewer_override": null
+          },
+          "applicable_zones": {
+            "value": ["2", "3", "4", "5", "6", "7", "8"],
+            "confidence": 0.87,
+            "source_page": 12,
+            "source_text": "Zones 2-8",
+            "needs_review": false,
+            "reviewer_override": null
+          },
+          "discount_percentage": {
+            "value": 52.0,
+            "confidence": 0.94,
+            "source_page": 12,
+            "source_text": "52.00% discount (increased from 50.00%)",
+            "needs_review": false,
+            "reviewer_override": null
+          },
+          "base_rate_adjustment": {
+            "value": null,
+            "confidence": 0.0,
+            "source_page": null,
+            "source_text": null,
+            "needs_review": false,
+            "reviewer_override": null
+          },
+          "conditions": {
+            "value": "Replaces prior Ground discount of 50.00%",
+            "confidence": 0.82,
+            "source_page": 12,
+            "source_text": "replaces the prior discount percentage",
+            "needs_review": false,
+            "reviewer_override": null
+          },
+          "effective_date": {
+            "value": "2024-07-01",
+            "confidence": 0.94,
+            "source_page": 12,
+            "source_text": "effective July 1, 2024",
+            "needs_review": false,
+            "reviewer_override": null
+          }
+        }
+      ],
+      "modified_surcharges": [],
+      "modified_dim_rules": [
+        {
+          "dim_divisor": {
+            "value": 166.0,
+            "confidence": 0.93,
+            "source_page": 13,
+            "source_text": "DIM divisor changed from 139 to 166 for Ground",
+            "needs_review": false,
+            "reviewer_override": null
+          },
+          "applicable_services": {
+            "value": ["FedEx Ground", "FedEx Home Delivery"],
+            "confidence": 0.90,
+            "source_page": 13,
+            "source_text": "applicable to Ground and Home Delivery services",
+            "needs_review": false,
+            "reviewer_override": null
+          },
+          "conditions": {
+            "value": "Replaces prior DIM divisor of 139; effective July 1, 2024",
+            "confidence": 0.85,
+            "source_page": 13,
+            "source_text": "replaces the prior dimensional weight divisor of 139",
+            "needs_review": false,
+            "reviewer_override": null
+          }
+        }
+      ],
+      "modified_special_terms": []
+    }
+  ],
+  "overall_confidence": 0.88,
+  "fields_needing_review": 1,
+  "total_fields_extracted": 72,
+  "review_notes": "Approved after verifying electronic shipping incentive conditions.",
+  "active_terms_snapshot": {
+    "resolved_at": "2024-11-15",
+    "amendments_applied": [
+      {
+        "number": "AMD-001",
+        "effective_date": "2024-07-01"
+      }
+    ],
+    "service_terms": [
+      {
+        "service_type": {"value": "FedEx Ground", "confidence": 0.95},
+        "discount_percentage": {"value": 52.0, "confidence": 0.94},
+        "effective_date": {"value": "2024-07-01", "confidence": 0.94},
+        "_note": "Updated by AMD-001 (was 50.0%)"
+      },
+      {
+        "service_type": {"value": "FedEx Express Saver", "confidence": 0.95},
+        "discount_percentage": {"value": 45.0, "confidence": 0.92}
+      },
+      {
+        "service_type": {"value": "FedEx Home Delivery", "confidence": 0.94},
+        "discount_percentage": {"value": 48.0, "confidence": 0.93}
+      },
+      {
+        "service_type": {"value": "FedEx 2Day", "confidence": 0.93},
+        "discount_percentage": {"value": 42.0, "confidence": 0.91}
+      },
+      {
+        "service_type": {"value": "FedEx Priority Overnight", "confidence": 0.94},
+        "discount_percentage": {"value": 38.0, "confidence": 0.90}
+      }
+    ],
+    "dim_rules": [
+      {
+        "dim_divisor": {"value": 166.0, "confidence": 0.93},
+        "applicable_services": {"value": ["FedEx Ground", "FedEx Home Delivery"]},
+        "_note": "Updated by AMD-001 (was 139)"
+      },
+      {
+        "dim_divisor": {"value": 166.0, "confidence": 0.94},
+        "applicable_services": {"value": ["FedEx Express Saver", "FedEx 2Day", "FedEx Priority Overnight"]}
+      }
+    ],
+    "surcharges": [
+      {"surcharge_name": {"value": "Residential Delivery Surcharge"}, "discount_percentage": {"value": 40.0}},
+      {"surcharge_name": {"value": "Fuel Surcharge"}, "discount_percentage": {"value": null}},
+      {"surcharge_name": {"value": "Additional Handling Surcharge"}, "discount_percentage": {"value": 25.0}},
+      {"surcharge_name": {"value": "Delivery Area Surcharge (Extended)"}, "discount_percentage": {"value": null}}
+    ],
+    "special_terms": [
+      {"term_name": {"value": "Money-Back Guarantee"}, "term_value": {"value": "Waived"}},
+      {"term_name": {"value": "Earned Discount Program"}, "term_value": {"value": "Eligible — Tier 2"}},
+      {"term_name": {"value": "Automation/Electronic Shipping Incentive"}, "term_value": {"value": "Additional 2% discount for 95%+ electronic shipping"}}
+    ]
+  }
+}

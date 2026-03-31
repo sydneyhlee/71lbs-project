@@ -1,0 +1,282 @@
+{
+  "id": "sample-fedex-amd-002",
+  "file_name": "FedEx_Amendment_Q3_2024.pdf",
+  "file_path": "data/uploads/FedEx_Amendment_Q3_2024.pdf",
+  "extraction_timestamp": "2024-11-15T15:00:00",
+  "status": "pending_review",
+  "metadata": {
+    "customer_name": {
+      "value": "Acme Shipping Corp",
+      "confidence": 0.90,
+      "source_page": 1,
+      "source_text": "Acme Shipping Corp",
+      "needs_review": false,
+      "reviewer_override": null
+    },
+    "account_number": {
+      "value": "1234-5678-9",
+      "confidence": 0.88,
+      "source_page": 1,
+      "source_text": "Account: 1234-5678-9",
+      "needs_review": false,
+      "reviewer_override": null
+    },
+    "agreement_number": {
+      "value": "FX-2024-00456",
+      "confidence": 0.94,
+      "source_page": 1,
+      "source_text": "Reference Agreement No. FX-2024-00456",
+      "needs_review": false,
+      "reviewer_override": null
+    },
+    "version_number": {
+      "value": "3-A2",
+      "confidence": 0.72,
+      "source_page": 1,
+      "source_text": "Version 3, Amendment 2",
+      "needs_review": true,
+      "reviewer_override": null
+    },
+    "effective_date": {
+      "value": "2025-01-01",
+      "confidence": 0.95,
+      "source_page": 1,
+      "source_text": "Effective January 1, 2025",
+      "needs_review": false,
+      "reviewer_override": null
+    },
+    "term_start": {
+      "value": "2025-01-01",
+      "confidence": 0.90,
+      "source_page": 1,
+      "source_text": "effective January 1, 2025",
+      "needs_review": false,
+      "reviewer_override": null
+    },
+    "term_end": {
+      "value": "2026-01-14",
+      "confidence": 0.65,
+      "source_page": 1,
+      "source_text": "through the remaining term of the Agreement",
+      "needs_review": true,
+      "reviewer_override": null
+    },
+    "payment_terms": {
+      "value": null,
+      "confidence": 0.0,
+      "source_page": null,
+      "source_text": null,
+      "needs_review": false,
+      "reviewer_override": null
+    },
+    "carrier": {
+      "value": "FedEx",
+      "confidence": 0.99,
+      "source_page": 1,
+      "source_text": "FedEx Corporation",
+      "needs_review": false,
+      "reviewer_override": null
+    }
+  },
+  "service_terms": [],
+  "surcharges": [],
+  "dim_rules": [],
+  "special_terms": [],
+  "amendments": [
+    {
+      "amendment_number": {
+        "value": "AMD-002",
+        "confidence": 0.94,
+        "source_page": 1,
+        "source_text": "Amendment No. AMD-002",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": "2025-01-01",
+        "confidence": 0.96,
+        "source_page": 1,
+        "source_text": "Effective Date: January 1, 2025",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "supersedes_version": {
+        "value": "AMD-001",
+        "confidence": 0.82,
+        "source_page": 1,
+        "source_text": "supersedes applicable terms from AMD-001",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "description": {
+        "value": "Annual rate adjustment: increased Express discounts, added Oversize surcharge discount",
+        "confidence": 0.80,
+        "source_page": 1,
+        "source_text": "annual pricing adjustment for Express services and surcharges",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modified_service_terms": [
+        {
+          "service_type": {
+            "value": "FedEx Express Saver",
+            "confidence": 0.93,
+            "source_page": 2,
+            "source_text": "FedEx Express Saver",
+            "needs_review": false,
+            "reviewer_override": null
+          },
+          "applicable_zones": {
+            "value": ["2", "3", "4", "5", "6"],
+            "confidence": 0.82,
+            "source_page": 2,
+            "source_text": "Zones 2-6 (expanded from 2-5)",
+            "needs_review": false,
+            "reviewer_override": null
+          },
+          "discount_percentage": {
+            "value": 48.0,
+            "confidence": 0.91,
+            "source_page": 2,
+            "source_text": "48.00% (increased from 45.00%)",
+            "needs_review": false,
+            "reviewer_override": null
+          },
+          "base_rate_adjustment": {
+            "value": null,
+            "confidence": 0.0,
+            "source_page": null,
+            "source_text": null,
+            "needs_review": false,
+            "reviewer_override": null
+          },
+          "conditions": {
+            "value": "Replaces prior Express Saver terms",
+            "confidence": 0.78,
+            "source_page": 2,
+            "source_text": "replaces prior Express Saver discount",
+            "needs_review": false,
+            "reviewer_override": null
+          },
+          "effective_date": {
+            "value": "2025-01-01",
+            "confidence": 0.94,
+            "source_page": 2,
+            "source_text": "effective January 1, 2025",
+            "needs_review": false,
+            "reviewer_override": null
+          }
+        },
+        {
+          "service_type": {
+            "value": "FedEx 2Day",
+            "confidence": 0.92,
+            "source_page": 2,
+            "source_text": "FedEx 2Day",
+            "needs_review": false,
+            "reviewer_override": null
+          },
+          "applicable_zones": {
+            "value": ["2", "3", "4", "5", "6", "7", "8"],
+            "confidence": 0.84,
+            "source_page": 2,
+            "source_text": "All zones",
+            "needs_review": false,
+            "reviewer_override": null
+          },
+          "discount_percentage": {
+            "value": 45.0,
+            "confidence": 0.90,
+            "source_page": 2,
+            "source_text": "45.00% (increased from 42.00%)",
+            "needs_review": false,
+            "reviewer_override": null
+          },
+          "base_rate_adjustment": {
+            "value": null,
+            "confidence": 0.0,
+            "source_page": null,
+            "source_text": null,
+            "needs_review": false,
+            "reviewer_override": null
+          },
+          "conditions": {
+            "value": "Replaces prior 2Day terms",
+            "confidence": 0.77,
+            "source_page": 2,
+            "source_text": "replaces the 2Day discount",
+            "needs_review": false,
+            "reviewer_override": null
+          },
+          "effective_date": {
+            "value": "2025-01-01",
+            "confidence": 0.94,
+            "source_page": 2,
+            "source_text": "effective January 1, 2025",
+            "needs_review": false,
+            "reviewer_override": null
+          }
+        }
+      ],
+      "modified_surcharges": [
+        {
+          "surcharge_name": {
+            "value": "Oversize Surcharge",
+            "confidence": 0.90,
+            "source_page": 3,
+            "source_text": "Oversize Surcharge",
+            "needs_review": false,
+            "reviewer_override": null
+          },
+          "application": {
+            "value": "Per package exceeding 96 inches in length",
+            "confidence": 0.84,
+            "source_page": 3,
+            "source_text": "packages exceeding 96 inches in length",
+            "needs_review": false,
+            "reviewer_override": null
+          },
+          "applicable_zones": {
+            "value": null,
+            "confidence": 0.0,
+            "source_page": null,
+            "source_text": null,
+            "needs_review": false,
+            "reviewer_override": null
+          },
+          "modification": {
+            "value": "New discount added",
+            "confidence": 0.80,
+            "source_page": 3,
+            "source_text": "discount added for oversize packages",
+            "needs_review": false,
+            "reviewer_override": null
+          },
+          "discount_percentage": {
+            "value": 15.0,
+            "confidence": 0.85,
+            "source_page": 3,
+            "source_text": "15.00% discount on oversize surcharge",
+            "needs_review": false,
+            "reviewer_override": null
+          },
+          "effective_date": {
+            "value": "2025-01-01",
+            "confidence": 0.92,
+            "source_page": 3,
+            "source_text": "effective January 1, 2025",
+            "needs_review": false,
+            "reviewer_override": null
+          }
+        }
+      ],
+      "modified_dim_rules": [],
+      "modified_special_terms": []
+    }
+  ],
+  "overall_confidence": 0.84,
+  "fields_needing_review": 2,
+  "total_fields_extracted": 35,
+  "review_notes": null,
+  "active_terms_snapshot": null
+}
