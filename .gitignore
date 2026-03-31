@@ -1,13 +1,38 @@
 # Python cache
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
 
 # Virtual environments
 venv/
-.env/
+.venv/
+.env
 
-# MacOS
+# Build / packaging
+*.egg-info/
+dist/
+build/
+
+# Data (keep samples, ignore runtime data)
+data/uploads/*
+data/extracted/*
+data/approved/*
+!data/samples/
+!data/*/.gitkeep
+
+# Generated test outputs
+extraction_v2/test_outputs/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
 .DS_Store
+Thumbs.db
 
 # Logs
 *.log

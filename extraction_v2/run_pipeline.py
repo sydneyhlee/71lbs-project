@@ -25,7 +25,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from app.pipeline.pdf_parser import parse_pdf
+from ingestion import ingest_pdf
+from ingestion.adapter import to_parsed_document
 from app.pipeline.confidence import score_extraction
 from app.pipeline.resolver import resolve_active_terms
 from extraction_v2.extractor import extract_contract_v2
@@ -56,10 +57,12 @@ def run_extraction(pdf_path: str) -> dict:
     logger.info("PROCESSING: %s", path.name)
     logger.info("=" * 70)
 
-    # Step 1: Parse (Parsing Team's interface)
+    # Step 1: Parse via ingestion layer (layout-aware, section-classified)
     logger.info("Step 1/4: Parsing PDF")
-    doc = parse_pdf(path)
-    logger.info("  Parsed %d pages (OCR=%s)", doc.total_pages, doc.used_ocr)
+    struct_doc = ingest_pdf(path)
+    doc = to_parsed_document(struct_doc)
+    logger.info("  Parsed %d pages (OCR=%s, sections=%d)",
+                doc.total_pages, doc.used_ocr, len(struct_doc.sections))
     if doc.errors:
         logger.warning("  Parse errors: %s", doc.errors)
 

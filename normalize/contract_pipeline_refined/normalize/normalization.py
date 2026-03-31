@@ -30,12 +30,13 @@ _VENDOR_PREFIX = {
 def _collapse_ws(s: str) -> str:
     return re.sub(r"\s+", " ", (s or "").strip())
 
-
+# FedEx Ground Multiweight Shipments (Original) turns in to ("fedex_ground", 0.75)
 def normalize_service_name(text: str, vendor: VendorType) -> Tuple[Optional[str], float]:
     """
     Map free-text service labels to canonical snake_case tokens when possible.
     Returns (canonical_token or None, confidence 0..1).
     """
+    #
     raw = _collapse_ws(text)
     if not raw:
         return None, 0.0
@@ -66,12 +67,13 @@ _PERCENT_RE = re.compile(
 )
 _FRACTION_RE = re.compile(r"\b(?P<num>\d+(?:\.\d+)?)\s*/\s*(?P<den>\d+(?:\.\d+)?)\b")
 
-
+# Tells us how accurate the parser is about its interpretation
 def normalize_percent(text: str) -> dict[str, Any]:
     """
     Normalize percentage-like strings to a consistent structure.
     Returns keys: unit, value (0-100 for percent), raw, confidence.
     """
+    # No longer raw strings now it comes out formatted
     s = _collapse_ws(text)
     if not s:
         return {"unit": "unknown", "value": None, "raw": text, "confidence": 0.0}
@@ -123,7 +125,7 @@ def _normalize_weight_unit(u: Optional[str]) -> str:
         return "oz"
     return "lb"
 
-
+# returns {"min": 166.0, "max": 166.0, "unit": "lb", "confidence": 0.6} rather than "166" or "200.lbs"
 def normalize_weight_range(text: str) -> dict[str, Any]:
     """
     Parse weight range text into min, max, unit, confidence.
