@@ -72,7 +72,8 @@ LLM_MODEL=llama3.2
 ## 5) Run extraction on one PDF
 
 ```bash
-python -m extraction_v2.run_pipeline "path/to/contract.pdf"
+# Tip: on macOS you typically want `python3`
+python3 -m extraction_v2.run_pipeline "path/to/contract.pdf"
 ```
 
 Example (Windows):
@@ -80,12 +81,23 @@ Example (Windows):
 python -m extraction_v2.run_pipeline "C:\some-folder\contract.pdf"
 ```
 
-Output JSON files are saved in `extraction_v2/test_outputs/`.
+Output JSON files are saved in `extraction_v2/test_outputs/` (default) unless you pass `--output`.
+
+By default, the output filename is derived from the PDF stem, like:
+`<pdf_stem>_extraction.json`.
+
+## 5b) Run extraction on a folder of PDFs
+If you want to process every `*.pdf` under a directory, you can use a loop like this:
+```bash
+find "/path/to/pdfs" -name "*.pdf" -print0 | while IFS= read -r -d '' f; do \
+  python3 -m extraction_v2.run_pipeline "$f"; \
+done
+```
 
 ## 6) Run built-in FedEx + UPS test set
 
 ```bash
-python -m extraction_v2.run_pipeline --test-all
+python3 -m extraction_v2.run_pipeline --test-all
 ```
 
 ## Troubleshooting
