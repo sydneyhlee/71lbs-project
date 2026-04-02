@@ -118,7 +118,7 @@ app/storage/           JSON file storage
 
 The pipeline works without any LLM. It only calls an LLM when the deterministic extraction doesn't find enough data (rare for well-structured pricing agreements).
 
-If you want LLM support:
+If you want LLM support (open NEW terminal):
 
 ```bash
 ollama pull llama3.2

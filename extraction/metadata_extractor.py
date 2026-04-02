@@ -24,8 +24,9 @@ _CUSTOMER_PATTERNS = [
     re.compile(r"Customer\s*(?:Name)?\s*[:\-]\s*(.+?)(?:\n|$)", re.IGNORECASE),
     re.compile(r"(?:Prepared\s+for|Shipper)\s*[:\-]\s*(.+?)(?:\n|$)", re.IGNORECASE),
     re.compile(r"This\s+FedEx.*?agreement.*?between.*?(?:FedEx.*?and|and)\s+(.+?)(?:\(|,|\n)", re.IGNORECASE),
-    re.compile(r'(?:made\s*and\s*entered\s*into\s*by\s*and\s*between)\s*(.+?)(?:\(|")', re.IGNORECASE),
-    re.compile(r'(?:madeandentered\s*intobyandbetween)\s*(.+?)(?:\(|")', re.IGNORECASE),
+    # UPS: 'between G-FULFILLMENT LLC ("Customer")' (handles merged words)
+    re.compile(r'(?:between)\s*(.+?)\s*\(\s*"?\s*Customer\s*"?\s*\)', re.IGNORECASE),
+    re.compile(r'(?:made\s*and\s*entered\s*into\s*by\s*and\s*between)\s*(.+?)\s*(?:\(|")', re.IGNORECASE),
     re.compile(r"This\s+UPS.*?agreement.*?between.*?(?:UPS.*?and|and)\s+(.+?)(?:\(|,|\n)", re.IGNORECASE),
     re.compile(r"^([A-Z][A-Za-z\s&.,\-]+(?:Inc|LLC|Corp|Ltd|Co|LP)\.?)\s*$", re.MULTILINE),
 ]
@@ -57,6 +58,20 @@ _EFFECTIVE_DATE_PATTERNS = [
     ),
     re.compile(
         r"effective\s+(?:on\s+)?(\d{1,2}/\d{1,2}/\d{4})",
+        re.IGNORECASE,
+    ),
+    # UPS: "voidifnotacceptedbyApril20,2025" (handles merged-word PDFs)
+    re.compile(
+        r"void\s*if\s*not\s*accepted\s*by\s*"
+        r"((?:January|February|March|April|May|June|July|August|September"
+        r"|October|November|December)\s*\d{1,2},?\s*\d{4})",
+        re.IGNORECASE,
+    ),
+    # UPS: "Date Signed: <date>"
+    re.compile(
+        r"Date\s*Signed\s*:\s*"
+        r"((?:January|February|March|April|May|June|July|August|September"
+        r"|October|November|December)\s+\d{1,2},?\s+\d{4}|\d{1,2}/\d{1,2}/\d{4}|\d{4}-\d{2}-\d{2})",
         re.IGNORECASE,
     ),
 ]
@@ -95,7 +110,7 @@ _TERM_RANGE_PATTERNS = [
         r"\s+(Does\s+Not\s+Expire)",
         re.IGNORECASE,
     ),
-    # FedEx table: "1 <date> <date>"
+    # FedEx table: "1 <date> <date>" (written-out months)
     re.compile(
         r"(?:^|\n)\s*1\s+"
         r"((?:January|February|March|April|May|June|July|August|September"
@@ -105,7 +120,28 @@ _TERM_RANGE_PATTERNS = [
         r"|October|November|December)\s+\d{1,2},?\s+\d{4})",
         re.IGNORECASE,
     ),
+    # FedEx table: "1 MM/DD/YYYY MM/DD/YYYY ..." (numeric dates)
+    re.compile(
+        r"(?:^|\n)\s*1\s+(\d{1,2}/\d{1,2}/\d{4})\s+(\d{1,2}/\d{1,2}/\d{4})",
+        re.IGNORECASE,
+    ),
+    # FedEx table: "1 MM/DD/YYYY Does Not Expire ..."
+    re.compile(
+        r"(?:^|\n)\s*1\s+(\d{1,2}/\d{1,2}/\d{4})\s+(Does\s+Not\s+Expire)",
+        re.IGNORECASE,
+    ),
+    # FedEx table: "1 MM/DD/YYYY 24 Month(s) ..."
+    re.compile(
+        r"(?:^|\n)\s*1\s+(\d{1,2}/\d{1,2}/\d{4})\s+(\d+\s+Month\(?s?\)?)",
+        re.IGNORECASE,
+    ),
 ]
+
+# UPS-style term duration: "remain in effect for 156 weeks" (handles merged words)
+_TERM_DURATION_PATTERN = re.compile(
+    r"remain\s*in\s*effect\s*for\s*(\d+)\s*(weeks?|months?|years?)",
+    re.IGNORECASE,
+)
 
 _PAYMENT_DAYS_PATTERNS = [
     # "Payment is due within the following number of days ... Attachment: 15"
@@ -118,6 +154,11 @@ _PAYMENT_DAYS_PATTERNS = [
     re.compile(
         r"Payment\s+is\s+due\s+within.*?(\d+)\s*(?:days?|calendar)",
         re.IGNORECASE | re.DOTALL,
+    ),
+    # UPS Addendum A: "PaymentTerms(Days)" header, then account lines ending with days
+    re.compile(
+        r"Payment\s*Terms?\s*\(\s*Days\s*\)[^\n]*\n(?:[^\n]*\n){0,5}?[^\n]*[\dA-Z]{8,}\s+\S+[^\n]*\s(\d{1,3})\s*$",
+        re.IGNORECASE | re.MULTILINE,
     ),
     # "Payment Terms: Net 30" or "Payment Terms: 30 days"
     re.compile(r"Payment\s+Terms?\s*[:\-]\s*(?:Net\s+)?(\d+)\s*(?:days?)?", re.IGNORECASE),
@@ -140,6 +181,13 @@ _CARRIER_INDICATORS = {
         re.compile(r"United\s+Parcel\s+Service", re.IGNORECASE),
     ],
 }
+
+
+def _clean_company_name(name: str) -> str:
+    """Insert missing spaces before common suffixes in merged PDF text."""
+    name = re.sub(r"(?<=[a-zA-Z])(LLC|INC|CORP|LTD|CO|LP)\b", r" \1", name)
+    name = re.sub(r"(?<=[a-zA-Z])(Inc|Corp|Ltd)\.", r" \1.", name)
+    return name.strip()
 
 
 def _find_first(text: str, patterns: list, page_hint: Optional[int] = None) -> Optional[ExtractedValue]:
@@ -204,19 +252,14 @@ def extract_metadata(full_text: str, page_texts: Optional[dict] = None) -> Contr
 
     customer = _find_first(first_pages, _CUSTOMER_PATTERNS, page_hint)
 
-    if not customer:
-        ups_cust = re.search(
-            r'(?:madeandentered\s*intobyandbetween|between)\s*'
-            r'([A-Z][A-Z\-\s]+(?:LLC|INC|CORP|LTD|CO)\.?)\s*(?:\(|")',
-            first_pages, re.IGNORECASE,
+    if customer:
+        customer = ev(
+            value=_clean_company_name(customer.value),
+            confidence=customer.confidence,
+            source_page=customer.source_page,
+            source_text=customer.source_text,
+            needs_review=customer.needs_review,
         )
-        if ups_cust:
-            customer = ev(
-                value=ups_cust.group(1).strip(),
-                confidence=0.82,
-                source_page=page_hint,
-                source_text=first_pages[max(0, ups_cust.start() - 20):ups_cust.end() + 20][:120],
-            )
 
     account = _find_first(full_text, _ACCOUNT_PATTERNS, page_hint)
 
@@ -263,6 +306,17 @@ def extract_metadata(full_text: str, page_texts: Optional[dict] = None) -> Contr
             term_end = ev(value=raw_end, confidence=0.85,
                           source_page=page_hint, source_text=snippet[:120])
             break
+
+    if not term_end.value:
+        dur = _TERM_DURATION_PATTERN.search(full_text)
+        if dur:
+            duration_str = f"{dur.group(1)} {dur.group(2)}"
+            snippet = full_text[max(0, dur.start() - 20):dur.end() + 20].strip()
+            term_end = ev(value=duration_str, confidence=0.80,
+                          source_page=page_hint, source_text=snippet[:120])
+            if eff_date and not term_start.value:
+                term_start = ev(value=eff_date.value, confidence=0.80,
+                                source_page=page_hint, source_text="Derived from effective date")
 
     payment = _extract_payment_terms(full_text, page_hint)
 
