@@ -18,7 +18,7 @@ python run_ui.py
 
 After the last command, open **http://localhost:8501** in your browser. That's it -- the UI is running.
 
-> **Note:** `pip install` only needs to run once. After that you can just do `python run_ui.py` to start the app again.
+> **Note:** `pip install` (and everything before it) only needs to run once. After that you can just do `python run_ui.py` to start the app again.
 
 ---
 

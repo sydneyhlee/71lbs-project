@@ -62,6 +62,7 @@ _EFFECTIVE_DATE_PATTERNS = [
 ]
 
 _TERM_RANGE_PATTERNS = [
+    # Explicit date range: "Term: January 1, 2025 through December 31, 2025"
     re.compile(
         r"Term\s*[:\-]?\s*"
         r"((?:January|February|March|April|May|June|July|August|September"
@@ -71,14 +72,61 @@ _TERM_RANGE_PATTERNS = [
         r"|October|November|December)\s+\d{1,2},?\s+\d{4})",
         re.IGNORECASE,
     ),
+    # Numeric date range: "01/01/2025 through 12/31/2025"
     re.compile(
         r"(\d{1,2}/\d{1,2}/\d{4})\s*(?:through|to|-)\s*(\d{1,2}/\d{1,2}/\d{4})",
         re.IGNORECASE,
     ),
+    # FedEx table format: "1 Effective Date Does Not Expire ..."
+    re.compile(
+        r"(?:^|\n)\s*1\s+(Effective\s+Date)\s+(Does\s+Not\s+Expire)",
+        re.IGNORECASE,
+    ),
+    # FedEx table: "1 Effective Date 24 Month(s) ..."
+    re.compile(
+        r"(?:^|\n)\s*1\s+(Effective\s+Date)\s+(\d+\s+Month\(?s?\)?)",
+        re.IGNORECASE,
+    ),
+    # FedEx table: "1 <date> Does Not Expire ..."
+    re.compile(
+        r"(?:^|\n)\s*1\s+"
+        r"((?:January|February|March|April|May|June|July|August|September"
+        r"|October|November|December)\s+\d{1,2},?\s+\d{4})"
+        r"\s+(Does\s+Not\s+Expire)",
+        re.IGNORECASE,
+    ),
+    # FedEx table: "1 <date> <date>"
+    re.compile(
+        r"(?:^|\n)\s*1\s+"
+        r"((?:January|February|March|April|May|June|July|August|September"
+        r"|October|November|December)\s+\d{1,2},?\s+\d{4})"
+        r"\s+"
+        r"((?:January|February|March|April|May|June|July|August|September"
+        r"|October|November|December)\s+\d{1,2},?\s+\d{4})",
+        re.IGNORECASE,
+    ),
+]
+
+_PAYMENT_DAYS_PATTERNS = [
+    # "Payment is due within the following number of days ... Attachment: 15"
+    re.compile(
+        r"Payment\s+is\s+due\s+within\s+the\s+following\s+number\s+of\s+days"
+        r".*?(?:Attachment|Credit\s+Term)\s*[:\s]\s*(\d+)",
+        re.IGNORECASE | re.DOTALL,
+    ),
+    # "Payment is due within ... : 30 days"
+    re.compile(
+        r"Payment\s+is\s+due\s+within.*?(\d+)\s*(?:days?|calendar)",
+        re.IGNORECASE | re.DOTALL,
+    ),
+    # "Payment Terms: Net 30" or "Payment Terms: 30 days"
+    re.compile(r"Payment\s+Terms?\s*[:\-]\s*(?:Net\s+)?(\d+)\s*(?:days?)?", re.IGNORECASE),
+    # Standalone "Net 30 days"
+    re.compile(r"Net\s+(\d+)\s+days?", re.IGNORECASE),
 ]
 
 _PAYMENT_PATTERNS = [
-    re.compile(r"Payment\s+Terms?\s*[:\-]?\s*(.+?)(?:\n|$)", re.IGNORECASE),
+    re.compile(r"Payment\s+Terms?\s*[:\-]\s*(.+?)(?:\n|$)", re.IGNORECASE),
     re.compile(r"Net\s+\d+\s+(?:days?)?", re.IGNORECASE),
 ]
 
@@ -124,6 +172,22 @@ def _detect_carrier(text: str, page_hint: Optional[int] = None) -> ExtractedValu
                     source_text=snippet[:120],
                 )
     return ev(value="Unknown", confidence=0.3, needs_review=True)
+
+
+def _extract_payment_terms(text: str, page_hint: Optional[int] = None) -> Optional[ExtractedValue]:
+    """Extract payment terms, preferring the numeric 'Net N days' form."""
+    for pat in _PAYMENT_DAYS_PATTERNS:
+        m = pat.search(text)
+        if m:
+            days = m.group(1).strip()
+            snippet = text[max(0, m.start() - 20):m.end() + 20].strip()
+            return ev(
+                value=f"Net {days} days",
+                confidence=0.90,
+                source_page=page_hint,
+                source_text=snippet[:120],
+            )
+    return _find_first(text, _PAYMENT_PATTERNS, page_hint)
 
 
 def extract_metadata(full_text: str, page_texts: Optional[dict] = None) -> ContractMetadata:
@@ -188,13 +252,19 @@ def extract_metadata(full_text: str, page_texts: Optional[dict] = None) -> Contr
         m = pat.search(full_text)
         if m:
             snippet = full_text[max(0, m.start() - 10):m.end() + 10].strip()
-            term_start = ev(value=m.group(1).strip(), confidence=0.85,
+            raw_start = m.group(1).strip()
+            raw_end = m.group(2).strip()
+
+            if raw_start.lower() == "effective date" and eff_date:
+                raw_start = eff_date.value
+
+            term_start = ev(value=raw_start, confidence=0.85,
                             source_page=page_hint, source_text=snippet[:120])
-            term_end = ev(value=m.group(2).strip(), confidence=0.85,
+            term_end = ev(value=raw_end, confidence=0.85,
                           source_page=page_hint, source_text=snippet[:120])
             break
 
-    payment = _find_first(full_text, _PAYMENT_PATTERNS, page_hint)
+    payment = _extract_payment_terms(full_text, page_hint)
 
     return ContractMetadata(
         customer_name=customer or ExtractedValue(needs_review=True),
