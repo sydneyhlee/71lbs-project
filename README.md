@@ -1,6 +1,6 @@
-# 71lbs Contract Extraction Pipeline
+# 71lbs Pricing Agreement Extraction
 
-Extracts structured pricing data from FedEx and UPS shipping contract PDFs.
+Extracts structured pricing data from FedEx and UPS **pricing agreement** PDFs.
 
 ---
 
@@ -24,23 +24,29 @@ After the last command, open **http://localhost:8501** in your browser. That's i
 
 ## What to do in the UI
 
-1. **Upload Contract** -- drag a FedEx or UPS contract PDF into the upload area
+1. **Upload Pricing Agreement** -- drag a FedEx or UPS pricing agreement PDF into the upload area
 2. **Review Queue** -- see every extracted field with a confidence score, flag anything that looks wrong
-3. **Approved** -- download the final JSON for approved contracts
+3. **Approved** -- download the final JSON for approved agreements
 
-The UI has a **dark/light mode toggle** in the sidebar. Click it, then refresh the page (F5) to apply.
+The UI has a **dark/light mode toggle** in the sidebar.
 
 ---
 
 ## What kind of PDFs to upload
 
-This tool is for **carrier pricing agreements** -- the contracts that define your shipping rates:
+This tool is **only** for **pricing agreements** -- the PDFs that define your negotiated shipping rates with FedEx or UPS.
 
+**Upload these:**
 - Pricing agreements (e.g. `FDX PricingAgreement.pdf`)
 - Amendments and addendums (e.g. `FDX Apr25 1.pdf`)
 - Rate schedules
 
-This is **not** for invoices, shipment receipts, or tracking documents. Those are a different system.
+**Do NOT upload these:**
+- Invoices (monthly shipping bills)
+- Shipment receipts
+- Tracking documents or shipping labels
+
+Invoices and receipts are completely different documents. This pipeline only understands pricing agreements.
 
 ---
 
@@ -64,19 +70,19 @@ Every field has a **confidence score** (0-100%). Fields below 70% are flagged fo
 If you want to run extraction from the command line instead of the UI:
 
 ```bash
-python run_pipeline.py "path/to/contract.pdf"
+python run_pipeline.py "path/to/pricing-agreement.pdf"
 ```
 
 Save to a specific output file:
 
 ```bash
-python run_pipeline.py "path/to/contract.pdf" --output result.json
+python run_pipeline.py "path/to/pricing-agreement.pdf" --output result.json
 ```
 
 Parse-only mode (no extraction, just shows document structure):
 
 ```bash
-python run_ingestion.py "path/to/contract.pdf"
+python run_ingestion.py "path/to/pricing-agreement.pdf"
 ```
 
 REST API:
@@ -110,7 +116,7 @@ app/storage/           JSON file storage
 
 ## Optional: LLM fallback
 
-The pipeline works without any LLM. It only calls an LLM when the deterministic extraction doesn't find enough data (rare for well-structured contracts).
+The pipeline works without any LLM. It only calls an LLM when the deterministic extraction doesn't find enough data (rare for well-structured pricing agreements).
 
 If you want LLM support:
 

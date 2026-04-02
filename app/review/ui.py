@@ -33,7 +33,7 @@ from app.pipeline.confidence import score_extraction
 # ---------------------------------------------------------------------------
 
 st.set_page_config(
-    page_title="71lbs Contract Review",
+    page_title="71lbs Pricing Agreement Review",
     page_icon="📦",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -304,7 +304,7 @@ def table_html(headers: list[str], rows: list[list[str]]) -> str:
 
 with st.sidebar:
     st.markdown("## 71lbs")
-    st.caption("Contract Extraction Pipeline")
+    st.caption("Pricing Agreement Extraction")
 
     is_dark = st.session_state.theme == "dark"
     toggle_label = "Switch to Light Mode" if is_dark else "Switch to Dark Mode"
@@ -316,7 +316,7 @@ with st.sidebar:
 
     page = st.radio(
         "Navigation",
-        ["Upload Contract", "Review Queue", "Approved"],
+        ["Upload Pricing Agreement", "Review Queue", "Approved"],
         label_visibility="collapsed",
     )
 
@@ -338,23 +338,23 @@ with st.sidebar:
 # UPLOAD PAGE
 # ===================================================================
 
-if page == "Upload Contract":
-    st.title("Upload Contract PDF")
+if page == "Upload Pricing Agreement":
+    st.title("Upload Pricing Agreement")
     st.markdown(
-        "Upload a **FedEx or UPS shipping contract** (pricing agreement, "
-        "amendment, or addendum) to extract structured pricing data."
+        "Upload a **FedEx or UPS pricing agreement** PDF to extract structured "
+        "pricing data (discounts, surcharges, DIM rules, service terms)."
     )
 
     st.info(
-        "**What to upload:** Carrier pricing agreements, amendments, and addendums. "
-        "The pipeline extracts service terms, discounts, surcharges, DIM rules, "
-        "and special terms from the contract language. "
-        "This is **not** for invoices or shipment receipts.",
+        "**Only upload pricing agreements** -- the PDFs that define your negotiated "
+        "shipping rates with FedEx or UPS. Amendments and addendums are also accepted.\n\n"
+        "**Do NOT upload** invoices, shipment receipts, tracking documents, or "
+        "shipping labels. Those are not pricing agreements and will not parse correctly.",
         icon="📋",
     )
 
     uploaded = st.file_uploader(
-        "Drag and drop a contract PDF here",
+        "Drag and drop a pricing agreement PDF here",
         type=["pdf"],
         accept_multiple_files=False,
     )
@@ -362,7 +362,7 @@ if page == "Upload Contract":
     if uploaded:
         st.markdown(f"**File:** `{uploaded.name}` ({uploaded.size / 1024:.0f} KB)")
 
-        if st.button("Extract Contract Data", type="primary", use_container_width=True):
+        if st.button("Extract Pricing Data", type="primary", use_container_width=True):
             progress = st.progress(0, text="Starting extraction pipeline...")
 
             with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
@@ -418,7 +418,7 @@ if page == "Upload Contract":
         st.markdown(
             "<div style='text-align:center;padding:2.5rem 0;opacity:0.4'>"
             "<div style='font-size:3rem;margin-bottom:0.5rem'>📄</div>"
-            "<p>Drag and drop a contract PDF above, or click Browse files</p>"
+            "<p>Drag and drop a pricing agreement PDF above, or click Browse files</p>"
             "</div>",
             unsafe_allow_html=True,
         )
@@ -435,12 +435,12 @@ elif page == "Review Queue":
     extractions = list_extractions(status_filter=ExtractionStatus.PENDING)
 
     if not extractions:
-        st.info("No contracts pending review. Upload one from the **Upload Contract** page.")
+        st.info("No pricing agreements pending review. Upload one from the **Upload Pricing Agreement** page.")
     else:
-        st.markdown(f"**{len(extractions)}** contract(s) pending review")
+        st.markdown(f"**{len(extractions)}** pricing agreement(s) pending review")
 
         selected_id = st.selectbox(
-            "Select a contract to review",
+            "Select a pricing agreement to review",
             options=[e.id for e in extractions],
             format_func=lambda eid: next(
                 (
@@ -488,7 +488,7 @@ elif page == "Review Queue":
                 ])
 
                 with tab1:
-                    st.markdown("#### Contract Metadata")
+                    st.markdown("#### Agreement Metadata")
                     meta = extraction.metadata
                     html = ""
                     for fname in meta.model_fields:
@@ -614,12 +614,12 @@ elif page == "Review Queue":
 
 elif page == "Approved":
     st.title("Approved Extractions")
-    st.markdown("Download approved contract data as JSON.")
+    st.markdown("Download approved pricing agreement data as JSON.")
 
     approved = list_extractions(status_filter=ExtractionStatus.APPROVED)
 
     if not approved:
-        st.info("No approved extractions yet. Review and approve contracts from the **Review Queue**.")
+        st.info("No approved extractions yet. Review and approve pricing agreements from the **Review Queue**.")
     else:
         for ext in approved:
             customer = ext.metadata.customer_name.effective() or "Unknown"
