@@ -144,6 +144,7 @@ def _surcharge_mod_to_schema(sm: SurchargeModification) -> Surcharge:
 
 def _dim_spec_to_rule(ds: DIMSpec) -> DIMRule:
     """Convert a parsed DIMSpec to a DIMRule schema object."""
+    condition_text = ds.name if ds.name and ds.name.lower() != "dim" else ""
     return DIMRule(
         dim_divisor=ev(
             value=ds.divisor, confidence=0.90,
@@ -152,6 +153,12 @@ def _dim_spec_to_rule(ds: DIMSpec) -> DIMRule:
         applicable_services=ev(
             value=ds.application, confidence=0.85,
             source_page=ds.source_page, source_text=ds.application,
+        ),
+        conditions=ev(
+            value=condition_text or "Standard",
+            confidence=0.85,
+            source_page=ds.source_page,
+            source_text=ds.name,
         ),
     )
 

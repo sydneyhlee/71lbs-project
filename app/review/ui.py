@@ -209,6 +209,16 @@ CUSTOM_CSS = """
 .conf-high { color: #3fb950; }
 .conf-mid  { color: #d29922; }
 .conf-low  { color: #f85149; }
+
+/* Bigger sidebar radio buttons */
+[data-testid="stSidebar"] .stRadio label {
+    font-size: 1.1rem !important;
+    padding: 0.6rem 0.3rem !important;
+    font-weight: 500 !important;
+}
+[data-testid="stSidebar"] .stRadio [role="radiogroup"] {
+    gap: 0.3rem !important;
+}
 </style>
 """
 
@@ -501,6 +511,12 @@ elif page == "Review Queue":
                     if not extraction.service_terms:
                         st.info("No service terms extracted.")
                     else:
+                        st.caption(
+                            "Each row is a unique combination of service type, weight range, "
+                            "and zone. The same service name appears multiple times because "
+                            "it has different discount rates for different weight tiers or "
+                            "packaging types (see the Conditions column)."
+                        )
                         headers = ["#", "Service Type", "Zones", "Discount %", "Conditions", "Confidence"]
                         rows = []
                         for i, t in enumerate(extraction.service_terms):
