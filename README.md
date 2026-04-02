@@ -4,23 +4,21 @@ Extracts structured pricing data from FedEx and UPS shipping contract PDFs.
 
 ---
 
-## Get started (3 commands)
+## Get started
+
+Open **one terminal** and run these commands in order, one after the other:
 
 ```bash
 git clone https://github.com/sydneyhlee/71lbs-project.git
 cd 71lbs-project
 git checkout aidan-merge
-```
-
-```bash
 pip install -r requirements.txt
-```
-
-```bash
 python run_ui.py
 ```
 
-Open **http://localhost:8501** in your browser. That's it.
+After the last command, open **http://localhost:8501** in your browser. That's it -- the UI is running.
+
+> **Note:** `pip install` only needs to run once. After that you can just do `python run_ui.py` to start the app again.
 
 ---
 
