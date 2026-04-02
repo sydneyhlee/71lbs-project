@@ -40,53 +40,51 @@ st.set_page_config(
 )
 
 # ---------------------------------------------------------------------------
-# Theme toggle via config file swap
+# Theme state (dark is default via .streamlit/config.toml)
 # ---------------------------------------------------------------------------
 
-STREAMLIT_DIR = Path(__file__).resolve().parent.parent.parent / ".streamlit"
-
-DARK_THEME = """[theme]
-base = "dark"
-primaryColor = "#58a6ff"
-backgroundColor = "#0e1117"
-secondaryBackgroundColor = "#1a1d23"
-textColor = "#e6edf3"
-font = "sans serif"
-
-[browser]
-gatherUsageStats = false
-
-[server]
-headless = true
-"""
-
-LIGHT_THEME = """[theme]
-base = "light"
-primaryColor = "#0969da"
-backgroundColor = "#ffffff"
-secondaryBackgroundColor = "#f6f8fa"
-textColor = "#1f2328"
-font = "sans serif"
-
-[browser]
-gatherUsageStats = false
-
-[server]
-headless = true
-"""
-
 if "theme" not in st.session_state:
-    config_path = STREAMLIT_DIR / "config.toml"
-    if config_path.exists():
-        content = config_path.read_text()
-        st.session_state.theme = "light" if 'base = "light"' in content else "dark"
-    else:
-        st.session_state.theme = "dark"
+    st.session_state.theme = "dark"
 
-
-def apply_theme(mode: str):
-    config_path = STREAMLIT_DIR / "config.toml"
-    config_path.write_text(DARK_THEME if mode == "dark" else LIGHT_THEME)
+LIGHT_OVERRIDE = """
+<style>
+.stApp, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
+    background-color: #ffffff !important;
+    color: #1f2328 !important;
+}
+[data-testid="stSidebar"], [data-testid="stSidebar"] > div {
+    background-color: #f6f8fa !important;
+    color: #1f2328 !important;
+}
+[data-testid="stHeader"] {
+    background-color: #ffffff !important;
+}
+.stMarkdown, .stMarkdown p, .stMarkdown li, .stMarkdown h1, .stMarkdown h2,
+.stMarkdown h3, .stMarkdown h4, .stCaption, label, .stRadio label,
+[data-testid="stMetricValue"], [data-testid="stMetricLabel"] {
+    color: #1f2328 !important;
+}
+.stTextInput input, .stTextArea textarea, .stSelectbox > div > div {
+    background-color: #f6f8fa !important;
+    color: #1f2328 !important;
+    border-color: #d1d9e0 !important;
+}
+[data-testid="stExpander"] {
+    background-color: #f6f8fa !important;
+    border-color: #d1d9e0 !important;
+}
+[data-testid="stExpander"] summary, [data-testid="stExpander"] p {
+    color: #1f2328 !important;
+}
+hr { border-color: #d1d9e0 !important; }
+.stTabs [data-baseweb="tab-list"] { border-color: #d1d9e0 !important; }
+.stTabs [data-baseweb="tab"] { color: #656d76 !important; }
+.stTabs [aria-selected="true"] { color: #1f2328 !important; }
+.stAlert { color: #1f2328 !important; }
+[data-testid="stFileUploader"] { border-color: #d1d9e0 !important; }
+[data-testid="stFileUploader"] label { color: #1f2328 !important; }
+</style>
+"""
 
 
 # ---------------------------------------------------------------------------
@@ -216,6 +214,9 @@ CUSTOM_CSS = """
 
 st.markdown(CUSTOM_CSS, unsafe_allow_html=True)
 
+if st.session_state.theme == "light":
+    st.markdown(LIGHT_OVERRIDE, unsafe_allow_html=True)
+
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -308,10 +309,8 @@ with st.sidebar:
     is_dark = st.session_state.theme == "dark"
     toggle_label = "Switch to Light Mode" if is_dark else "Switch to Dark Mode"
     if st.button(toggle_label, use_container_width=True):
-        new_theme = "light" if is_dark else "dark"
-        st.session_state.theme = new_theme
-        apply_theme(new_theme)
-        st.toast(f"Switched to {new_theme} mode. Refresh the page (F5) to apply.", icon="🎨")
+        st.session_state.theme = "light" if is_dark else "dark"
+        st.rerun()
 
     st.divider()
 
