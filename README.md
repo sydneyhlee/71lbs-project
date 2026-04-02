@@ -1,158 +1,122 @@
 # 71lbs Contract Extraction Pipeline
 
-Converts FedEx and UPS contract PDFs into structured JSON with confidence scoring, validation, and a review UI.
-
-Built for [71lbs](https://www.71lbs.com/) by VCG.
+Extracts structured pricing data from FedEx and UPS shipping contract PDFs.
 
 ---
 
-## Setup
+## Get started (3 commands)
 
 ```bash
 git clone https://github.com/sydneyhlee/71lbs-project.git
 cd 71lbs-project
 git checkout aidan-merge
+```
+
+```bash
 pip install -r requirements.txt
 ```
-
-That's it. No API keys, no Docker, no database. Everything runs locally out of the box.
-
----
-
-## Usage
-
-### Extract a contract PDF (CLI)
-
-```bash
-python run_pipeline.py "path/to/contract.pdf"
-```
-
-This runs the full pipeline (parse, extract, validate, score) and saves a JSON result to `extraction/test_outputs/`.
-
-To save to a specific file:
-
-```bash
-python run_pipeline.py "path/to/contract.pdf" --output result.json
-```
-
-### Launch the review UI
 
 ```bash
 python run_ui.py
 ```
 
-Opens at **http://localhost:8501**. From here you can:
+Open **http://localhost:8501** in your browser. That's it.
 
-- **Upload** a PDF and extract contract data
-- **Review** extractions with confidence scores for every field
-- **Approve / Reject** extractions
-- **Download** approved results as JSON
-- **Toggle dark / light mode** from the sidebar
+---
 
-### Parse-only mode (no extraction)
+## What to do in the UI
 
-```bash
-python run_ingestion.py "path/to/contract.pdf"
-```
+1. **Upload Contract** -- drag a FedEx or UPS contract PDF into the upload area
+2. **Review Queue** -- see every extracted field with a confidence score, flag anything that looks wrong
+3. **Approved** -- download the final JSON for approved contracts
 
-Shows raw page structure, sections, and table previews without running extraction.
+The UI has a **dark/light mode toggle** in the sidebar. Click it, then refresh the page (F5) to apply.
 
-### Start the REST API
+---
 
-```bash
-python run_api.py
-```
+## What kind of PDFs to upload
 
-FastAPI server at **http://localhost:8000**. Interactive docs at `/docs`.
+This tool is for **carrier pricing agreements** -- the contracts that define your shipping rates:
 
-| Endpoint | Method | Description |
-|---|---|---|
-| `/api/upload` | POST | Upload and extract a PDF |
-| `/api/extractions` | GET | List all extractions |
-| `/api/extractions/{id}` | GET | Get one extraction |
-| `/api/extractions/{id}/approve` | POST | Approve an extraction |
-| `/api/extractions/{id}/reject` | POST | Reject an extraction |
-| `/api/extractions/{id}/export` | GET | Export as JSON |
-| `/api/extractions/{id}` | DELETE | Delete an extraction |
+- Pricing agreements (e.g. `FDX PricingAgreement.pdf`)
+- Amendments and addendums (e.g. `FDX Apr25 1.pdf`)
+- Rate schedules
+
+This is **not** for invoices, shipment receipts, or tracking documents. Those are a different system.
 
 ---
 
 ## What it extracts
 
-| Category | Fields |
+| Category | What the pipeline pulls out |
 |---|---|
-| **Metadata** | Customer name, account number, agreement number, effective date, term dates, carrier |
-| **Service Terms** | Service type, zones, discount percentages, weight conditions |
-| **Surcharges** | Surcharge name, modification type, discount percentage |
-| **DIM Rules** | Dimensional weight divisors, applicable services |
+| **Metadata** | Customer name, account number, agreement number, dates, carrier |
+| **Service Terms** | Service type, zone pricing, discount percentages |
+| **Surcharges** | Surcharge names, modifications, discount percentages |
+| **DIM Rules** | Dimensional weight divisors, which services they apply to |
 | **Special Terms** | Money-back guarantee waivers, payment terms, earned discounts |
-| **Amendments** | Amendment number, effective date, superseded version, modified terms |
+| **Amendments** | Amendment numbers, effective dates, what they change |
 
-Every field includes a **confidence score**, **source page number**, and **source text snippet**.
+Every field has a **confidence score** (0-100%). Fields below 70% are flagged for human review.
 
 ---
 
-## How it works
+## CLI usage (optional)
 
-```
-PDF  -->  Parse (pdfplumber + OCR fallback)
-     -->  Classify sections (pricing, surcharge, terms, boilerplate)
-     -->  Extract data (deterministic regex + table parsing)
-     -->  LLM fallback (only if deterministic extraction is sparse)
-     -->  Validate (missing fields, invalid ranges, duplicates)
-     -->  Score confidence (field-level + overall)
-     -->  Resolve amendments (merge chronologically)
-     -->  JSON output
+If you want to run extraction from the command line instead of the UI:
+
+```bash
+python run_pipeline.py "path/to/contract.pdf"
 ```
 
-The pipeline is **deterministic-first**. LLM is only called when table/regex extraction finds fewer than ~30 data points. No LLM is needed for most well-structured contracts.
+Save to a specific output file:
+
+```bash
+python run_pipeline.py "path/to/contract.pdf" --output result.json
+```
+
+Parse-only mode (no extraction, just shows document structure):
+
+```bash
+python run_ingestion.py "path/to/contract.pdf"
+```
+
+REST API:
+
+```bash
+python run_api.py
+```
+
+Then open **http://localhost:8000/docs** for the interactive API docs.
 
 ---
 
 ## Project structure
 
 ```
-run_pipeline.py            Full extraction CLI
-run_ingestion.py           Parse-only CLI
-run_api.py                 FastAPI server
-app/review/ui.py           Streamlit review UI
+run_ui.py              Start the review UI
+run_pipeline.py        CLI extraction
+run_ingestion.py       CLI parse-only
+run_api.py             REST API server
 
-ingestion/                 PDF parsing
-  pdf_reader.py              Text extraction + OCR fallback
-  layout_parser.py           Header / table / paragraph detection
-  section_classifier.py      Section type classification
-  document.py                Data models
-
-extraction/                Structured data extraction
-  extractor.py               Main extraction engine
-  table_parser.py            Deterministic table parsing
-  metadata_extractor.py      Metadata regex extraction
-
-validation/                Quality checks
-  validators.py              Issue detection
-  confidence.py              Confidence scoring
-  normalization.py           Service name / percent normalization
-  models.py                  Issue and summary models
-  issues.py                  Issue code constants
-
-vendors/                   Carrier detection (FedEx, UPS, 3PL, Freight)
-app/api/                   REST API routes
-app/storage/               JSON file storage
-app/pipeline/              Pipeline orchestration
-domain_models/             Future DB-ready Pydantic models
+ingestion/             PDF parsing (text + OCR fallback)
+extraction/            Data extraction (regex + tables + LLM fallback)
+validation/            Confidence scoring and issue detection
+vendors/               Carrier detection (FedEx, UPS, 3PL, Freight)
+app/review/ui.py       Streamlit review UI
+app/api/               FastAPI REST endpoints
+app/storage/           JSON file storage
 ```
 
 ---
 
 ## Optional: LLM fallback
 
-If you want LLM-assisted extraction for messy or scanned PDFs:
+The pipeline works without any LLM. It only calls an LLM when the deterministic extraction doesn't find enough data (rare for well-structured contracts).
+
+If you want LLM support:
 
 ```bash
 ollama pull llama3.2
 cp .env.example .env
 ```
-
-Edit `.env` to point to your LLM endpoint. Works with Ollama, OpenAI, or Groq.
-
-The pipeline works without an LLM. It only calls one when deterministic extraction doesn't find enough data.
