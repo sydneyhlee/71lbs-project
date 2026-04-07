@@ -19,6 +19,7 @@ import pdfplumber
 logger = logging.getLogger(__name__)
 
 _MIN_TEXT_THRESHOLD = 50
+_MAX_PAGES_TO_PROCESS = 150
 
 
 @dataclass
@@ -67,7 +68,16 @@ def _extract_with_pdfplumber(pdf_path: Path) -> ParsedDocument:
     try:
         with pdfplumber.open(pdf_path) as pdf:
             doc.total_pages = len(pdf.pages)
-            for i, page in enumerate(pdf.pages, start=1):
+            pages_to_process = min(doc.total_pages, _MAX_PAGES_TO_PROCESS)
+            if doc.total_pages > _MAX_PAGES_TO_PROCESS:
+                warning = (
+                    f"Large PDF ({doc.total_pages} pages). "
+                    f"Processed first {_MAX_PAGES_TO_PROCESS} pages only."
+                )
+                doc.errors.append(warning)
+                logger.warning("%s %s", warning, pdf_path.name)
+
+            for i, page in enumerate(pdf.pages[:pages_to_process], start=1):
                 text = page.extract_text() or ""
                 tables: List[TableData] = []
                 for raw_table in page.extract_tables() or []:
@@ -112,8 +122,23 @@ def _extract_with_ocr(pdf_path: Path) -> ParsedDocument:
         return doc
 
     try:
-        images = convert_from_path(pdf_path)
-        doc.total_pages = len(images)
+        with pdfplumber.open(pdf_path) as pdf:
+            doc.total_pages = len(pdf.pages)
+
+        pages_to_process = min(doc.total_pages, _MAX_PAGES_TO_PROCESS)
+        if doc.total_pages > _MAX_PAGES_TO_PROCESS:
+            warning = (
+                f"Large PDF ({doc.total_pages} pages). "
+                f"OCR processed first {_MAX_PAGES_TO_PROCESS} pages only."
+            )
+            doc.errors.append(warning)
+            logger.warning("%s %s", warning, pdf_path.name)
+
+        images = convert_from_path(
+            pdf_path,
+            first_page=1,
+            last_page=pages_to_process,
+        )
         for i, img in enumerate(images, start=1):
             text = pytesseract.image_to_string(img)
             doc.pages.append(PageContent(

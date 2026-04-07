@@ -544,10 +544,20 @@ _AMENDMENT_DOC_PATTERN = re.compile(
     re.IGNORECASE,
 )
 
-_SUPERSEDES_PATTERN = re.compile(
-    r"(?:supersedes|replaces)\s+(?:Pricing\s+Proposal\s+)?(?:Version\s+)?(\d+)",
-    re.IGNORECASE,
-)
+_SUPERSEDES_PATTERNS = [
+    re.compile(
+        r"(?:supersedes|replaces)\s+(?:Pricing\s+Proposal\s+)?(?:Version\s+)?(\d+)",
+        re.IGNORECASE,
+    ),
+    re.compile(
+        r"supersedes\s+all\s+prior\s+(.+?)\s+pricing",
+        re.IGNORECASE,
+    ),
+    re.compile(
+        r"(?:replaces?|replaced)\s+(?:with\s+)?the\s+pricing\s+(?:contained|in)\s",
+        re.IGNORECASE,
+    ),
+]
 
 
 def _detect_amendment_info(full_text: str) -> Optional[Amendment]:
@@ -564,8 +574,30 @@ def _detect_amendment_info(full_text: str) -> Optional[Amendment]:
         full_text[:2000], re.IGNORECASE,
     )
 
-    supersedes_m = _SUPERSEDES_PATTERN.search(full_text)
-    supersedes = supersedes_m.group(1) if supersedes_m else None
+    supersedes = None
+    supersedes_conf = 0.0
+    supersedes_src = None
+
+    for sp in _SUPERSEDES_PATTERNS:
+        sm = sp.search(full_text)
+        if sm:
+            supersedes = sm.group(1) if sm.lastindex else "All prior pricing"
+            supersedes_conf = 0.80
+            supersedes_src = full_text[max(0, sm.start() - 10):sm.end() + 10].strip()[:120]
+            break
+
+    if not supersedes and agreement_nums:
+        num = agreement_nums[0]
+        parts = num.rsplit("-", 1)
+        if len(parts) == 2 and parts[1].isdigit():
+            base = parts[0]
+            ver = int(parts[1])
+            if ver > 1:
+                supersedes = f"{base}-{ver - 1:02d}"
+            else:
+                supersedes = f"{base} (original)"
+            supersedes_conf = 0.80
+            supersedes_src = f"Derived from amendment number {num}"
 
     from extraction.metadata_extractor import _EFFECTIVE_DATE_PATTERNS
     eff_date = None
@@ -587,8 +619,8 @@ def _detect_amendment_info(full_text: str) -> Optional[Amendment]:
             source_text=eff_date if eff_date else None,
         ),
         supersedes_version=ev(
-            value=supersedes, confidence=0.75 if supersedes else 0.0,
-            source_text=f"supersedes {supersedes}" if supersedes else None,
+            value=supersedes, confidence=supersedes_conf,
+            source_text=supersedes_src,
         ),
         description=ev(
             value="FedEx Transportation Services Agreement Amendment",

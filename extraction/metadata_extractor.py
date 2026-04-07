@@ -147,13 +147,13 @@ _PAYMENT_DAYS_PATTERNS = [
     # "Payment is due within the following number of days ... Attachment: 15"
     re.compile(
         r"Payment\s+is\s+due\s+within\s+the\s+following\s+number\s+of\s+days"
-        r".*?(?:Attachment|Credit\s+Term)\s*[:\s]\s*(\d+)",
-        re.IGNORECASE | re.DOTALL,
+        r"[\s\S]{0,500}?(?:Attachment|Credit\s+Term)\s*[:\s]\s*(\d+)",
+        re.IGNORECASE,
     ),
-    # "Payment is due within ... : 30 days"
+    # "Payment is due within ... : 30 days" (limited to 200 chars to avoid backtracking)
     re.compile(
-        r"Payment\s+is\s+due\s+within.*?(\d+)\s*(?:days?|calendar)",
-        re.IGNORECASE | re.DOTALL,
+        r"Payment\s+is\s+due\s+within[^\n]{0,200}?(\d+)\s*(?:days?|calendar)",
+        re.IGNORECASE,
     ),
     # UPS Addendum A: "PaymentTerms(Days)" header, then account lines ending with days
     re.compile(
