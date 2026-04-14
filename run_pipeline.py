@@ -6,6 +6,7 @@ Runs the full pipeline: PDF -> Parse -> Extract -> Validate -> Output JSON
 Usage:
     python run_pipeline.py <path_to_pdf>
     python run_pipeline.py <path_to_pdf> --output result.json
+    python run_pipeline.py a.pdf b.pdf c.pdf --output batch.json
 """
 
 from __future__ import annotations
@@ -147,22 +148,56 @@ def save_output(result: dict, output_path: str):
     logger.info("Output saved to: %s", output_path)
 
 
+def _combine_batch_results(
+    successes: list[dict], failures: list[dict]
+) -> dict:
+    """Wrap multiple per-file results in one JSON object."""
+    return {
+        "batch_version": 1,
+        "document_count": len(successes),
+        "documents": successes,
+        "failed": failures,
+    }
+
+
 def main():
     parser = argparse.ArgumentParser(
-        description="Run unified contract extraction pipeline on a PDF"
+        description="Run unified contract extraction pipeline on one or more PDFs"
     )
-    parser.add_argument("pdf_path", help="Path to a PDF file")
+    parser.add_argument(
+        "pdf_paths",
+        nargs="+",
+        help="Path(s) to one or more PDF files",
+    )
     parser.add_argument("--output", "-o", help="Output JSON file path")
     args = parser.parse_args()
 
-    result = run_extraction(args.pdf_path)
+    paths = args.pdf_paths
+    successes: list[dict] = []
+    failures: list[dict] = []
+
+    for pdf_path in paths:
+        result = run_extraction(pdf_path)
+        if result.get("error"):
+            failures.append({"path": pdf_path, "error": result["error"]})
+        else:
+            successes.append(result)
+
+    if len(paths) == 1:
+        result = successes[0] if successes else {"error": failures[0]["error"]}
+    else:
+        result = _combine_batch_results(successes, failures)
 
     if args.output:
         save_output(result, args.output)
     else:
         out_dir = Path("extraction/test_outputs")
         out_dir.mkdir(exist_ok=True)
-        out_path = out_dir / (Path(args.pdf_path).stem + "_extraction.json")
+        if len(paths) == 1:
+            stem = Path(paths[0]).stem
+            out_path = out_dir / f"{stem}_extraction.json"
+        else:
+            out_path = out_dir / "batch_extraction.json"
         save_output(result, str(out_path))
 
 

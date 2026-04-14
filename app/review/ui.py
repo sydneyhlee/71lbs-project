@@ -9,6 +9,7 @@ from __future__ import annotations
 import json
 import sys
 import tempfile
+from collections import defaultdict
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
@@ -17,6 +18,7 @@ import streamlit as st
 
 from app.models.schema import ContractExtraction, ExtractionStatus, ExtractedValue
 from app.pipeline.ingestion import ingest_pdf
+from app.pipeline.resolver import resolve_active_terms
 from app.storage.store import (
     approve_extraction,
     delete_extraction,
@@ -275,18 +277,36 @@ def metric_html(value: str, label: str) -> str:
 def fmt(ev: ExtractedValue) -> str:
     val = ev.effective()
     if isinstance(val, list):
+        if not val:
+            return "Item not found"
         return ", ".join(str(v) for v in val)
     if val is None:
-        return "-"
+        return "Item not found"
+    if isinstance(val, str) and not val.strip():
+        return "Item not found"
     return str(val)
+
+
+def _is_empty_effective_value(ev: ExtractedValue) -> bool:
+    val = ev.effective()
+    if val is None:
+        return True
+    if isinstance(val, str) and not val.strip():
+        return True
+    if isinstance(val, list) and not val:
+        return True
+    return False
 
 
 def field_html(label: str, ev: ExtractedValue) -> str:
     val = fmt(ev)
-    pct = int(ev.confidence * 100)
-    cls = conf_cls(ev.confidence)
+    is_empty = _is_empty_effective_value(ev)
+    pct_text = "Item not found" if is_empty else f"{int(ev.confidence * 100)}%"
+    cls = "conf-mid" if is_empty else conf_cls(ev.confidence)
     flag = ""
-    if ev.needs_review:
+    if is_empty:
+        flag = ""
+    elif ev.needs_review:
         flag = '<span class="issue-flag">REVIEW</span>'
     elif ev.confidence < 0.7:
         flag = '<span class="issue-flag">LOW</span>'
@@ -294,7 +314,7 @@ def field_html(label: str, ev: ExtractedValue) -> str:
         f'<div class="field-row">'
         f'<div class="field-label">{label}</div>'
         f'<div class="field-value">{val}</div>'
-        f'<div class="field-conf"><span class="{cls}">{pct}%</span>{flag}</div>'
+        f'<div class="field-conf"><span class="{cls}">{pct_text}</span>{flag}</div>'
         f'</div>'
     )
 
@@ -306,6 +326,108 @@ def table_html(headers: list[str], rows: list[list[str]]) -> str:
         tds = "".join(f"<td>{c}</td>" for c in row)
         trs += f"<tr>{tds}</tr>"
     return f'<table class="data-table"><thead><tr>{ths}</tr></thead><tbody>{trs}</tbody></table>'
+
+
+def _normalized_company_key(name: str) -> str:
+    parts = "".join(ch.lower() if ch.isalnum() else " " for ch in name).split()
+    return " ".join(parts)
+
+
+def _display_company_name(extraction: ContractExtraction) -> str:
+    raw = extraction.metadata.customer_name.effective()
+    text = str(raw).strip() if raw is not None else ""
+    return text or "Unknown Company"
+
+
+def _is_non_empty_ev(ev: ExtractedValue) -> bool:
+    value = ev.effective()
+    if value is None:
+        return False
+    if isinstance(value, str) and not value.strip():
+        return False
+    if isinstance(value, list) and not value:
+        return False
+    return True
+
+
+def _pick_best_extracted_value(values: list[ExtractedValue]) -> ExtractedValue:
+    non_empty = [v for v in values if _is_non_empty_ev(v)]
+    pool = non_empty if non_empty else values
+    best = max(pool, key=lambda v: v.confidence, default=ExtractedValue())
+    return best.model_copy(deep=True)
+
+
+def _dedupe_model_list(items: list) -> list:
+    seen = set()
+    unique = []
+    for item in items:
+        key = item.model_dump_json()
+        if key in seen:
+            continue
+        seen.add(key)
+        unique.append(item)
+    return unique
+
+
+def _merge_company_group(extractions: list[ContractExtraction], company_name: str) -> ContractExtraction:
+    merged = ContractExtraction()
+    merged.file_name = f"{company_name} ({len(extractions)} files).pdf"
+    merged.file_path = " | ".join(
+        sorted({e.file_path for e in extractions if e.file_path})
+    )
+    merged.status = ExtractionStatus.PENDING
+
+    for field_name in type(merged.metadata).model_fields:
+        candidates = [getattr(ext.metadata, field_name) for ext in extractions]
+        setattr(merged.metadata, field_name, _pick_best_extracted_value(candidates))
+
+    merged.service_terms = _dedupe_model_list(
+        [term for ext in extractions for term in ext.service_terms]
+    )
+    merged.surcharges = _dedupe_model_list(
+        [s for ext in extractions for s in ext.surcharges]
+    )
+    merged.dim_rules = _dedupe_model_list(
+        [rule for ext in extractions for rule in ext.dim_rules]
+    )
+    merged.special_terms = _dedupe_model_list(
+        [term for ext in extractions for term in ext.special_terms]
+    )
+    merged.amendments = _dedupe_model_list(
+        [amd for ext in extractions for amd in ext.amendments]
+    )
+
+    merged = score_extraction(merged)
+    merged = resolve_active_terms(merged)
+    return merged
+
+
+def _collapse_uploads_by_company(
+    extractions: list[ContractExtraction],
+) -> tuple[list[ContractExtraction], list[dict]]:
+    grouped: dict[str, list[ContractExtraction]] = defaultdict(list)
+    names_by_key: dict[str, str] = {}
+    for ext in extractions:
+        company = _display_company_name(ext)
+        key = _normalized_company_key(company)
+        grouped[key].append(ext)
+        names_by_key.setdefault(key, company)
+
+    collapsed: list[ContractExtraction] = []
+    merged_info: list[dict] = []
+    for key, group in grouped.items():
+        if len(group) == 1:
+            collapsed.append(group[0])
+            continue
+        merged = _merge_company_group(group, names_by_key[key])
+        update_extraction(merged)
+        for ext in group:
+            delete_extraction(ext.id)
+        collapsed.append(merged)
+        merged_info.append(
+            {"company": names_by_key[key], "files_merged": len(group), "result_id": merged.id}
+        )
+    return collapsed, merged_info
 
 
 # ---------------------------------------------------------------------------
@@ -351,8 +473,9 @@ with st.sidebar:
 if page == "Upload Pricing Agreement":
     st.title("Upload Pricing Agreement")
     st.markdown(
-        "Upload a **FedEx or UPS pricing agreement** PDF to extract structured "
-        "pricing data (discounts, surcharges, DIM rules, service terms)."
+        "Upload one or more **FedEx or UPS pricing agreement** PDFs to extract structured "
+        "pricing data (discounts, surcharges, DIM rules, service terms). "
+        "Multiple files can be downloaded as **one combined JSON**."
     )
 
     st.info(
@@ -363,72 +486,162 @@ if page == "Upload Pricing Agreement":
         icon="📋",
     )
 
-    uploaded = st.file_uploader(
-        "Drag and drop a pricing agreement PDF here",
+    uploaded_files = st.file_uploader(
+        "Drag and drop pricing agreement PDF(s) here",
         type=["pdf"],
-        accept_multiple_files=False,
+        accept_multiple_files=True,
     )
 
-    if uploaded:
-        st.markdown(f"**File:** `{uploaded.name}` ({uploaded.size / 1024:.0f} KB)")
+    if uploaded_files:
+        total_kb = sum(f.size for f in uploaded_files) / 1024
+        names_line = ", ".join(f"`{f.name}`" for f in uploaded_files)
+        st.markdown(
+            f"**{len(uploaded_files)} file(s):** {names_line} &nbsp; (~{total_kb:.0f} KB total)"
+        )
 
         if st.button("Extract Pricing Data", type="primary", use_container_width=True):
             progress = st.progress(0, text="Starting extraction pipeline...")
-
-            with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
-                tmp.write(uploaded.getvalue())
-                tmp_path = tmp.name
+            extractions: list[ContractExtraction] = []
+            failures: list[dict] = []
+            n = len(uploaded_files)
 
             try:
-                progress.progress(20, text="Parsing PDF...")
-                extraction = ingest_pdf(tmp_path)
+                for i, up_file in enumerate(uploaded_files):
+                    pct = int(20 + 75 * (i / max(n, 1)))
+                    progress.progress(pct, text=f"Processing {i + 1}/{n}: {up_file.name}...")
+                    with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
+                        tmp.write(up_file.getvalue())
+                        tmp_path = tmp.name
+                    try:
+                        extractions.append(ingest_pdf(tmp_path))
+                    except Exception as exc:
+                        failures.append({"name": up_file.name, "error": str(exc)})
+                    finally:
+                        Path(tmp_path).unlink(missing_ok=True)
+
                 progress.progress(100, text="Complete!")
 
-                st.success(
-                    f"Extraction complete! "
-                    f"Overall confidence: **{extraction.overall_confidence:.0%}**"
-                )
-
-                cols = st.columns(4)
-                cols[0].markdown(metric_html(f"{extraction.overall_confidence:.0%}", "Confidence"), unsafe_allow_html=True)
-                cols[1].markdown(metric_html(str(len(extraction.service_terms)), "Service Terms"), unsafe_allow_html=True)
-                cols[2].markdown(metric_html(str(len(extraction.surcharges)), "Surcharges"), unsafe_allow_html=True)
-                cols[3].markdown(metric_html(str(extraction.fields_needing_review), "Needs Review"), unsafe_allow_html=True)
-
-                if extraction.fields_needing_review > 0:
-                    st.warning(
-                        f"**{extraction.fields_needing_review}** field(s) have low confidence "
-                        f"and may need manual review. Go to **Review Queue** to inspect.",
-                        icon="⚠️",
+                if extractions:
+                    st.success(
+                        f"Finished **{len(extractions)}** extraction(s)."
+                        + (f" **{len(failures)}** failed." if failures else "")
                     )
+                for fail in failures:
+                    st.error(f"**{fail['name']}:** {fail['error']}")
 
-                st.markdown("#### Extracted Metadata")
-                meta = extraction.metadata
-                html = ""
-                for fname in meta.model_fields:
-                    ev = getattr(meta, fname)
-                    html += field_html(fname.replace("_", " ").title(), ev)
-                st.markdown(html, unsafe_allow_html=True)
+                if not extractions:
+                    progress.empty()
+                else:
+                    grouped_extractions, merged_info = _collapse_uploads_by_company(extractions)
+                    if merged_info:
+                        merged_names = ", ".join(
+                            f"{x['company']} ({x['files_merged']} files)"
+                            for x in merged_info
+                        )
+                        st.info(
+                            "Grouped uploads into one agreement per company: "
+                            f"{merged_names}"
+                        )
+                    extractions = grouped_extractions
 
-                st.divider()
-                st.info(
-                    f"Saved as `{extraction.id[:8]}...` -- "
-                    "go to **Review Queue** to review, approve, or reject.",
-                    icon="💾",
-                )
+                    if len(extractions) == 1:
+                        extraction = extractions[0]
+                        st.markdown("#### Summary")
+                        cols = st.columns(4)
+                        cols[0].markdown(
+                            metric_html(f"{extraction.overall_confidence:.0%}", "Confidence"),
+                            unsafe_allow_html=True,
+                        )
+                        cols[1].markdown(
+                            metric_html(str(len(extraction.service_terms)), "Service Terms"),
+                            unsafe_allow_html=True,
+                        )
+                        cols[2].markdown(
+                            metric_html(str(len(extraction.surcharges)), "Surcharges"),
+                            unsafe_allow_html=True,
+                        )
+                        cols[3].markdown(
+                            metric_html(str(extraction.fields_needing_review), "Needs Review"),
+                            unsafe_allow_html=True,
+                        )
+
+                        if extraction.fields_needing_review > 0:
+                            st.warning(
+                                f"**{extraction.fields_needing_review}** field(s) have low confidence "
+                                f"and may need manual review. Go to **Review Queue** to inspect.",
+                                icon="⚠️",
+                            )
+
+                        st.markdown("#### Extracted Metadata")
+                        meta = extraction.metadata
+                        html = ""
+                        for fname in meta.model_fields:
+                            ev = getattr(meta, fname)
+                            html += field_html(fname.replace("_", " ").title(), ev)
+                        st.markdown(html, unsafe_allow_html=True)
+
+                        st.download_button(
+                            "Download JSON",
+                            data=extraction.model_dump_json(indent=2),
+                            file_name=f"{extraction.file_name.replace('.pdf', '')}_extraction.json",
+                            mime="application/json",
+                            use_container_width=True,
+                            key="dl_single_upload",
+                        )
+                    else:
+                        st.markdown("#### Per-file summary")
+                        for ext in extractions:
+                            with st.expander(
+                                f"{ext.file_name} - {ext.overall_confidence:.0%} confidence",
+                                expanded=False,
+                            ):
+                                c1, c2, c3, c4 = st.columns(4)
+                                c1.caption("Confidence")
+                                c1.write(f"{ext.overall_confidence:.0%}")
+                                c2.caption("Service terms")
+                                c2.write(len(ext.service_terms))
+                                c3.caption("Surcharges")
+                                c3.write(len(ext.surcharges))
+                                c4.caption("Needs review")
+                                c4.write(ext.fields_needing_review)
+
+                        batch_payload = {
+                            "batch_version": 1,
+                            "document_count": len(extractions),
+                            "documents": [
+                                json.loads(e.model_dump_json()) for e in extractions
+                            ],
+                            "failed": failures,
+                        }
+                        st.download_button(
+                            "Download combined JSON",
+                            data=json.dumps(batch_payload, indent=2, default=str),
+                            file_name="batch_extraction.json",
+                            mime="application/json",
+                            use_container_width=True,
+                            key="dl_batch_upload",
+                        )
+
+                    st.divider()
+                    if len(extractions) == 1:
+                        ext_note = f"`{extractions[0].id[:8]}...`"
+                    else:
+                        ext_note = f"{len(extractions)} items"
+                    st.info(
+                        f"Saved {ext_note} - go to **Review Queue** to review, approve, or reject.",
+                        icon="💾",
+                    )
 
             except Exception as exc:
                 progress.empty()
                 st.error(f"Extraction failed: {exc}")
-            finally:
-                Path(tmp_path).unlink(missing_ok=True)
 
     else:
         st.markdown("")
         st.markdown(
             "<div style='text-align:center;padding:2.5rem 0;opacity:0.4'>"
             "<div style='font-size:3rem;margin-bottom:0.5rem'>📄</div>"
-            "<p>Drag and drop a pricing agreement PDF above, or click Browse files</p>"
+            "<p>Drag and drop one or more pricing agreement PDFs above, or click Browse files</p>"
             "</div>",
             unsafe_allow_html=True,
         )
