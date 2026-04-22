@@ -72,6 +72,19 @@ _INVOICE_NUMBER_PATTERN = re.compile(
 )
 
 
+def _is_ollama_base_url() -> bool:
+    url = (LLM_BASE_URL or "").lower()
+    return "localhost:11434" in url or "127.0.0.1:11434" in url
+
+
+def _is_groq_base_url() -> bool:
+    return "groq.com" in (LLM_BASE_URL or "").lower()
+
+
+def _supports_json_response_format() -> bool:
+    return not _is_ollama_base_url()
+
+
 # ---------------------------------------------------------------------------
 # Deterministic → Schema conversion
 # ---------------------------------------------------------------------------
@@ -218,6 +231,30 @@ def _is_likely_invoice(full_text: str) -> bool:
         ("Invoice Number" in head and "Invoice Date" in head)
         or ("Delivery Service Invoice" in head)
     )
+
+
+def _is_likely_non_contract_doc(full_text: str) -> bool:
+    """Detect obvious non-contract docs (e.g., SOW/proposals) to skip LLM fallback."""
+    head = full_text[:12000].lower()
+    non_contract_markers = [
+        "statement of work",
+        "sow",
+        "scope of work",
+        "master services agreement",
+        "proposal",
+        "project plan",
+    ]
+    contract_markers = [
+        "pricing agreement",
+        "carrier agreement",
+        "service terms",
+        "surcharge",
+        "fedex",
+        "ups",
+    ]
+    if any(m in head for m in non_contract_markers) and not any(m in head for m in contract_markers):
+        return True
+    return False
 
 
 def _extract_invoice_signals(
@@ -464,21 +501,47 @@ def _llm_fallback(text: str) -> Dict[str, Any]:
 
     try:
         from openai import OpenAI
-        client = OpenAI(base_url=LLM_BASE_URL, api_key=LLM_API_KEY)
-
-        response = client.chat.completions.create(
-            model=LLM_MODEL,
-            response_format={"type": "json_object"},
-            messages=[
-                {"role": "system", "content": _LLM_FALLBACK_PROMPT},
-                {"role": "user", "content": f"CONTRACT TEXT:\n\n{text[:8000]}"},
-            ],
-            temperature=0.1,
+        is_ollama = _is_ollama_base_url()
+        client = OpenAI(
+            base_url=LLM_BASE_URL,
+            api_key=LLM_API_KEY,
+            timeout=45 if is_ollama else None,
+            max_retries=0 if is_ollama else 2,
         )
-        raw = response.choices[0].message.content
-        return json.loads(raw)
+
+        create_kwargs = {
+            "model": LLM_MODEL,
+            "messages": [
+                {"role": "system", "content": _LLM_FALLBACK_PROMPT},
+                {"role": "user", "content": f"CONTRACT TEXT:\n\n{text[:5000] if is_ollama else text[:8000]}"},
+            ],
+            "temperature": 0.1,
+        }
+        if _supports_json_response_format():
+            create_kwargs["response_format"] = {"type": "json_object"}
+        else:
+            create_kwargs["extra_body"] = {"options": {"num_ctx": 512}}
+        response = client.chat.completions.create(**create_kwargs)
+        raw = (response.choices[0].message.content or "").strip()
+        try:
+            return json.loads(raw)
+        except Exception:
+            m = re.search(r"\{[\s\S]*\}", raw)
+            if m:
+                try:
+                    return json.loads(m.group(0))
+                except Exception:
+                    pass
+            raise
     except Exception as exc:
-        logger.error("LLM fallback failed: %s", exc)
+        msg = str(exc)
+        low = msg.lower()
+        if "429" in low or "rate limit" in low or "insufficient_quota" in low:
+            logger.error("LLM fallback provider returned 429/rate-limit: %s", msg)
+        elif "unauthorized" in low or "authentication" in low or "invalid api key" in low or "forbidden" in low:
+            logger.error("LLM fallback provider authentication error: %s", msg)
+        else:
+            logger.error("LLM fallback failed: %s", msg)
         return {}
 
 
@@ -789,7 +852,13 @@ def extract_contract_v2(
     )
 
     # --- Phase 5: LLM fallback for low-coverage documents ---
-    if deterministic_hits < 3 and not _is_likely_invoice(full_text):
+    if deterministic_hits < 3 and _is_likely_non_contract_doc(full_text):
+        logger.info(
+            "Phase 5: Low deterministic coverage (%d hits) but non-contract "
+            "document detected — skipping LLM fallback",
+            deterministic_hits,
+        )
+    elif deterministic_hits < 3 and not _is_likely_invoice(full_text):
         logger.info(
             "Phase 5: Low deterministic coverage (%d hits) — trying LLM fallback "
             "(provider: %s, model: %s)",

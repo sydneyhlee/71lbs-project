@@ -1,10 +1,4 @@
-"""
-Amendment resolver: merges amendments into a resolved "active terms" snapshot.
-
-When a contract has amendments, later amendments (by effective date) override
-earlier terms. This module builds a flattened view of what terms are currently
-active, preserving the full amendment history for audit.
-"""
+"""Amendment + multi-document supersession resolver."""
 
 from __future__ import annotations
 
@@ -12,8 +6,11 @@ import logging
 from datetime import date
 from typing import Any, Dict, List, Optional
 
+from pydantic import BaseModel
+
 from app.models.schema import (
     Amendment,
+    ExtractedValue,
     ContractExtraction,
     DIMRule,
     ServiceTerm,
@@ -22,6 +19,14 @@ from app.models.schema import (
 )
 
 logger = logging.getLogger(__name__)
+
+DOC_TYPE_PRIORITY = {
+    "amendment": 3,
+    "addendum": 2,
+    "pricing_addendum": 2,
+    "accessorial_addendum": 2,
+    "base_agreement": 1,
+}
 
 
 def _parse_date_safe(date_str: Optional[str]) -> Optional[date]:
@@ -65,7 +70,97 @@ def _special_key(s: SpecialTerm) -> str:
     return name.lower().strip()
 
 
-def resolve_active_terms(extraction: ContractExtraction) -> ContractExtraction:
+def _effective_date_for_doc(doc: ContractExtraction) -> str:
+    if doc.effective_date:
+        return doc.effective_date
+    md = doc.metadata.effective_date.effective()
+    return str(md) if md else "1900-01-01"
+
+
+def _doc_priority(doc: ContractExtraction) -> int:
+    return DOC_TYPE_PRIORITY.get((doc.document_type or "base_agreement").lower(), 1)
+
+
+def _overlay_extracted_value(base: ExtractedValue, overlay: ExtractedValue, overlay_doc: ContractExtraction) -> None:
+    new_val = overlay.effective()
+    if new_val in (None, "", []):
+        return
+    base.value = overlay.value
+    base.confidence = overlay.confidence
+    base.source_page = overlay.source_page
+    base.source_text = overlay.source_text
+    # Mark when an amendment controls the final value.
+    if (overlay_doc.document_type or "").lower() == "amendment":
+        note = f"Controlled by amendment {overlay_doc.file_name or overlay_doc.id}"
+        if base.confidence_rationale:
+            if note not in base.confidence_rationale:
+                base.confidence_rationale = f"{base.confidence_rationale}; {note}"
+        else:
+            base.confidence_rationale = note
+
+
+def _deep_overlay(base: Any, overlay: Any, overlay_doc: ContractExtraction) -> Any:
+    if isinstance(base, ExtractedValue) and isinstance(overlay, ExtractedValue):
+        _overlay_extracted_value(base, overlay, overlay_doc)
+        return base
+
+    if isinstance(base, BaseModel) and isinstance(overlay, BaseModel):
+        for field_name in type(base).model_fields:
+            if not hasattr(overlay, field_name):
+                continue
+            b_val = getattr(base, field_name)
+            o_val = getattr(overlay, field_name)
+            if isinstance(b_val, ExtractedValue) and isinstance(o_val, ExtractedValue):
+                _overlay_extracted_value(b_val, o_val, overlay_doc)
+            elif isinstance(b_val, BaseModel) and isinstance(o_val, BaseModel):
+                _deep_overlay(b_val, o_val, overlay_doc)
+            elif isinstance(b_val, dict) and isinstance(o_val, dict):
+                merged = _merge_dicts(b_val, o_val)
+                setattr(base, field_name, merged)
+            elif isinstance(b_val, list) and isinstance(o_val, list):
+                if o_val:
+                    setattr(base, field_name, o_val)
+            elif o_val not in (None, "", []):
+                setattr(base, field_name, o_val)
+        return base
+
+    if isinstance(base, dict) and isinstance(overlay, dict):
+        return _merge_dicts(base, overlay)
+
+    return overlay if overlay not in (None, "", []) else base
+
+
+def _merge_dicts(base: dict[str, Any], overlay: dict[str, Any]) -> dict[str, Any]:
+    out = dict(base)
+    for k, v in overlay.items():
+        if k not in out:
+            out[k] = v
+            continue
+        b = out[k]
+        if isinstance(b, dict) and isinstance(v, dict):
+            out[k] = _merge_dicts(b, v)
+        elif v not in (None, "", []):
+            out[k] = v
+    return out
+
+
+def _apply_fuel_expiration(resolved: ContractExtraction) -> None:
+    fs = resolved.fuel_surcharge
+    if not isinstance(fs, dict):
+        return
+    exp = fs.get("expiration_date")
+    if not exp:
+        return
+    exp_dt = _parse_date_safe(str(exp))
+    if not exp_dt:
+        return
+    if date.today() > exp_dt:
+        fs["discount_pct"] = 0.0
+        fs["note"] = "Fuel surcharge discount expired; defaulted to 0%."
+        resolved.fuel_surcharge = fs
+
+
+def _resolve_single_extraction(extraction: ContractExtraction) -> ContractExtraction:
     """
     Build an active_terms_snapshot by layering amendments on top of base terms.
 
@@ -140,4 +235,34 @@ def resolve_active_terms(extraction: ContractExtraction) -> ContractExtraction:
         len(active_service), len(active_surcharges),
         len(active_dim), len(active_special),
     )
+    _apply_fuel_expiration(extraction)
     return extraction
+
+
+def resolve_active_terms(
+    extraction_or_documents: ContractExtraction | List[ContractExtraction],
+) -> ContractExtraction:
+    """
+    Resolve active terms from either:
+      - a single extraction (base + amendments inside one doc), or
+      - a list of extraction docs (base + addenda + amendments).
+    """
+    if isinstance(extraction_or_documents, ContractExtraction):
+        return _resolve_single_extraction(extraction_or_documents)
+
+    documents = extraction_or_documents
+    if not documents:
+        raise ValueError("No documents to resolve")
+    if len(documents) == 1:
+        return _resolve_single_extraction(documents[0])
+
+    sorted_docs = sorted(
+        documents,
+        key=lambda d: (_effective_date_for_doc(d), _doc_priority(d)),
+    )
+    resolved = sorted_docs[0].model_copy(deep=True)
+    for doc in sorted_docs[1:]:
+        _deep_overlay(resolved, doc, doc)
+
+    _apply_fuel_expiration(resolved)
+    return _resolve_single_extraction(resolved)

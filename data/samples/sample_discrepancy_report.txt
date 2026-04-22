@@ -1,0 +1,32 @@
+71lbs Invoice Audit Report
+========================================================================
+Company: ARMOIRE
+Agreement ID: 0f8fad5b-d9cb-469f-a165-70867728950e
+Created At: 2026-04-22T00:00:00Z
+Invoice Files: invoice_week_14.pdf
+Discrepancies: 2
+
+[1] missing_discount
+  Invoice: 123456789
+  Transaction: 772233445566
+  Charge Type: FedEx Ground
+  Billed Amount: 24.90
+  Expected Amount: 20.17
+  Dollar Discrepancy: 4.73
+  Why: Invoice applied 38.00% discount but approved agreement expects 50.00%.
+  Confidence: 0.84
+  Invoice Source: Service line item with discount note
+  Agreement Source: FedEx Ground discount row
+
+[2] unsupported_fee
+  Invoice: 123456789
+  Transaction: 772233445577
+  Charge Type: Weekend Pickup Processing Fee
+  Billed Amount: 3.50
+  Expected Amount: Unknown
+  Dollar Discrepancy: Unknown
+  Why: Charge type not found in approved agreement terms.
+  Confidence: 0.56
+  Invoice Source: Weekend Pickup Processing Fee $3.50
+  Agreement Source: N/A
+

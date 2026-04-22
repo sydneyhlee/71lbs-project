@@ -15,6 +15,8 @@ from typing import List, Optional
 
 from app.config import EXTRACTED_DIR, APPROVED_DIR
 from app.models.schema import ContractExtraction, ExtractionStatus
+from app.pipeline.dedupe import dedupe_service_terms
+from app.pipeline.resolver import resolve_active_terms
 
 logger = logging.getLogger(__name__)
 
@@ -75,6 +77,9 @@ def approve_extraction(extraction_id: str) -> Optional[ContractExtraction]:
     if not extraction:
         return None
 
+    # Final pre-approval normalization: dedupe + resolved snapshot.
+    extraction = dedupe_service_terms(extraction)
+    extraction = resolve_active_terms(extraction)
     extraction.status = ExtractionStatus.APPROVED
     approved_path = _path_for(extraction_id, APPROVED_DIR)
     approved_path.write_text(

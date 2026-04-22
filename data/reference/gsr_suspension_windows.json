@@ -1,0 +1,11 @@
+[
+  {"carrier": "fedex", "start": "2022-11-21", "end": "2023-01-02", "reason": "Peak season GSR suspension"},
+  {"carrier": "ups", "start": "2022-11-21", "end": "2023-01-02", "reason": "Peak season GSR suspension"},
+  {"carrier": "fedex", "start": "2023-11-20", "end": "2024-01-02", "reason": "Peak season GSR suspension"},
+  {"carrier": "ups", "start": "2023-11-20", "end": "2024-01-02", "reason": "Peak season GSR suspension"},
+  {"carrier": "fedex", "start": "2024-11-25", "end": "2025-01-05", "reason": "Peak season GSR suspension"},
+  {"carrier": "ups", "start": "2024-11-25", "end": "2025-01-05", "reason": "Peak season GSR suspension"},
+  {"carrier": "fedex", "start": "2025-11-24", "end": "2026-01-04", "reason": "Peak season GSR suspension"},
+  {"carrier": "ups", "start": "2025-11-24", "end": "2026-01-04", "reason": "Peak season GSR suspension"}
+]
+

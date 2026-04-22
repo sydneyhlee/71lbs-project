@@ -19,6 +19,8 @@ from pathlib import Path
 
 from app.pipeline.pdf_parser import parse_pdf
 from app.pipeline.confidence import score_extraction
+from app.pipeline.dedupe import dedupe_service_terms
+from app.pipeline.llm_verifier import verify_extraction_with_llm
 from app.pipeline.resolver import resolve_active_terms
 from extraction.extractor import extract_contract_v2
 from validation.validators import validate_extraction, summarize_issues
@@ -40,9 +42,10 @@ def run_extraction(pdf_path: str) -> dict:
     1. Parse PDF (text extraction + OCR fallback)
     2. Detect carrier vendor
     3. Extract structured data (deterministic + LLM fallback)
-    4. Validate extraction and flag issues
-    5. Score confidence
-    6. Resolve amendments
+    4. Verify deterministic extraction with LLM corrections
+    5. Validate extraction and flag issues
+    6. Score confidence
+    7. Resolve amendments
     """
     path = Path(pdf_path)
     if not path.exists():
@@ -73,8 +76,13 @@ def run_extraction(pdf_path: str) -> dict:
         file_path=str(path),
     )
 
-    # Step 4: Validate
-    logger.info("Step 4/6: Validating extraction")
+    # Step 4: LLM verification
+    logger.info("Step 4/7: Verifying deterministic extraction with LLM")
+    extraction = verify_extraction_with_llm(extraction, doc)
+    extraction = dedupe_service_terms(extraction)
+
+    # Step 5: Validate
+    logger.info("Step 5/7: Validating extraction")
     issues = validate_extraction(extraction)
     summary = summarize_issues(issues)
     conf_breakdown = compute_confidence(extraction, issues)
@@ -83,12 +91,12 @@ def run_extraction(pdf_path: str) -> dict:
         summary.total_issues, summary.errors, summary.warnings, conf_breakdown.aggregate,
     )
 
-    # Step 5: Score confidence (field-level)
-    logger.info("Step 5/6: Scoring field-level confidence")
+    # Step 6: Score confidence (field-level)
+    logger.info("Step 6/7: Scoring field-level confidence")
     extraction = score_extraction(extraction)
 
-    # Step 6: Resolve amendments
-    logger.info("Step 6/6: Resolving amendments")
+    # Step 7: Resolve amendments
+    logger.info("Step 7/7: Resolving amendments")
     extraction = resolve_active_terms(extraction)
 
     result = extraction.model_dump()
@@ -152,11 +160,24 @@ def _combine_batch_results(
     successes: list[dict], failures: list[dict]
 ) -> dict:
     """Wrap multiple per-file results in one JSON object."""
+    diag_rows = [doc.get("verifier_diagnostics") or {} for doc in successes]
+    verifier_called = sum(1 for d in diag_rows if d.get("verifier_called"))
+    verifier_skipped = sum(1 for d in diag_rows if d.get("verifier_called") is False)
+    proposed = sum(int(d.get("corrections_proposed") or 0) for d in diag_rows)
+    accepted = sum(int(d.get("corrections_accepted") or 0) for d in diag_rows)
+    timeouts = sum(1 for d in diag_rows if d.get("verifier_timeout"))
     return {
         "batch_version": 1,
         "document_count": len(successes),
         "documents": successes,
         "failed": failures,
+        "verifier_diagnostics_summary": {
+            "documents_with_verifier_called": verifier_called,
+            "documents_skipped": verifier_skipped,
+            "corrections_proposed_total": proposed,
+            "corrections_accepted_total": accepted,
+            "verifier_timeouts": timeouts,
+        },
     }
 
 

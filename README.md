@@ -1,6 +1,8 @@
-# 71lbs Pricing Agreement Extraction
+# 71lbs Agreement + Invoice Audit
 
-Extracts structured pricing data from FedEx and UPS **pricing agreement** PDFs.
+Extracts structured pricing data from FedEx/UPS **pricing agreements**, routes
+through LLM verification + human approval, then audits invoice discrepancies
+against approved company terms.
 
 ---
 
@@ -22,17 +24,42 @@ After the last command, open **http://localhost:8501** in your browser. That's i
 
 ---
 
-## What to do in the UI
+## Configure `.env`
 
-1. **Upload Pricing Agreement** -- drag a FedEx or UPS pricing agreement PDF into the upload area
-2. **Review Queue** -- see every extracted field with a confidence score, flag anything that looks wrong
-3. **Approved** -- download the final JSON for approved agreements
+Create `.env` from `.env.example` and set:
+
+```env
+LLM_BASE_URL=https://api.groq.com/openai/v1
+LLM_API_KEY=gsk_your_groq_key_here
+LLM_MODEL=llama-3.3-70b-versatile
+```
+
+If `LLM_API_KEY` is missing, the verifier stage is skipped gracefully.
+
+---
+
+## Run the Streamlit app
+
+```bash
+python run_ui.py
+```
+
+Then open [http://localhost:8501](http://localhost:8501).
+
+---
+
+## UI tabs
+
+1. **Upload Pricing Agreement** - upload one or many contract PDFs (grouped by company)
+2. **Review Queue** - compare parser vs LLM-corrected values, then approve/reject/edit
+3. **Invoice Audit** - select an approved agreement, upload invoice files, run audit, export TXT/JSON
+4. **Parallel Study** - upload AI JSON + human CSV and compute precision/recall/F1 with FN export
 
 The UI has a **dark/light mode toggle** in the sidebar.
 
 ---
 
-## What kind of PDFs to upload
+## Agreement PDFs to upload
 
 This tool is **only** for **pricing agreements** -- the PDFs that define your negotiated shipping rates with FedEx or UPS.
 
@@ -46,22 +73,18 @@ This tool is **only** for **pricing agreements** -- the PDFs that define your ne
 - Shipment receipts
 - Tracking documents or shipping labels
 
-Invoices and receipts are completely different documents. This pipeline only understands pricing agreements.
+Use the **Invoice Audit** tab for invoice PDFs.
 
 ---
 
-## What it extracts
+## Stage flow
 
-| Category | What the pipeline pulls out |
-|---|---|
-| **Metadata** | Customer name, account number, agreement number, dates, carrier |
-| **Service Terms** | Service type, zone pricing, discount percentages |
-| **Surcharges** | Surcharge names, modifications, discount percentages |
-| **DIM Rules** | Dimensional weight divisors, which services they apply to |
-| **Special Terms** | Money-back guarantee waivers, payment terms, earned discounts |
-| **Amendments** | Amendment numbers, effective dates, what they change |
+1. Deterministic parser extracts structured JSON.
+2. Stage-2 LLM verifier reviews parser output and applies targeted corrections only.
+3. Human reviewer approves final agreement snapshot.
+4. Invoice audit compares invoice line items to approved agreement terms and classifies discrepancies.
 
-Every field has a **confidence score** (0-100%). Fields below 70% are flagged for human review.
+Every extracted field has confidence + provenance (`source_page`, `source_text`).
 
 ---
 
@@ -114,13 +137,55 @@ app/storage/           JSON file storage
 
 ---
 
-## Optional: LLM fallback
+## LLM provider (default: Groq Llama 3.3 70B)
 
-The pipeline works without any LLM 99.8% of the time. It only calls an LLM when the deterministic extraction doesn't find enough data (rare for well structured pricing agreements).
-
-If you want LLM support (open NEW terminal) run the following:
+Set your Groq key in `.env`:
 
 ```bash
-ollama pull llama3.2
 cp .env.example .env
 ```
+
+Then edit `.env`:
+
+```env
+LLM_BASE_URL=https://api.groq.com/openai/v1
+LLM_API_KEY=gsk_your_own_key_here
+LLM_MODEL=llama-3.3-70b-versatile
+```
+
+Get your key from [Groq Console](https://console.groq.com).
+Each user who downloads this project must generate their own API key and add it to `.env`.
+
+## Reference data refresh
+
+Run all refresh tasks:
+
+```bash
+python scripts/refresh_reference_data.py --task all
+```
+
+Or run individual scripts directly:
+
+```bash
+python scripts/scrape_fuel_surcharges.py
+python scripts/download_das_zips.py
+python scripts/download_zone_maps.py
+python scripts/download_service_guides.py
+```
+
+- Fuel: weekly
+- DAS ZIPs: quarterly
+- Zone/transit: quarterly
+- Service guides: annually (post-GRI)
+
+Each run writes timestamped versions under `data/reference/**/versions/`.
+
+## Invoice Ingestion Priority
+
+Invoice ingestion is now API-first (FedEx/UPS billing API) with PDF/CSV fallback:
+
+- Set optional env vars in `.env`:
+  - `FEDEX_BILLING_API_BASE_URL`, `FEDEX_BILLING_API_KEY`
+  - `UPS_BILLING_API_BASE_URL`, `UPS_BILLING_API_KEY`
+- In the **Invoice Audit** tab, provide carrier invoice IDs (optional) plus uploaded files.
+- Post-parse validation enforces required fields (`ship_date`, `service_code`, `rated_weight_lbs`) and stops audit runs for human review if missing.

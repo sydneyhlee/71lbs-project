@@ -222,11 +222,96 @@ _CARRIER_INDICATORS = {
 }
 
 
+_BAD_COMPANY_SNIPPETS = (
+    "do not pay",
+    "charges were submitted",
+    "your charges have been submitted",
+    "your bank account will be",
+    "invoice summary",
+    "delivery service invoice",
+    "have you seen the new bill payment platform",
+    "bill payment experience easier",
+    "total amount outstanding",
+    "invoice number",
+)
+
+
 def _clean_company_name(name: str) -> str:
     """Insert missing spaces before common suffixes in merged PDF text."""
+    name = re.sub(r"^UPSHC[-_]", "", name, flags=re.IGNORECASE)
+    name = re.sub(r"(?<=[a-z])(?=[A-Z])", " ", name)
     name = re.sub(r"(?<=[a-zA-Z])(LLC|INC|CORP|LTD|CO|LP)\b", r" \1", name)
     name = re.sub(r"(?<=[a-zA-Z])(Inc|Corp|Ltd)\.", r" \1.", name)
+    name = re.sub(r"\s{2,}", " ", name)
     return name.strip()
+
+
+def _is_valid_company_candidate(raw: str | None) -> bool:
+    if not raw:
+        return False
+    txt = " ".join(str(raw).split()).strip()
+    low = txt.lower()
+    words = txt.split()
+    if len(txt) < 3:
+        return False
+    if any(bad in low for bad in _BAD_COMPANY_SNIPPETS):
+        return False
+    # Reject obvious sentence-like captures.
+    if low.endswith(" to") or low.startswith("the ") or low.startswith("your "):
+        return False
+    if len(words) > 8:
+        return False
+
+    company_markers = ("llc", "inc", "corp", "ltd", "co", "company", "international", "holdings")
+    if any(marker in low for marker in company_markers):
+        return True
+
+    # Otherwise only allow concise proper-name style strings.
+    if len(words) <= 5 and all(re.match(r"^[A-Za-z0-9&.'-]+$", w) for w in words):
+        return True
+    return False
+
+
+def _extract_invoice_bill_to_name(
+    text: str, page_hint: Optional[int] = None
+) -> Optional[ExtractedValue]:
+    """
+    Invoice-safe fallback to capture billed customer names without taking
+    boilerplate lines like "Do not pay ... submitted to".
+    """
+    patterns = [
+        re.compile(r"(?:Bill(?:ed)?\s+To|Submitted\s+to)\s*[:\-][ \t]*([A-Z][A-Z0-9&.,' \-]{2,120})", re.IGNORECASE),
+        re.compile(r"(?:Submitted\s+to)\s+([A-Z][A-Z0-9&.,' \-]{2,120}\b(?:LLC|Inc\.?|Corp\.?|Ltd\.?|Company))", re.IGNORECASE),
+        re.compile(r"(?:Customer\s+Name)\s*[:\-][ \t]*([A-Z][A-Z0-9&.,' \-]{2,120})", re.IGNORECASE),
+    ]
+    for pat in patterns:
+        m = pat.search(text)
+        if not m:
+            continue
+        cand = _clean_company_name(m.group(1).strip())
+        if not _is_valid_company_candidate(cand):
+            continue
+        snippet = text[max(0, m.start() - 20):m.end() + 20].strip()
+        return ev(
+            value=cand,
+            confidence=0.72,
+            source_page=page_hint,
+            source_text=snippet[:120],
+            needs_review=True,
+        )
+    return None
+
+
+def _looks_like_account_number(raw: str | None) -> bool:
+    if not raw:
+        return False
+    txt = str(raw).strip()
+    if len(txt) < 6:
+        return False
+    # Require at least one digit to avoid values like "Invoice".
+    if not re.search(r"\d", txt):
+        return False
+    return True
 
 
 def _find_first(text: str, patterns: list, page_hint: Optional[int] = None) -> Optional[ExtractedValue]:
@@ -466,13 +551,20 @@ def extract_metadata(full_text: str, page_texts: Optional[dict] = None) -> Contr
     customer = _find_first(first_pages, _CUSTOMER_PATTERNS, page_hint)
 
     if customer:
-        customer = ev(
-            value=_clean_company_name(customer.value),
-            confidence=customer.confidence,
-            source_page=customer.source_page,
-            source_text=customer.source_text,
-            needs_review=customer.needs_review,
-        )
+        cleaned_customer = _clean_company_name(customer.value)
+        if _is_valid_company_candidate(cleaned_customer):
+            customer = ev(
+                value=cleaned_customer,
+                confidence=customer.confidence,
+                source_page=customer.source_page,
+                source_text=customer.source_text,
+                needs_review=customer.needs_review,
+            )
+        else:
+            customer = None
+
+    if not customer:
+        customer = _extract_invoice_bill_to_name(first_pages, page_hint)
 
     account = _find_first(full_text, _ACCOUNT_PATTERNS, page_hint)
 
@@ -489,6 +581,8 @@ def extract_metadata(full_text: str, page_texts: Optional[dict] = None) -> Contr
                 source_text=full_text[max(0, ups_acct.start() - 10):ups_acct.end() + 20][:120],
                 needs_review=True,
             )
+    if account and not _looks_like_account_number(account.value):
+        account = None
 
     agreement = _find_first(full_text, _AGREEMENT_PATTERNS, page_hint)
 

@@ -9,6 +9,10 @@ from __future__ import annotations
 import json
 import sys
 import tempfile
+import io
+import csv
+import uuid
+import subprocess
 from collections import defaultdict
 from pathlib import Path
 
@@ -17,8 +21,18 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 import streamlit as st
 
 from app.models.schema import ContractExtraction, ExtractionStatus, ExtractedValue
+from app.invoice.audit import (
+    render_discrepancy_text_report,
+    run_invoice_audit_from_files,
+    save_audit_report,
+)
 from app.pipeline.ingestion import ingest_pdf
 from app.pipeline.resolver import resolve_active_terms
+from app.reference.health import summarize_health
+from app.validation.parallel_study import (
+    ParallelStudyRecord,
+    compute_metrics,
+)
 from app.storage.store import (
     approve_extraction,
     delete_extraction,
@@ -287,6 +301,30 @@ def fmt(ev: ExtractedValue) -> str:
     return str(val)
 
 
+def _fmt_parser_value(ev: ExtractedValue) -> str:
+    v = ev.original_parser_value
+    if isinstance(v, list):
+        return ", ".join(str(x) for x in v) if v else "Item not found"
+    if v is None:
+        return "Item not found"
+    if isinstance(v, str) and not v.strip():
+        return "Item not found"
+    return str(v)
+
+
+def _fmt_with_correction(ev: ExtractedValue) -> str:
+    if ev.was_llm_corrected:
+        return f"{_fmt_parser_value(ev)} -> {fmt(ev)}"
+    return fmt(ev)
+
+
+def _first_correction_reason(evs: list[ExtractedValue]) -> str:
+    for ev in evs:
+        if ev.was_llm_corrected and ev.correction_reason:
+            return ev.correction_reason
+    return "-"
+
+
 def _is_empty_effective_value(ev: ExtractedValue) -> bool:
     val = ev.effective()
     if val is None:
@@ -310,10 +348,22 @@ def field_html(label: str, ev: ExtractedValue) -> str:
         flag = '<span class="issue-flag">REVIEW</span>'
     elif ev.confidence < 0.7:
         flag = '<span class="issue-flag">LOW</span>'
+    if ev.was_llm_corrected:
+        reason = ev.correction_reason or "LLM verification update"
+        conf_note = ev.confidence_rationale or ""
+        value_html = (
+            f'<div><strong>Parser:</strong> {_fmt_parser_value(ev)}</div>'
+            f'<div><strong>LLM:</strong> {val}</div>'
+            f'<div style="opacity:0.75;font-size:0.78rem;"><strong>Reason:</strong> {reason}</div>'
+            f'<div style="opacity:0.75;font-size:0.78rem;">{conf_note}</div>'
+        )
+    else:
+        value_html = val
+
     return (
         f'<div class="field-row">'
         f'<div class="field-label">{label}</div>'
-        f'<div class="field-value">{val}</div>'
+        f'<div class="field-value">{value_html}</div>'
         f'<div class="field-conf"><span class="{cls}">{pct_text}</span>{flag}</div>'
         f'</div>'
     )
@@ -370,32 +420,15 @@ def _dedupe_model_list(items: list) -> list:
 
 
 def _merge_company_group(extractions: list[ContractExtraction], company_name: str) -> ContractExtraction:
-    merged = ContractExtraction()
+    # Resolve package supersession across documents first (base/addendum/amendment).
+    resolved = resolve_active_terms(extractions)
+    merged = resolved.model_copy(deep=True)
+    merged.id = str(uuid.uuid4())
     merged.file_name = f"{company_name} ({len(extractions)} files).pdf"
     merged.file_path = " | ".join(
         sorted({e.file_path for e in extractions if e.file_path})
     )
     merged.status = ExtractionStatus.PENDING
-
-    for field_name in type(merged.metadata).model_fields:
-        candidates = [getattr(ext.metadata, field_name) for ext in extractions]
-        setattr(merged.metadata, field_name, _pick_best_extracted_value(candidates))
-
-    merged.service_terms = _dedupe_model_list(
-        [term for ext in extractions for term in ext.service_terms]
-    )
-    merged.surcharges = _dedupe_model_list(
-        [s for ext in extractions for s in ext.surcharges]
-    )
-    merged.dim_rules = _dedupe_model_list(
-        [rule for ext in extractions for rule in ext.dim_rules]
-    )
-    merged.special_terms = _dedupe_model_list(
-        [term for ext in extractions for term in ext.special_terms]
-    )
-    merged.amendments = _dedupe_model_list(
-        [amd for ext in extractions for amd in ext.amendments]
-    )
 
     merged = score_extraction(merged)
     merged = resolve_active_terms(merged)
@@ -448,7 +481,7 @@ with st.sidebar:
 
     page = st.radio(
         "Navigation",
-        ["Upload Pricing Agreement", "Review Queue", "Approved"],
+        ["Upload Pricing Agreement", "Review Queue", "Approved", "Invoice Audit", "Parallel Study"],
         label_visibility="collapsed",
     )
 
@@ -464,6 +497,49 @@ with st.sidebar:
     c1.metric("Pending", n_pending)
     c2.metric("Approved", n_approved)
     c3.metric("Rejected", n_rejected)
+
+    st.divider()
+    with st.expander("Developer Tools", expanded=False):
+        if st.button("Run E2E Test", use_container_width=True):
+            root = Path(__file__).resolve().parent.parent.parent
+            cmd = [sys.executable, "-m", "scripts.run_sample_e2e"]
+            proc = subprocess.run(
+                cmd,
+                cwd=str(root),
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+            output = (proc.stdout or "") + ("\n" + proc.stderr if proc.stderr else "")
+            st.session_state["e2e_output"] = output.strip()
+            for key in ("e2e_txt_path", "e2e_json_path"):
+                st.session_state.pop(key, None)
+            for line in (proc.stdout or "").splitlines():
+                if line.startswith("audit_txt="):
+                    st.session_state["e2e_txt_path"] = line.split("=", 1)[1].strip()
+                if line.startswith("audit_json="):
+                    st.session_state["e2e_json_path"] = line.split("=", 1)[1].strip()
+
+        if st.session_state.get("e2e_output"):
+            st.code(st.session_state["e2e_output"], language="text")
+            txt_path = st.session_state.get("e2e_txt_path")
+            json_path = st.session_state.get("e2e_json_path")
+            if txt_path and Path(txt_path).exists():
+                st.download_button(
+                    "Download E2E TXT",
+                    data=Path(txt_path).read_text(encoding="utf-8"),
+                    file_name=Path(txt_path).name,
+                    mime="text/plain",
+                    use_container_width=True,
+                )
+            if json_path and Path(json_path).exists():
+                st.download_button(
+                    "Download E2E JSON",
+                    data=Path(json_path).read_text(encoding="utf-8"),
+                    file_name=Path(json_path).name,
+                    mime="application/json",
+                    use_container_width=True,
+                )
 
 
 # ===================================================================
@@ -730,7 +806,7 @@ elif page == "Review Queue":
                             "it has different discount rates for different weight tiers or "
                             "packaging types (see the Conditions column)."
                         )
-                        headers = ["#", "Service Type", "Zones", "Discount %", "Conditions", "Confidence"]
+                        headers = ["#", "Service Type", "Zones", "Discount %", "Conditions", "LLM Reason", "Confidence"]
                         rows = []
                         for i, t in enumerate(extraction.service_terms):
                             pct = int(t.service_type.confidence * 100)
@@ -740,10 +816,13 @@ elif page == "Review Queue":
                                 flag = ' <span class="issue-flag">LOW</span>'
                             rows.append([
                                 str(i + 1),
-                                fmt(t.service_type),
-                                fmt(t.applicable_zones),
-                                fmt(t.discount_percentage),
-                                fmt(t.conditions),
+                                _fmt_with_correction(t.service_type),
+                                _fmt_with_correction(t.applicable_zones),
+                                _fmt_with_correction(t.discount_percentage),
+                                _fmt_with_correction(t.conditions),
+                                _first_correction_reason(
+                                    [t.service_type, t.applicable_zones, t.discount_percentage, t.conditions]
+                                ),
                                 f'<span class="{cls}">{pct}%</span>{flag}',
                             ])
                         st.markdown(table_html(headers, rows), unsafe_allow_html=True)
@@ -753,7 +832,7 @@ elif page == "Review Queue":
                     if not extraction.surcharges:
                         st.info("No surcharges extracted.")
                     else:
-                        headers = ["#", "Surcharge", "Modification", "Discount %", "Confidence"]
+                        headers = ["#", "Surcharge", "Modification", "Discount %", "LLM Reason", "Confidence"]
                         rows = []
                         for i, sc in enumerate(extraction.surcharges):
                             pct = int(sc.surcharge_name.confidence * 100)
@@ -763,9 +842,12 @@ elif page == "Review Queue":
                                 flag = ' <span class="issue-flag">LOW</span>'
                             rows.append([
                                 str(i + 1),
-                                fmt(sc.surcharge_name),
-                                fmt(sc.modification),
-                                fmt(sc.discount_percentage),
+                                _fmt_with_correction(sc.surcharge_name),
+                                _fmt_with_correction(sc.modification),
+                                _fmt_with_correction(sc.discount_percentage),
+                                _first_correction_reason(
+                                    [sc.surcharge_name, sc.modification, sc.discount_percentage]
+                                ),
                                 f'<span class="{cls}">{pct}%</span>{flag}',
                             ])
                         st.markdown(table_html(headers, rows), unsafe_allow_html=True)
@@ -889,3 +971,251 @@ elif page == "Approved":
                 if st.button("Delete", key=f"del_{ext.id}", use_container_width=True):
                     delete_extraction(ext.id)
                     st.rerun()
+
+
+# ===================================================================
+# INVOICE AUDIT
+# ===================================================================
+
+elif page == "Invoice Audit":
+    st.title("Invoice Audit")
+    st.markdown(
+        "Compare invoice charges against a **human-approved** agreement snapshot. "
+        "Discrepancies are classified and exported as TXT + JSON."
+    )
+    st.info(
+        "This audit only runs against agreements in **Approved** status to preserve "
+        "the human validation gate before invoice comparison.",
+        icon="✅",
+    )
+
+    approved = list_extractions(status_filter=ExtractionStatus.APPROVED)
+    health = summarize_health()
+    if health["stale_or_missing"] > 0:
+        st.warning(
+            "Reference data is stale/missing for one or more feeds. "
+            "Audit outcomes may include ambiguous checks until refreshed."
+        )
+        with st.expander("Reference data health details"):
+            st.json(health)
+
+    if not approved:
+        st.warning("No approved agreements found. Approve at least one agreement first.")
+    else:
+        selected_id = st.selectbox(
+            "Select approved company agreement",
+            options=[e.id for e in approved],
+            format_func=lambda eid: next(
+                (
+                    f"{(e.metadata.customer_name.effective() or 'Unknown Company')} "
+                    f"-- {e.file_name}"
+                    for e in approved
+                    if e.id == eid
+                ),
+                eid,
+            ),
+        )
+        agreement = load_extraction(selected_id) if selected_id else None
+        if not agreement:
+            st.error("Selected agreement could not be loaded.")
+        else:
+            uploaded_invoices = st.file_uploader(
+                "Upload invoice file(s) for this company (PDF or CSV)",
+                type=["pdf", "csv"],
+                accept_multiple_files=True,
+                key="invoice_uploader",
+            )
+            api_invoice_ids_raw = st.text_input(
+                "Optional carrier API invoice ID(s) (comma-separated, API-first path)",
+                value="",
+                help="When configured, the system attempts carrier API ingestion first, then falls back to files.",
+            )
+            api_invoice_ids = [
+                x.strip() for x in api_invoice_ids_raw.split(",") if x.strip()
+            ]
+
+            if uploaded_invoices or api_invoice_ids:
+                st.caption(
+                    f"{len(uploaded_invoices or [])} file invoice(s), "
+                    f"{len(api_invoice_ids)} API invoice ID(s) selected"
+                )
+                if st.button("Run Invoice Audit", type="primary", use_container_width=True):
+                    temp_paths: list[Path] = []
+                    try:
+                        for inv in uploaded_invoices or []:
+                            suffix = Path(inv.name).suffix or ".pdf"
+                            with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as tmp:
+                                tmp.write(inv.getvalue())
+                                temp_paths.append(Path(tmp.name))
+
+                        report = run_invoice_audit_from_files(
+                            agreement,
+                            temp_paths,
+                            carrier_invoice_ids=api_invoice_ids,
+                        )
+                        json_path, txt_path = save_audit_report(report)
+                        txt_payload = render_discrepancy_text_report(report)
+
+                        st.success(
+                            f"Audit complete: {len(report.discrepancies)} discrepancy record(s)."
+                        )
+                        st.caption(f"Saved report files: `{json_path.name}`, `{txt_path.name}`")
+
+                        if report.discrepancies:
+                            def _action_for_ui(d):
+                                field = (d.field or "").lower()
+                                kind = d.discrepancy_type.value
+                                if field == "service_refund":
+                                    return "File GSR claim"
+                                if field == "fuel_surcharge":
+                                    return "Request fuel adjustment"
+                                if field == "rated_weight_lbs":
+                                    return "Dispute DIM/rated weight"
+                                if kind == "missing_discount":
+                                    return "Request discount rebill"
+                                if kind == "unsupported_fee":
+                                    return "Dispute unsupported fee"
+                                return "Review and submit claim"
+
+                            rows = [
+                                {
+                                    "Type": d.discrepancy_type.value,
+                                    "Tracking Number": d.tracking_number or d.transaction_id or "-",
+                                    "Ship Date": d.ship_date or "-",
+                                    "Billed": d.billed_value if d.billed_value is not None else d.billed_amount,
+                                    "Expected": d.expected_value if d.expected_value is not None else d.expected_amount,
+                                    "Discrepancy $": d.dollar_impact,
+                                    "Action": _action_for_ui(d),
+                                }
+                                for d in report.discrepancies
+                            ]
+                            st.dataframe(rows, use_container_width=True, hide_index=True)
+                        else:
+                            st.info("No discrepancies detected for uploaded invoices.")
+
+                        col_txt, col_json = st.columns(2)
+                        with col_txt:
+                            st.download_button(
+                                "Download TXT",
+                                data=txt_payload,
+                                file_name=f"{report.company_name}_invoice_audit.txt".replace(" ", "_"),
+                                mime="text/plain",
+                                use_container_width=True,
+                            )
+                        with col_json:
+                            st.download_button(
+                                "Download JSON",
+                                data=report.model_dump_json(indent=2),
+                                file_name=f"{report.company_name}_invoice_audit.json".replace(" ", "_"),
+                                mime="application/json",
+                                use_container_width=True,
+                            )
+                    except Exception as exc:
+                        st.error(f"Invoice audit failed: {exc}")
+                    finally:
+                        for p in temp_paths:
+                            p.unlink(missing_ok=True)
+
+
+# ===================================================================
+# PARALLEL STUDY
+# ===================================================================
+
+elif page == "Parallel Study":
+    st.title("Parallel Study")
+    st.markdown(
+        "Compare AI findings with human auditor findings and compute precision/recall/F1."
+    )
+    template_csv = "tracking_number,discrepancy_found,discrepancy_type,dollar_amount\n"
+    st.download_button(
+        "Download human CSV template",
+        data=template_csv,
+        file_name="parallel_study_template.csv",
+        mime="text/csv",
+    )
+
+    ai_json = st.file_uploader(
+        "Upload AI audit report JSON",
+        type=["json"],
+        key="parallel_ai_json",
+    )
+    human_csv = st.file_uploader(
+        "Upload human findings CSV",
+        type=["csv"],
+        key="parallel_human_csv",
+    )
+
+    if ai_json and human_csv:
+        try:
+            ai_data = json.loads(ai_json.getvalue().decode("utf-8"))
+            ai_discrepancies = ai_data.get("discrepancies", [])
+            ai_by_tracking: dict[str, list[dict]] = {}
+            for d in ai_discrepancies:
+                tracking = str(d.get("tracking_number") or d.get("transaction_id") or "").strip()
+                if tracking:
+                    ai_by_tracking.setdefault(tracking, []).append(d)
+
+            human_rows = list(csv.DictReader(io.StringIO(human_csv.getvalue().decode("utf-8"))))
+            records: list[ParallelStudyRecord] = []
+            for row in human_rows:
+                tracking = str(row.get("tracking_number") or "").strip()
+                ai_rows = ai_by_tracking.get(tracking, [])
+                ai = ai_rows[0] if ai_rows else {}
+                human_found = str(row.get("discrepancy_found", "")).strip().lower() in {"1", "true", "yes", "y"}
+                records.append(
+                    ParallelStudyRecord(
+                        shipment_id=str(row.get("shipment_id") or tracking),
+                        tracking_number=tracking,
+                        ai_found_discrepancy=bool(ai_rows),
+                        ai_discrepancy_type=ai.get("discrepancy_type"),
+                        ai_dollar_impact=float(ai.get("dollar_impact") or 0) if ai else None,
+                        human_found_discrepancy=human_found,
+                        human_discrepancy_type=row.get("discrepancy_type") or None,
+                        human_dollar_impact=float(row.get("dollar_amount") or 0) if row.get("dollar_amount") else None,
+                    )
+                )
+
+            metrics = compute_metrics(records)
+            recall_color = "green" if metrics["recall"] >= 0.90 else "red"
+            c1, c2, c3 = st.columns(3)
+            c1.markdown(f"### Precision\n<span style='color:#4fc3f7;font-size:2rem'>{metrics['precision']:.2%}</span>", unsafe_allow_html=True)
+            c2.markdown(f"### Recall\n<span style='color:{recall_color};font-size:2rem'>{metrics['recall']:.2%}</span>", unsafe_allow_html=True)
+            c3.markdown(f"### F1\n<span style='color:#ffd54f;font-size:2rem'>{metrics['f1']:.2%}</span>", unsafe_allow_html=True)
+
+            tp = metrics["true_positives"]
+            fp = metrics["false_positives"]
+            fn = metrics["false_negatives"]
+            tn = metrics["true_negatives"]
+            st.table([{"TP": tp, "FP": fp, "FN": fn, "TN": tn}])
+
+            total_ai_recovery = sum(float(d.get("dollar_impact") or 0.0) for d in ai_discrepancies)
+            total_human_recovery = sum(float((r.human_dollar_impact or 0.0)) for r in records if r.human_found_discrepancy)
+            fp_rows = [r.model_dump() for r in records if r.outcome == "FP"]
+            fn_rows = [r.model_dump() for r in records if r.outcome == "FN"]
+            additional_ai_only = sum(float((r.ai_dollar_impact or 0.0)) for r in records if r.outcome == "FP")
+            st.markdown(
+                f"**Total AI recovery:** ${total_ai_recovery:.2f}  \n"
+                f"**Total human recovery:** ${total_human_recovery:.2f}  \n"
+                f"**AI-only additional recovery (FP to verify):** ${additional_ai_only:.2f}"
+            )
+
+            with st.expander("Discrepancies AI found that humans missed (FP — verify these)", expanded=False):
+                st.dataframe(fp_rows, use_container_width=True, hide_index=True)
+            with st.expander("Discrepancies humans found that AI missed (FN — system gaps)", expanded=True):
+                st.dataframe(fn_rows, use_container_width=True, hide_index=True)
+
+            out = io.StringIO()
+            fieldnames = list(fn_rows[0].keys()) if fn_rows else ["tracking_number", "outcome"]
+            writer = csv.DictWriter(out, fieldnames=fieldnames)
+            writer.writeheader()
+            for row in fn_rows:
+                writer.writerow(row)
+            st.download_button(
+                "Download FN CSV",
+                data=out.getvalue(),
+                file_name="parallel_study_fn_gaps.csv",
+                mime="text/csv",
+                use_container_width=True,
+            )
+        except Exception as exc:
+            st.error(f"Parallel study processing failed: {exc}")

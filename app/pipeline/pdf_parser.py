@@ -10,6 +10,7 @@ extraction pipeline.
 from __future__ import annotations
 
 import logging
+import os
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import List, Optional
@@ -21,7 +22,7 @@ from app.pipeline.ocr_render import ocr_page_images
 logger = logging.getLogger(__name__)
 
 _MIN_TEXT_THRESHOLD = 50
-_MAX_PAGES_TO_PROCESS = 150
+_MAX_PAGES_TO_PROCESS = int(os.getenv("MAX_PDF_PAGES", "0"))
 
 
 @dataclass
@@ -70,8 +71,12 @@ def _extract_with_pdfplumber(pdf_path: Path) -> ParsedDocument:
     try:
         with pdfplumber.open(pdf_path) as pdf:
             doc.total_pages = len(pdf.pages)
-            pages_to_process = min(doc.total_pages, _MAX_PAGES_TO_PROCESS)
-            if doc.total_pages > _MAX_PAGES_TO_PROCESS:
+            pages_to_process = (
+                min(doc.total_pages, _MAX_PAGES_TO_PROCESS)
+                if _MAX_PAGES_TO_PROCESS > 0
+                else doc.total_pages
+            )
+            if _MAX_PAGES_TO_PROCESS > 0 and doc.total_pages > _MAX_PAGES_TO_PROCESS:
                 warning = (
                     f"Large PDF ({doc.total_pages} pages). "
                     f"Processed first {_MAX_PAGES_TO_PROCESS} pages only."
@@ -126,8 +131,12 @@ def _extract_with_ocr(pdf_path: Path) -> ParsedDocument:
         with pdfplumber.open(pdf_path) as pdf:
             doc.total_pages = len(pdf.pages)
 
-        pages_to_process = min(doc.total_pages, _MAX_PAGES_TO_PROCESS)
-        if doc.total_pages > _MAX_PAGES_TO_PROCESS:
+        pages_to_process = (
+            min(doc.total_pages, _MAX_PAGES_TO_PROCESS)
+            if _MAX_PAGES_TO_PROCESS > 0
+            else doc.total_pages
+        )
+        if _MAX_PAGES_TO_PROCESS > 0 and doc.total_pages > _MAX_PAGES_TO_PROCESS:
             warning = (
                 f"Large PDF ({doc.total_pages} pages). "
                 f"OCR processed first {_MAX_PAGES_TO_PROCESS} pages only."

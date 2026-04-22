@@ -14,6 +14,8 @@ from app.config import UPLOADS_DIR
 from app.models.schema import ContractExtraction
 from app.pipeline.pdf_parser import parse_pdf
 from app.pipeline.confidence import score_extraction
+from app.pipeline.dedupe import dedupe_service_terms
+from app.pipeline.llm_verifier import verify_extraction_with_llm
 from app.pipeline.resolver import resolve_active_terms
 from app.storage.store import save_extraction
 from extraction.extractor import extract_contract_v2
@@ -30,11 +32,12 @@ def ingest_pdf(source_path: str | Path) -> ContractExtraction:
     Steps:
     1. Copy file to uploads directory
     2. Parse PDF (text + OCR fallback)
-    3. Extract structured data via deterministic + LLM pipeline
-    4. Validate extraction and flag issues
-    5. Score confidence and flag low-confidence fields
-    6. Resolve amendments into active terms snapshot
-    7. Save extraction result
+    3. Extract structured data via deterministic parser pipeline
+    4. Verify/correct fields using LLM (non-hallucinating corrections)
+    5. Validate extraction and flag issues
+    6. Score confidence and flag low-confidence fields
+    7. Resolve amendments into active terms snapshot
+    8. Save extraction result
 
     Returns the complete ContractExtraction.
     """
@@ -51,7 +54,7 @@ def ingest_pdf(source_path: str | Path) -> ContractExtraction:
     if doc.errors:
         logger.warning("Parse warnings: %s", doc.errors)
 
-    # Step 2: Extract (v2 deterministic + LLM fallback)
+    # Step 2: Extract (v2 deterministic parser-first)
     logger.info("Step 2/6: Extracting structured data")
     extraction = extract_contract_v2(
         doc=doc,
@@ -59,8 +62,13 @@ def ingest_pdf(source_path: str | Path) -> ContractExtraction:
         file_path=str(dest_path),
     )
 
-    # Step 3: Validate
-    logger.info("Step 3/6: Validating extraction")
+    # Step 3: Stage-2 LLM verification
+    logger.info("Step 3/6: Verifying extraction with LLM")
+    extraction = verify_extraction_with_llm(extraction, doc)
+    extraction = dedupe_service_terms(extraction)
+
+    # Step 4: Validate
+    logger.info("Step 4/6: Validating extraction")
     issues = validate_extraction(extraction)
     summary = summarize_issues(issues)
     confidence = compute_confidence(extraction, issues)
@@ -70,12 +78,12 @@ def ingest_pdf(source_path: str | Path) -> ContractExtraction:
         confidence.aggregate,
     )
 
-    # Step 4: Score confidence (field-level)
-    logger.info("Step 4/6: Scoring field-level confidence")
+    # Step 5: Score confidence (field-level)
+    logger.info("Step 5/6: Scoring field-level confidence")
     extraction = score_extraction(extraction)
 
-    # Step 5: Resolve amendments
-    logger.info("Step 5/6: Resolving amendments")
+    # Step 6: Resolve amendments
+    logger.info("Step 6/6: Resolving amendments")
     extraction = resolve_active_terms(extraction)
 
     # Step 6: Save

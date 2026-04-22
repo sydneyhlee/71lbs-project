@@ -9,7 +9,7 @@ Every extracted field is wrapped in ExtractedValue to carry provenance
 from __future__ import annotations
 
 import uuid
-from datetime import datetime
+from datetime import date, datetime
 from enum import Enum
 from typing import Any, Dict, List, Optional
 
@@ -46,6 +46,11 @@ class ExtractedValue(BaseModel):
     source_text: Optional[str] = None
     needs_review: bool = False
     reviewer_override: Optional[Any] = None
+    original_parser_value: Optional[Any] = None
+    llm_corrected_value: Optional[Any] = None
+    was_llm_corrected: bool = False
+    correction_reason: Optional[str] = None
+    confidence_rationale: Optional[str] = None
 
     def effective(self) -> Any:
         """Return reviewer-corrected value if present, else raw extraction."""
@@ -162,6 +167,118 @@ class ContractExtraction(BaseModel):
 
     # Resolved view after amendment processing
     active_terms_snapshot: Optional[Dict[str, Any]] = None
+    # Company-level identity fields used by invoice audit/reporting.
+    client_id: Optional[str] = None
+    contract_id: Optional[str] = None
+    document_type: Optional[str] = None
+    effective_date: Optional[str] = None
+    expiration_date: Optional[str] = None
+    # Optional negotiated terms used by deterministic invoice checks.
+    fuel_surcharge: Optional[Dict[str, Any]] = None
+    accessorials: Optional[Dict[str, Any]] = None
+    gsr_status: Optional[Dict[str, Any]] = None
+    earned_discounts: Optional[Dict[str, Any]] = None
+    minimum_net_charge: Optional[Dict[str, Any]] = None
+    dim_weight: Optional[Dict[str, Any]] = None
+    threePL: Optional[Dict[str, Any]] = None
+    verifier_diagnostics: Optional[Dict[str, Any]] = None
+
+
+# ---------------------------------------------------------------------------
+# Invoice audit models
+# ---------------------------------------------------------------------------
+
+class InvoiceLineItem(BaseModel):
+    """Normalized invoice line item for deterministic comparison."""
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    tracking_number: str = ""
+    transaction_id: Optional[str] = None
+    invoice_id: Optional[str] = None
+    ship_date: Optional[date] = None
+    actual_delivery_datetime: Optional[datetime] = None
+    service_code: Optional[str] = None
+    service_group: Optional[str] = None
+    package_type: Optional[str] = None
+    service_or_charge_type: str = ""
+    origin_zip: Optional[str] = None
+    destination_zip: Optional[str] = None
+    zone: Optional[int] = None
+    actual_weight_lbs: Optional[float] = None
+    length: Optional[float] = None
+    width: Optional[float] = None
+    height: Optional[float] = None
+    rated_weight_lbs: Optional[float] = None
+    rate_per_lb: Optional[float] = None
+    published_charge: Optional[float] = None
+    transport_charge: Optional[float] = None
+    earned_discount_applied: Optional[float] = None
+    incentive_credit: Optional[float] = None
+    net_transport_charge: Optional[float] = None
+    fuel_surcharge_billed: Optional[float] = None
+    residential_surcharge_billed: Optional[float] = None
+    das_billed: Optional[float] = None
+    ahs_billed: Optional[float] = None
+    large_package_billed: Optional[float] = None
+    address_correction_billed: Optional[float] = None
+    saturday_delivery_billed: Optional[float] = None
+    declared_value_billed: Optional[float] = None
+    total_billed: float = 0.0
+    is_residential: Optional[bool] = None
+    carrier_exception_code: Optional[str] = None
+    base_amount: Optional[float] = None
+    billed_amount: float = 0.0
+    applied_discount_pct: Optional[float] = None
+    source_page: Optional[int] = None
+    source_text: Optional[str] = None
+    raw_line_text: Optional[str] = None
+
+
+class DiscrepancyType(str, Enum):
+    OVERCHARGE = "overcharge"
+    UNDERCHARGE = "undercharge"
+    UNSUPPORTED_FEE = "unsupported_fee"
+    MISSING_DISCOUNT = "missing_discount"
+    AMBIGUOUS = "ambiguous_needs_review"
+
+
+class AuditDiscrepancy(BaseModel):
+    """A single invoice discrepancy against an approved agreement."""
+    line_id: Optional[str] = None
+    tracking_number: Optional[str] = None
+    company_name: str = ""
+    invoice_id: Optional[str] = None
+    transaction_id: Optional[str] = None
+    ship_date: Optional[date] = None
+    service_or_charge_type: str = ""
+    discrepancy_type: DiscrepancyType
+    field: Optional[str] = None
+    billed_amount: float = 0.0
+    expected_amount: Optional[float] = None
+    dollar_discrepancy: Optional[float] = None
+    expected_value: Optional[float] = None
+    billed_value: Optional[float] = None
+    dollar_impact: float = 0.0
+    why_discrepancy: str = ""
+    explanation: str = ""
+    confidence: float = Field(default=0.0, ge=0.0, le=1.0)
+    invoice_source_reference: Optional[str] = None
+    agreement_source_reference: Optional[str] = None
+
+
+class InvoiceAuditReport(BaseModel):
+    """Aggregate report for one invoice audit run."""
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    created_at: str = Field(default_factory=lambda: datetime.utcnow().isoformat())
+    company_name: str
+    agreement_id: str
+    carrier: Optional[str] = None
+    invoice_period_start: Optional[date] = None
+    invoice_period_end: Optional[date] = None
+    invoice_files: List[str] = Field(default_factory=list)
+    discrepancies: List[AuditDiscrepancy] = Field(default_factory=list)
+    total_recovery_potential: float = 0.0
+    lines_audited: int = 0
+    lines_with_discrepancies: int = 0
 
 
 # ---------------------------------------------------------------------------
