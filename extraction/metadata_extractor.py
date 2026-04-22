@@ -80,7 +80,17 @@ _EFFECTIVE_DATE_PATTERNS = [
         r"|October|November|December)\s+\d{1,2},?\s+\d{4}|\d{1,2}/\d{1,2}/\d{4}|\d{4}-\d{2}-\d{2})",
         re.IGNORECASE,
     ),
+    # Label on signature / cover page (must be followed by a parseable date on same line)
+    re.compile(
+        r"Effective\s+Date\s*:\s*"
+        r"((?:January|February|March|April|May|June|July|August|September"
+        r"|October|November|December)\s+\d{1,2},?\s+\d{4}|\d{1,2}/\d{1,2}/\d{4}|\d{4}-\d{2}-\d{2})",
+        re.IGNORECASE,
+    ),
 ]
+
+# How far to scan for calendar effective dates (signature blocks often land after page 1).
+_EFFECTIVE_DATE_SEARCH_WINDOW = 32_000
 
 # Offer acceptance / void-if-not-accepted — never treat as contract effective date.
 _OFFER_EXPIRATION_PATTERNS = [
@@ -194,6 +204,12 @@ _PAYMENT_PATTERNS = [
     re.compile(r"Net\s+\d+\s+(?:days?)?", re.IGNORECASE),
 ]
 
+# UPS Carrier Agreement — standard opening sentence (not the whole narrative block).
+_UPS_CARRIER_PAYMENT_OPENING = re.compile(
+    r"(Customer agrees to pay the total invoice amount in full within the time period required by UPS\.)",
+    re.IGNORECASE,
+)
+
 _CARRIER_INDICATORS = {
     "FedEx": [
         re.compile(r"FedEx", re.IGNORECASE),
@@ -245,8 +261,43 @@ def _detect_carrier(text: str, page_hint: Optional[int] = None) -> ExtractedValu
     return ev(value="Unknown", confidence=0.3, needs_review=True)
 
 
+def _extract_ups_procedural_effective_date(
+    text: str, page_hint: Optional[int] = None
+) -> Optional[ExtractedValue]:
+    """
+    UPS Carrier Agreement often defines effect as Monday-after-signing vs Effective Date
+    with no OCR-parseable calendar date (DocuSign merge fields). Surface a concise value
+    for reviewers instead of leaving the field empty.
+    """
+    m = re.search(
+        r"This\s+Agreement\s+shall\s+take\s+effect\s+on\s+the\s+Monday\s+following\s+the\s+signing"
+        r"\s+of\s+this\s+Agreement\s+or\s+the\s+Effective\s+Date,\s+whichever\s+is\s+later",
+        text,
+        re.IGNORECASE,
+    )
+    if not m:
+        return None
+    snippet = text[max(0, m.start() - 40) : m.end() + 40].strip()
+    return ev(
+        value="Monday after signing or Effective Date on signature page, whichever is later",
+        confidence=0.72,
+        source_page=page_hint,
+        source_text=snippet[:200],
+        needs_review=True,
+    )
+
+
 def _extract_payment_terms(text: str, page_hint: Optional[int] = None) -> Optional[ExtractedValue]:
     """Extract payment terms, preferring the numeric 'Net N days' form."""
+    m_open = _UPS_CARRIER_PAYMENT_OPENING.search(text)
+    if m_open:
+        snippet = text[max(0, m_open.start() - 40) : m_open.end() + 30].strip()
+        return ev(
+            value=m_open.group(1).strip(),
+            confidence=0.88,
+            source_page=page_hint,
+            source_text=snippet[:200],
+        )
     for pat in _PAYMENT_DAYS_PATTERNS:
         m = pat.search(text)
         if m:
@@ -303,8 +354,9 @@ def extract_payment_terms_block(
         return None
     rest = text[m.end() :]
     stop = re.search(
-        r"(?im)^[ \t]*(?:Applicable\s+Services|Special\s+Provisions|Effective\s+Date|"
-        r"Definitions|Waiver|Surcharges)\b",
+        r"(?im)(?:^|\n)[ \t]*(?:Applicable\s+Services|Special\s+Provisions|Effective\s+Date|"
+        r"Definitions|Waiver|Surcharges|Service\.|Confidentiality\.|"
+        r"Offer\s+Expiration|Term\.|All\s+Services\s+provided)\b",
         rest,
     )
     raw_body = rest[: stop.start()] if stop else rest
@@ -382,8 +434,17 @@ def _detect_external_term_reference(
 def _effective_date_parseable(eff: Optional[ExtractedValue]) -> bool:
     if not eff or not eff.value:
         return False
+    val = str(eff.value).strip()
+    # Require an explicit calendar token; fuzzy=True alone would treat "Monday …" as a date.
+    if not re.search(
+        r"(?:January|February|March|April|May|June|July|August|September|October|November|December)"
+        r"\s+\d{1,2},?\s+\d{4}|\d{1,2}/\d{1,2}/\d{4}|\d{4}-\d{2}-\d{2}",
+        val,
+        re.IGNORECASE,
+    ):
+        return False
     try:
-        date_parser.parse(str(eff.value), fuzzy=True)
+        date_parser.parse(val, fuzzy=True)
         return True
     except (ValueError, TypeError, OverflowError):
         return False
@@ -399,6 +460,7 @@ def extract_metadata(full_text: str, page_texts: Optional[dict] = None) -> Contr
                     for better source_page attribution.
     """
     first_pages = full_text[:5000]
+    eff_date_window = full_text[:_EFFECTIVE_DATE_SEARCH_WINDOW]
     page_hint = 1
 
     customer = _find_first(first_pages, _CUSTOMER_PATTERNS, page_hint)
@@ -441,9 +503,15 @@ def extract_metadata(full_text: str, page_texts: Optional[dict] = None) -> Contr
             )
     version = _find_first(full_text, _VERSION_PATTERNS, page_hint)
     eff_date = _find_first(first_pages, _EFFECTIVE_DATE_PATTERNS, page_hint)
+    if not eff_date:
+        eff_date = _find_first(eff_date_window, _EFFECTIVE_DATE_PATTERNS, page_hint)
     offer_expiration = _extract_offer_expiration(full_text, page_hint)
     external_term_reference = _detect_external_term_reference(full_text, page_hint)
     carrier = _detect_carrier(first_pages, page_hint)
+    if (not eff_date or not eff_date.value) and carrier.value == "UPS":
+        proc_eff = _extract_ups_procedural_effective_date(full_text, page_hint)
+        if proc_eff:
+            eff_date = proc_eff
 
     term_start = ExtractedValue()
     term_end = ExtractedValue()
@@ -470,7 +538,7 @@ def extract_metadata(full_text: str, page_texts: Optional[dict] = None) -> Contr
             snippet = full_text[max(0, dur.start() - 20):dur.end() + 20].strip()
             term_end = ev(value=duration_str, confidence=0.80,
                           source_page=page_hint, source_text=snippet[:120])
-            if eff_date and not term_start.value:
+            if eff_date and not term_start.value and _effective_date_parseable(eff_date):
                 term_start = ev(value=eff_date.value, confidence=0.80,
                                 source_page=page_hint, source_text="Derived from effective date")
 
