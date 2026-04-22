@@ -16,6 +16,8 @@ from typing import List, Optional
 
 import pdfplumber
 
+from app.pipeline.ocr_render import ocr_page_images
+
 logger = logging.getLogger(__name__)
 
 _MIN_TEXT_THRESHOLD = 50
@@ -112,12 +114,11 @@ def _extract_with_ocr(pdf_path: Path) -> ParsedDocument:
     """Fallback: convert pages to images, then OCR with pytesseract."""
     doc = ParsedDocument(file_path=str(pdf_path), used_ocr=True)
     try:
-        from pdf2image import convert_from_path
         import pytesseract
     except ImportError as exc:
         doc.errors.append(
             f"OCR dependencies missing ({exc}). "
-            "Install pytesseract and pdf2image."
+            "Install pytesseract and Pillow."
         )
         return doc
 
@@ -134,10 +135,11 @@ def _extract_with_ocr(pdf_path: Path) -> ParsedDocument:
             doc.errors.append(warning)
             logger.warning("%s %s", warning, pdf_path.name)
 
-        images = convert_from_path(
+        images = ocr_page_images(
             pdf_path,
             first_page=1,
             last_page=pages_to_process,
+            dpi=200,
         )
         for i, img in enumerate(images, start=1):
             text = pytesseract.image_to_string(img)
@@ -169,6 +171,9 @@ def parse_pdf(pdf_path: str | Path) -> ParsedDocument:
     if _needs_ocr(doc):
         logger.info("Text extraction sparse, falling back to OCR for %s", pdf_path.name)
         ocr_doc = _extract_with_ocr(pdf_path)
+        for err in ocr_doc.errors:
+            if err not in doc.errors:
+                doc.errors.append(err)
         if ocr_doc.pages:
             doc = ocr_doc
 

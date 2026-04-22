@@ -80,6 +80,12 @@ class ContractMetadata(BaseModel):
     term_end: ExtractedValue = Field(default_factory=ExtractedValue)
     payment_terms: ExtractedValue = Field(default_factory=ExtractedValue)
     carrier: ExtractedValue = Field(default_factory=ExtractedValue)
+    # Offer acceptance deadline — not the contract effective date (see metadata_extractor).
+    offer_expiration: ExtractedValue = Field(default_factory=ExtractedValue)
+    # True when text references addendum / master agreement / statutory term definition, etc.
+    external_term_reference: ExtractedValue = Field(default_factory=ExtractedValue)
+    # Document-level list or narrative of services in scope (distinct from per-DIM-rule fields).
+    applicable_services: ExtractedValue = Field(default_factory=ExtractedValue)
 
 
 class ServiceTerm(BaseModel):

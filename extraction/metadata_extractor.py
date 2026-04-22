@@ -12,6 +12,8 @@ import re
 import logging
 from typing import Optional
 
+from dateutil import parser as date_parser
+
 from app.models.schema import ContractMetadata, ExtractedValue, ev
 
 logger = logging.getLogger(__name__)
@@ -32,10 +34,21 @@ _CUSTOMER_PATTERNS = [
 ]
 
 _ACCOUNT_PATTERNS = [
-    re.compile(r"Account\s*(?:Number|#|No\.?)\s*[:\-]?\s*([\d\-]+)", re.IGNORECASE),
-    re.compile(r"Acct\s*(?:No\.?|#)\s*[:\-]?\s*([\d\-]+)", re.IGNORECASE),
-    re.compile(r"(\d{9,12})\s*-\s*\d{3}", re.IGNORECASE),
-    re.compile(r"([\dA-Z]{10,})\s+[A-Z\-]+\s+\d+\s*\n\s*[\dA-Z]+", re.IGNORECASE),
+    re.compile(
+        r"Account\s*(?:Number|#|No\.?)\s*[:\-]?\s*([A-Z0-9\-]{6,20})",
+        re.IGNORECASE,
+    ),
+    re.compile(
+        r"Acct\s*(?:No\.?|#)\s*[:\-]?\s*([A-Z0-9\-]{6,20})",
+        re.IGNORECASE,
+    ),
+    # UPS Addendum row often starts with account id, then company/address text
+    re.compile(
+        r"(?:^|\n)\s*([A-Z0-9]{6,12})\s+[A-Z0-9&.,'\- ]{3,}\n",
+        re.IGNORECASE,
+    ),
+    # FedEx-ish numeric formats
+    re.compile(r"(\d{9,12})\s*-\s*\d{2,3}", re.IGNORECASE),
 ]
 
 _AGREEMENT_PATTERNS = [
@@ -60,13 +73,6 @@ _EFFECTIVE_DATE_PATTERNS = [
         r"effective\s+(?:on\s+)?(\d{1,2}/\d{1,2}/\d{4})",
         re.IGNORECASE,
     ),
-    # UPS: "voidifnotacceptedbyApril20,2025" (handles merged-word PDFs)
-    re.compile(
-        r"void\s*if\s*not\s*accepted\s*by\s*"
-        r"((?:January|February|March|April|May|June|July|August|September"
-        r"|October|November|December)\s*\d{1,2},?\s*\d{4})",
-        re.IGNORECASE,
-    ),
     # UPS: "Date Signed: <date>"
     re.compile(
         r"Date\s*Signed\s*:\s*"
@@ -74,6 +80,23 @@ _EFFECTIVE_DATE_PATTERNS = [
         r"|October|November|December)\s+\d{1,2},?\s+\d{4}|\d{1,2}/\d{1,2}/\d{4}|\d{4}-\d{2}-\d{2})",
         re.IGNORECASE,
     ),
+]
+
+# Offer acceptance / void-if-not-accepted — never treat as contract effective date.
+_OFFER_EXPIRATION_PATTERNS = [
+    re.compile(
+        r"(?:offer\s+is\s+)?void\s*if\s*not\s*accepted\s*by\s*"
+        r"((?:January|February|March|April|May|June|July|August|September"
+        r"|October|November|December)\s+\d{1,2},?\s+\d{4}|\d{1,2}/\d{1,2}/\d{4})",
+        re.IGNORECASE,
+    ),
+]
+
+_EXTERNAL_TERM_SIGNAL_PATTERNS = [
+    re.compile(r"\b(?:Addendum|Exhibit|Schedule)\s+[A-Z]\b", re.IGNORECASE),
+    re.compile(r"\bMaster\s+Agreement\b", re.IGNORECASE),
+    re.compile(r"49\s*U\.?\s*S\.?\s*C\.?\s*§?\s*13102", re.IGNORECASE),
+    re.compile(r"\bas\s+the\s+term\s+is\s+defined\b", re.IGNORECASE),
 ]
 
 _TERM_RANGE_PATTERNS = [
@@ -238,6 +261,134 @@ def _extract_payment_terms(text: str, page_hint: Optional[int] = None) -> Option
     return _find_first(text, _PAYMENT_PATTERNS, page_hint)
 
 
+def _extract_ups_addendum_account(
+    text: str, page_hint: Optional[int] = None
+) -> Optional[ExtractedValue]:
+    """
+    Fallback for UPS Addendum A tables where OCR/text extraction breaks
+    headers/cells and normal account regexes miss.
+    """
+    m = re.search(
+        r"List\s+of\s+Account\s+Numbers[\s\S]{0,2500}?(?:^|\n)\s*([A-Z0-9]{6,12})\s+[A-Z0-9&.,'\- ]{3,}",
+        text,
+        re.IGNORECASE | re.MULTILINE,
+    )
+    if not m:
+        return None
+
+    snippet = text[max(0, m.start() - 20) : m.end() + 20].strip()
+    return ev(
+        value=m.group(1).strip(),
+        confidence=0.82,
+        source_page=page_hint,
+        source_text=snippet[:120],
+    )
+
+
+def _extract_offer_expiration(
+    text: str, page_hint: Optional[int] = None
+) -> Optional[ExtractedValue]:
+    return _find_first(text, _OFFER_EXPIRATION_PATTERNS, page_hint)
+
+
+def extract_payment_terms_block(
+    text: str, page_hint: Optional[int] = None
+) -> Optional[ExtractedValue]:
+    """
+    Heuristic: capture narrative under a 'Payment Terms' heading until the next
+    known section heading (multiline-safe).
+    """
+    m = re.search(r"(?is)\bPayment\s+Terms\.?\s*", text)
+    if not m:
+        return None
+    rest = text[m.end() :]
+    stop = re.search(
+        r"(?im)^[ \t]*(?:Applicable\s+Services|Special\s+Provisions|Effective\s+Date|"
+        r"Definitions|Waiver|Surcharges)\b",
+        rest,
+    )
+    raw_body = rest[: stop.start()] if stop else rest
+    body = re.sub(r"\s+", " ", raw_body).strip()
+    if len(body) < 40:
+        return None
+
+    clipped = body[:4000]
+    hit_max = len(body) > 4000
+    snippet = clipped[:500] + ("…" if len(clipped) > 500 else "")
+    return ev(
+        value=clipped + ("…" if hit_max else ""),
+        confidence=0.78,
+        source_page=page_hint,
+        source_text=snippet,
+        needs_review=True,
+    )
+
+
+def _extract_applicable_services_block(
+    text: str, page_hint: Optional[int] = None
+) -> Optional[ExtractedValue]:
+    """Document-level applicable services section (narrative or list)."""
+    head = text[:25000]
+    m = re.search(
+        r"(?is)\bApplicable\s+Services\s*[:\.]?\s*(.*?)(?=\n[ \t]*(?:Payment\s+Terms|Special\s+Provisions|"
+        r"Effective\s+Date|Surcharges|Definitions|Master\s+Agreement)\b|\Z)",
+        head,
+    )
+    if not m:
+        # Fallback: common introductory clause
+        m2 = re.search(
+            r"(?is)\b(?:the\s+following\s+services?|services?\s+covered)\b[\s:,-]+(.{40,3500}?)"
+            r"(?=\n[ \t]*(?:Payment\s+Terms|Special\s+Provisions|Effective\s+Date)\b|\Z)",
+            head,
+        )
+        if not m2:
+            return None
+        body = re.sub(r"\s+", " ", m2.group(1)).strip()
+    else:
+        body = re.sub(r"\s+", " ", m.group(1)).strip()
+
+    if len(body) < 25:
+        return None
+    clipped = body[:4000]
+    hit_max = len(body) > 4000
+    snippet = clipped[:500] + ("…" if len(clipped) > 500 else "")
+    return ev(
+        value=clipped + ("…" if hit_max else ""),
+        confidence=0.74,
+        source_page=page_hint,
+        source_text=snippet,
+        needs_review=True,
+    )
+
+
+def _detect_external_term_reference(
+    text: str, page_hint: Optional[int] = None
+) -> Optional[ExtractedValue]:
+    """True when the agreement points to another document for term dates/duration."""
+    for pat in _EXTERNAL_TERM_SIGNAL_PATTERNS:
+        m = pat.search(text)
+        if m:
+            snippet = text[max(0, m.start() - 60) : m.end() + 80].strip()
+            return ev(
+                value=True,
+                confidence=0.78,
+                source_page=page_hint,
+                source_text=snippet[:220],
+                needs_review=True,
+            )
+    return None
+
+
+def _effective_date_parseable(eff: Optional[ExtractedValue]) -> bool:
+    if not eff or not eff.value:
+        return False
+    try:
+        date_parser.parse(str(eff.value), fuzzy=True)
+        return True
+    except (ValueError, TypeError, OverflowError):
+        return False
+
+
 def extract_metadata(full_text: str, page_texts: Optional[dict] = None) -> ContractMetadata:
     """
     Extract contract metadata from full document text.
@@ -264,6 +415,9 @@ def extract_metadata(full_text: str, page_texts: Optional[dict] = None) -> Contr
     account = _find_first(full_text, _ACCOUNT_PATTERNS, page_hint)
 
     if not account:
+        account = _extract_ups_addendum_account(full_text, page_hint)
+
+    if not account:
         ups_acct = re.search(r"([\dA-Z]{10,11})\s+[A-Z\-]", full_text[:8000])
         if ups_acct:
             account = ev(
@@ -287,6 +441,8 @@ def extract_metadata(full_text: str, page_texts: Optional[dict] = None) -> Contr
             )
     version = _find_first(full_text, _VERSION_PATTERNS, page_hint)
     eff_date = _find_first(first_pages, _EFFECTIVE_DATE_PATTERNS, page_hint)
+    offer_expiration = _extract_offer_expiration(full_text, page_hint)
+    external_term_reference = _detect_external_term_reference(full_text, page_hint)
     carrier = _detect_carrier(first_pages, page_hint)
 
     term_start = ExtractedValue()
@@ -318,7 +474,36 @@ def extract_metadata(full_text: str, page_texts: Optional[dict] = None) -> Contr
                 term_start = ev(value=eff_date.value, confidence=0.80,
                                 source_page=page_hint, source_text="Derived from effective date")
 
+    # Policy: when the agreement defers term dates to another instrument, we do not
+    # invent term_end. Optionally seed term_start from a parseable Effective Date
+    # only as a provisional placeholder for reviewers.
+    if (
+        external_term_reference
+        and external_term_reference.value
+        and not term_start.value
+        and eff_date
+        and eff_date.value
+        and _effective_date_parseable(eff_date)
+    ):
+        term_start = ev(
+            value=eff_date.value,
+            confidence=0.62,
+            source_page=page_hint,
+            source_text=(
+                "Provisional term_start: same as Effective Date because the text references "
+                "an external document for the full term; term_end intentionally left unset. "
+                "Review required."
+            ),
+            needs_review=True,
+        )
+
     payment = _extract_payment_terms(full_text, page_hint)
+    if payment is None or not payment.value:
+        block_pt = extract_payment_terms_block(full_text, page_hint)
+        if block_pt:
+            payment = block_pt
+
+    applicable_services = _extract_applicable_services_block(full_text, page_hint)
 
     return ContractMetadata(
         customer_name=customer or ExtractedValue(needs_review=True),
@@ -330,4 +515,7 @@ def extract_metadata(full_text: str, page_texts: Optional[dict] = None) -> Contr
         term_end=term_end,
         payment_terms=payment or ExtractedValue(),
         carrier=carrier,
+        offer_expiration=offer_expiration or ExtractedValue(),
+        external_term_reference=external_term_reference or ExtractedValue(),
+        applicable_services=applicable_services or ExtractedValue(),
     )

@@ -751,6 +751,21 @@ def extract_contract_v2(
                 all_special_terms.append(sp)
                 deterministic_hits += 1
 
+    # Metadata-only offer acceptance deadline (not contract effective date)
+    if metadata.offer_expiration.value:
+        all_special_terms.insert(
+            0,
+            SpecialTerm(
+                term_name=ev(
+                    value="Offer expiration / acceptance deadline",
+                    confidence=0.82,
+                    source_text=metadata.offer_expiration.source_text,
+                ),
+                term_value=metadata.offer_expiration,
+                conditions=ExtractedValue(),
+            ),
+        )
+
     # --- Phase 3: Amendment detection ---
     logger.info("Phase 3: Detecting amendments")
     amendments = []
@@ -805,6 +820,7 @@ def extract_contract_v2(
         "customer_name", "account_number", "agreement_number",
         "version_number", "effective_date", "term_start",
         "term_end", "payment_terms", "carrier",
+        "offer_expiration", "external_term_reference", "applicable_services",
     ]:
         fld = getattr(extraction.metadata, field_name)
         if fld.value is not None:

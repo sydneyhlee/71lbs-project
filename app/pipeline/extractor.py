@@ -136,6 +136,7 @@ def _parse_llm_response(data: Dict[str, Any]) -> Dict[str, Any]:
         "customer_name", "account_number", "agreement_number",
         "version_number", "effective_date", "term_start", "term_end",
         "payment_terms", "carrier",
+        "offer_expiration", "external_term_reference", "applicable_services",
     ]:
         meta_fields[key] = _raw_field_to_ev(meta_raw.get(key))
     result["metadata"] = ContractMetadata(**meta_fields)

@@ -93,26 +93,27 @@ def _has_enough_text(raw_page: RawPage) -> bool:
 def _extract_ocr(pdf_path: Path, page_number: int, pdf_page: PdfPage) -> RawPage:
     """
     Render a page to an image and run Tesseract OCR on it.
-    Requires: tesseract binary, pdf2image, pytesseract, Pillow.
+    Uses Poppler (pdf2image) when available, else PyMuPDF rasterization.
+    Requires: tesseract binary, pytesseract, Pillow, and pdf2image or pymupdf.
     """
     try:
-        from pdf2image import convert_from_path
         import pytesseract
     except ImportError as exc:
         raise RuntimeError(
-            "OCR dependencies not installed. Run: pip install pdf2image pytesseract Pillow\n"
+            "OCR dependencies not installed. Run: pip install pytesseract Pillow pymupdf\n"
             "Also install the tesseract binary: https://tesseract-ocr.github.io/tessdoc/Installation.html"
         ) from exc
 
-    # Render only this page (1-indexed for pdf2image)
-    images = convert_from_path(
-        str(pdf_path),
+    from app.pipeline.ocr_render import ocr_page_images
+
+    images = ocr_page_images(
+        pdf_path,
         first_page=page_number,
         last_page=page_number,
         dpi=300,
     )
     if not images:
-        raise RuntimeError(f"pdf2image returned no images for page {page_number}.")
+        raise RuntimeError(f"OCR rasterization returned no images for page {page_number}.")
 
     text = pytesseract.image_to_string(images[0], lang="eng")
     logger.info("Page %d processed via OCR (%d chars extracted).", page_number, len(text.strip()))
