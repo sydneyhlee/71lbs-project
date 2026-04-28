@@ -29,6 +29,7 @@ def _extract_text(file_path: Path) -> str:
 _INVOICE_ID_PATTERNS = [
     re.compile(r"Invoice Number[:\s]+([A-Z0-9\-]+)", re.IGNORECASE),
     re.compile(r"Invoice #[:\s]+([A-Z0-9\-]+)", re.IGNORECASE),
+    re.compile(r"Invoice[:\s]+([0-9]{4,}[A-Z0-9\-]+)", re.IGNORECASE),
 ]
 _INVOICE_DATE_PATTERNS = [
     re.compile(r"Invoice Date[:\s]+([A-Za-z]{3,9}\s+\d{1,2},\s+\d{4})", re.IGNORECASE),
@@ -38,6 +39,45 @@ _TRACKING_PATTERN = re.compile(r"\b(1Z[0-9A-Z]{16}|[0-9]{12,20})\b")
 _AMOUNT_PATTERN = re.compile(r"\$?\s*([0-9]{1,3}(?:,[0-9]{3})*(?:\.[0-9]{2})?)")
 _WEIGHT_PATTERN = re.compile(r"(?:Rated Weight|Billed Weight|Weight)\s*[: ]+\s*([0-9]+(?:\.[0-9]+)?)\s*(?:lb|lbs)?", re.IGNORECASE)
 _SHIP_DATE_LINE_PATTERN = re.compile(r"Ship Date[:\s]+([A-Za-z]{3,9}\s+\d{1,2},\s+\d{4}|[0-9]{1,2}/[0-9]{1,2}/[0-9]{2,4})", re.IGNORECASE)
+
+# UPS multi-line invoice format patterns
+_UPS_1Z_RE = re.compile(r"^(1Z[0-9A-Z]{16})\s+(.*)", re.IGNORECASE)
+_UPS_SECTION_DATE_RE = re.compile(r"^(\d{2}/\d{2}/\d{4})\s*$")
+_UPS_DECIMAL_RE = re.compile(r"-?\d{1,3}(?:,\d{3})*\.\d{2}")
+_UPS_ZIP_ZONE_WEIGHT_RE = re.compile(r"\b(\d{5})\s+(\d{1,3})\s+([\d.]+)(?:\s|$)")
+_UPS_PAGE_RE = re.compile(r"---\s*Page\s+(\d+)\s*---", re.IGNORECASE)
+
+_UPS_SURCHARGE_MAP: dict[str, str] = {
+    "fuel surcharge": "fuel_surcharge_billed",
+    "residential delivery": "residential_surcharge_billed",
+    "delivery area surcharge": "das_billed",
+    "extended delivery area": "das_billed",
+    "remote area surcharge": "das_billed",
+    "additional handling": "ahs_billed",
+    "large package": "large_package_billed",
+    "address correction": "address_correction_billed",
+    "saturday delivery": "saturday_delivery_billed",
+    "declared value": "declared_value_billed",
+}
+
+_UPS_ADJUSTMENT_KEYWORDS = (
+    "residential/commercial adjustments",
+    "shipping charge corrections",
+    "billing adjustments",
+    "shipper number transfer",
+    "c.o.d. amounts billed",
+    "return services charges",
+)
+
+_UPS_META_PREFIXES = (
+    "1st ref",
+    "2nd ref",
+    "sender",
+    "receiver",
+    "message codes",
+    "userid",
+    "customer entered",
+)
 
 _SERVICE_MAPPINGS: dict[str, tuple[str, str]] = {
     "fedex ground": ("fedex_ground", "ground"),
@@ -191,6 +231,184 @@ def _extract_invoice_id(text: str) -> str | None:
     return None
 
 
+def _parse_ups_detail_lines(
+    file_path: Path,
+    raw_text: str,
+    invoice_id: str | None,
+    fallback_date: date | None,
+) -> list[InvoiceLineItem]:
+    """Stateful parser for UPS multi-line invoice format.
+
+    Each shipment opens with a 1Z tracking line (service, ZIP, zone, weight,
+    published, credit, billed) and is followed by child lines for surcharges
+    (Fuel Surcharge, Residential Delivery, DAS, etc.) and metadata to skip.
+    Stops processing when it hits adjustment-section headers.
+    """
+    items: list[InvoiceLineItem] = []
+    cur: dict[str, Any] = {}
+    section_date = fallback_date
+    in_adjustments = False
+    current_page = 1
+
+    def _flush() -> None:
+        if not cur or not cur.get("tracking_number"):
+            cur.clear()
+            return
+        tb = cur.get("total_billed")
+        if tb is None:
+            tb = round(
+                (cur.get("net_transport_charge") or 0.0)
+                + (cur.get("fuel_surcharge_billed") or 0.0)
+                + (cur.get("residential_surcharge_billed") or 0.0)
+                + (cur.get("das_billed") or 0.0)
+                + (cur.get("ahs_billed") or 0.0)
+                + (cur.get("large_package_billed") or 0.0)
+                + (cur.get("address_correction_billed") or 0.0)
+                + (cur.get("saturday_delivery_billed") or 0.0)
+                + (cur.get("declared_value_billed") or 0.0),
+                2,
+            )
+        svc = cur.get("service_or_charge_type") or "Unknown"
+        svc_code, svc_group = _normalize_service_code(svc, "ups")
+        items.append(
+            InvoiceLineItem(
+                id=f"{file_path.name}:{len(items) + 1}",
+                invoice_id=invoice_id,
+                tracking_number=cur["tracking_number"],
+                transaction_id=cur["tracking_number"],
+                ship_date=cur.get("ship_date") or section_date,
+                service_code=svc_code,
+                service_group=svc_group,
+                service_or_charge_type=svc,
+                destination_zip=cur.get("destination_zip"),
+                zone=cur.get("zone"),
+                rated_weight_lbs=cur.get("rated_weight_lbs") or cur.get("actual_weight_lbs"),
+                actual_weight_lbs=cur.get("actual_weight_lbs"),
+                published_charge=cur.get("published_charge"),
+                incentive_credit=cur.get("incentive_credit"),
+                net_transport_charge=cur.get("net_transport_charge"),
+                transport_charge=cur.get("published_charge"),
+                fuel_surcharge_billed=cur.get("fuel_surcharge_billed"),
+                residential_surcharge_billed=cur.get("residential_surcharge_billed"),
+                das_billed=cur.get("das_billed"),
+                ahs_billed=cur.get("ahs_billed"),
+                large_package_billed=cur.get("large_package_billed"),
+                address_correction_billed=cur.get("address_correction_billed"),
+                saturday_delivery_billed=cur.get("saturday_delivery_billed"),
+                declared_value_billed=cur.get("declared_value_billed"),
+                billed_amount=float(tb),
+                total_billed=float(tb),
+                source_page=current_page,
+                raw_line_text=(cur.get("raw_line_text") or "")[:220],
+            )
+        )
+        cur.clear()
+
+    for raw_line in raw_text.splitlines():
+        line = raw_line.strip()
+        if not line:
+            continue
+
+        page_m = _UPS_PAGE_RE.match(line)
+        if page_m:
+            current_page = int(page_m.group(1))
+            continue
+
+        line_lower = line.lower()
+
+        if any(kw in line_lower for kw in _UPS_ADJUSTMENT_KEYWORDS):
+            _flush()
+            in_adjustments = True
+            continue
+        if in_adjustments:
+            continue
+
+        date_m = _UPS_SECTION_DATE_RE.match(line)
+        if date_m:
+            d = _parse_date(date_m.group(1))
+            if d:
+                section_date = d
+            continue
+
+        trk_m = _UPS_1Z_RE.match(line)
+        if trk_m:
+            _flush()
+            tracking = trk_m.group(1).upper()
+            rest = trk_m.group(2).strip()
+
+            zzw_m = _UPS_ZIP_ZONE_WEIGHT_RE.search(rest)
+            dest_zip = zone_int = weight = None
+            svc_name = rest
+            if zzw_m:
+                dest_zip = zzw_m.group(1)
+                zone_int = int(zzw_m.group(2))
+                weight = _to_float(zzw_m.group(3))
+                svc_name = rest[: zzw_m.start()].strip() or "Unknown"
+
+            # Last 3 decimal values in rest = published, credit (neg), billed
+            decimals = _UPS_DECIMAL_RE.findall(rest)
+            published = credit = billed_t = None
+            if len(decimals) >= 3:
+                published = _to_float(decimals[-3])
+                credit = _to_float(decimals[-2])
+                billed_t = _to_float(decimals[-1])
+            elif len(decimals) == 2:
+                published = _to_float(decimals[-2])
+                billed_t = _to_float(decimals[-1])
+            elif decimals:
+                billed_t = _to_float(decimals[-1])
+
+            cur.update({
+                "tracking_number": tracking,
+                "service_or_charge_type": svc_name,
+                "destination_zip": dest_zip,
+                "zone": zone_int,
+                "rated_weight_lbs": weight,
+                "actual_weight_lbs": weight,
+                "published_charge": published,
+                "incentive_credit": credit,
+                "net_transport_charge": billed_t,
+                "ship_date": section_date,
+                "raw_line_text": line[:220],
+            })
+            continue
+
+        if not cur:
+            continue
+
+        if any(line_lower.startswith(p) for p in _UPS_META_PREFIXES):
+            continue
+
+        # Total line: grand total for this shipment
+        if re.match(r"total\b", line_lower) and "total billed" not in line_lower:
+            nums = _UPS_DECIMAL_RE.findall(line)
+            if nums:
+                cur["total_billed"] = _to_float(nums[-1])
+            continue
+
+        # Customer Weight line
+        if "customer weight" in line_lower:
+            m = re.search(r"([\d.]+)", line)
+            if m:
+                w = _to_float(m.group(1))
+                cur["actual_weight_lbs"] = w
+                if not cur.get("rated_weight_lbs"):
+                    cur["rated_weight_lbs"] = w
+            continue
+
+        # Surcharge child lines
+        for keyword, field in _UPS_SURCHARGE_MAP.items():
+            if keyword in line_lower:
+                nums = _UPS_DECIMAL_RE.findall(line)
+                if nums:
+                    amt = _to_float(nums[-1]) or 0.0
+                    cur[field] = round((cur.get(field) or 0.0) + amt, 2)
+                break
+
+    _flush()
+    return items
+
+
 def _parse_deterministic_text(file_path: Path, raw_text: str) -> list[InvoiceLineItem]:
     """Deterministic parser for PDF invoice details (line-block based)."""
     invoice_id = _extract_invoice_id(raw_text)
@@ -293,7 +511,7 @@ def _parse_deterministic_text(file_path: Path, raw_text: str) -> list[InvoiceLin
             fuel = float(current.get("fuel_surcharge_billed") or 0.0)
             current["total_billed"] = round(transport + fuel, 2)
             flush_current()
-            if len(items) >= 1000:
+            if len(items) >= 10000:
                 break
 
     flush_current()
@@ -614,6 +832,16 @@ def ingest_invoice(file_path: Path, carrier: str) -> list[InvoiceLineItem]:
     recovered_llm_items = _recover_and_filter_items(llm_items, raw_text, carrier_hint, file_path.name)
     if recovered_llm_items:
         return recovered_llm_items
+
+    # UPS stateful multi-line parser (handles 1Z tracking + child surcharge lines)
+    if carrier_hint == "ups" or "1z" in raw_text[:3000].lower():
+        invoice_id = _extract_invoice_id(raw_text)
+        fallback_date = _extract_invoice_context(raw_text, carrier_hint).get("invoice_date")
+        ups_items = _parse_ups_detail_lines(file_path, raw_text, invoice_id, fallback_date)
+        if ups_items:
+            recovered_ups = _recover_and_filter_items(ups_items, raw_text, carrier_hint, file_path.name)
+            if recovered_ups:
+                return recovered_ups
 
     deterministic_items = _parse_deterministic_text(file_path, raw_text)
     return _recover_and_filter_items(deterministic_items, raw_text, carrier_hint, file_path.name)

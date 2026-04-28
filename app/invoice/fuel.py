@@ -55,32 +55,22 @@ def audit_fuel(invoice_line: InvoiceLineItem, contract: ContractExtraction) -> A
     if invoice_line.ship_date is None:
         return None
 
+    # Skip if no contract fuel terms — can't validate without discount data
+    fuel_terms = contract.fuel_surcharge or {}
+    if not fuel_terms or fuel_terms.get("discount_pct") is None:
+        return None
+
     carrier = _carrier_slug(contract)
     if carrier not in {"fedex", "ups"}:
         return None
 
-    service_class = "ground" if invoice_line.service_group in ("ground", "home_delivery") else "express"
+    service_class = "ground" if invoice_line.service_group in ("ground", "home_delivery", "ground_saver") else "express"
     if carrier == "ups" and service_class == "express":
         service_class = "air"
 
     published_rate_pct = get_weekly_rate(invoice_line.ship_date, carrier, service_class)
     if published_rate_pct is None:
-        return AuditDiscrepancy(
-            line_id=invoice_line.id,
-            tracking_number=invoice_line.tracking_number,
-            invoice_id=invoice_line.invoice_id,
-            transaction_id=invoice_line.transaction_id,
-            service_or_charge_type=invoice_line.service_or_charge_type,
-            discrepancy_type=DiscrepancyType.AMBIGUOUS,
-            field="fuel_surcharge",
-            billed_amount=invoice_line.fuel_surcharge_billed,
-            billed_value=invoice_line.fuel_surcharge_billed,
-            dollar_impact=0.0,
-            explanation=f"No fuel surcharge reference data for {carrier} {service_class} on {invoice_line.ship_date}",
-            why_discrepancy="Missing reference fuel table data.",
-            confidence=0.3,
-            invoice_source_reference=invoice_line.raw_line_text,
-        )
+        return None
 
     discount_pct, expiration_date = _contract_fuel_terms(contract)
     if expiration_date and invoice_line.ship_date > expiration_date:
@@ -94,7 +84,8 @@ def audit_fuel(invoice_line: InvoiceLineItem, contract: ContractExtraction) -> A
 
     expected_fuel = round(base * effective_rate / 100.0, 2)
     delta = round(invoice_line.fuel_surcharge_billed - expected_fuel, 2)
-    if abs(delta) <= 0.02:
+    # Only flag overcharges — if billed < expected the customer got a better deal, no action needed.
+    if delta <= 0.02:
         return None
 
     return AuditDiscrepancy(

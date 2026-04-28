@@ -312,6 +312,18 @@ def run_invoice_audit(invoice_lines: list[InvoiceLineItem], contract: ContractEx
                     result.ship_date = line.ship_date
                 all_discrepancies.append(result)
 
+    # Deduplicate: keep only the first discrepancy per (line_id, field) pair.
+    # This prevents the same charge being flagged twice when multiple audit
+    # passes overlap (e.g. duplicate-billing pass + fuel-surcharge pass).
+    seen_keys: set[tuple] = set()
+    deduped: list[AuditDiscrepancy] = []
+    for d in all_discrepancies:
+        key = (d.line_id or d.tracking_number, d.field or d.discrepancy_type.value)
+        if key not in seen_keys:
+            seen_keys.add(key)
+            deduped.append(d)
+    all_discrepancies = deduped
+
     total_recovery = sum(d.dollar_impact for d in all_discrepancies if d.dollar_impact > 0)
     line_ids = {d.line_id for d in all_discrepancies if d.line_id}
     company_name = (

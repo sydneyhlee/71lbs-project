@@ -1,0 +1,1858 @@
+71lbs Invoice Audit Report
+========================================================================
+Company:        G-FULFILLMENT LLC
+Agreement ID:   6e5b625e-b49f-447e-adce-2a32057d5b70
+Carrier:        UPS
+Invoice Period: 2026-03-07 to 2026-03-07
+Audited Lines:  1596
+Lines Flagged:  153
+Total Recovery Potential: $596.70
+Generated:      2026-04-28T01:47:06.423707Z
+========================================================================
+
+DISCREPANCIES FOUND
+------------------------------------------------------------------------
+
+[1] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0333668307
+    Transaction: 1ZG5319A0333668307
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $4.42
+    Expected:    $0.00
+    Discrepancy: $4.42 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 02892 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[2] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0335352564
+    Transaction: 1ZG5319A0335352564
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 02038 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[3] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0302114454
+    Transaction: 1ZG5319A0302114454
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $4.42
+    Expected:    $0.00
+    Discrepancy: $4.42 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 65066 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[4] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0303210428
+    Transaction: 1ZG5319A0303210428
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 22508 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[5] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0303851058
+    Transaction: 1ZG5319A0303851058
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $4.42
+    Expected:    $0.00
+    Discrepancy: $4.42 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 34142 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[6] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0304495923
+    Transaction: 1ZG5319A0304495923
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 44256 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[7] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0305689892
+    Transaction: 1ZG5319A0305689892
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $4.42
+    Expected:    $0.00
+    Discrepancy: $4.42 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 72921 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[8] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0306601974
+    Transaction: 1ZG5319A0306601974
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 47394 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[9] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0306942329
+    Transaction: 1ZG5319A0306942329
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 21617 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[10] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0307023963
+    Transaction: 1ZG5319A0307023963
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 01504 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[11] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0310754417
+    Transaction: 1ZG5319A0310754417
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $4.42
+    Expected:    $0.00
+    Discrepancy: $4.42 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 54448 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[12] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0311430809
+    Transaction: 1ZG5319A0311430809
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 21221 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[13] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0311593232
+    Transaction: 1ZG5319A0311593232
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 16125 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[14] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0311877588
+    Transaction: 1ZG5319A0311877588
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 11226 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[15] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0312700659
+    Transaction: 1ZG5319A0312700659
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $4.42
+    Expected:    $0.00
+    Discrepancy: $4.42 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 32060 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[16] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0313254158
+    Transaction: 1ZG5319A0313254158
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 46217 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[17] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0313879126
+    Transaction: 1ZG5319A0313879126
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $4.42
+    Expected:    $0.00
+    Discrepancy: $4.42 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 29803 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[18] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0314465302
+    Transaction: 1ZG5319A0314465302
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 02668 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[19] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0314782059
+    Transaction: 1ZG5319A0314782059
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 48734 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[20] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0315348713
+    Transaction: 1ZG5319A0315348713
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 21620 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[21] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0316123150
+    Transaction: 1ZG5319A0316123150
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $4.42
+    Expected:    $0.00
+    Discrepancy: $4.42 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 01507 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[22] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0318332082
+    Transaction: 1ZG5319A0318332082
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 11364 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[23] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0318824210
+    Transaction: 1ZG5319A0318824210
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 10453 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[24] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0319342024
+    Transaction: 1ZG5319A0319342024
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $4.42
+    Expected:    $0.00
+    Discrepancy: $4.42 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 29440 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[25] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0319464572
+    Transaction: 1ZG5319A0319464572
+    Ship Date:   2026-03-07
+    Service:     Ground Commercial
+    Billed:      $4.42
+    Expected:    $0.00
+    Discrepancy: $4.42 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 40202 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[26] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0322977511
+    Transaction: 1ZG5319A0322977511
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 56031 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[27] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0326246008
+    Transaction: 1ZG5319A0326246008
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 30052 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[28] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0326260055
+    Transaction: 1ZG5319A0326260055
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 38751 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[29] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0327546227
+    Transaction: 1ZG5319A0327546227
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 55024 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[30] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0328488217
+    Transaction: 1ZG5319A0328488217
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 14469 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[31] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0329766389
+    Transaction: 1ZG5319A0329766389
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 54494 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[32] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0330848547
+    Transaction: 1ZG5319A0330848547
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 33917 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[33] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0331397792
+    Transaction: 1ZG5319A0331397792
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 18337 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[34] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0332597252
+    Transaction: 1ZG5319A0332597252
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 32720 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[35] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0332730320
+    Transaction: 1ZG5319A0332730320
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $4.42
+    Expected:    $0.00
+    Discrepancy: $4.42 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 32656 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[36] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0336877693
+    Transaction: 1ZG5319A0336877693
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 21921 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[37] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0339435566
+    Transaction: 1ZG5319A0339435566
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $4.42
+    Expected:    $0.00
+    Discrepancy: $4.42 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 50682 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[38] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0339958902
+    Transaction: 1ZG5319A0339958902
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 34786 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[39] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0303360838
+    Transaction: 1ZG5319A0303360838
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 28311 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[40] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0303378221
+    Transaction: 1ZG5319A0303378221
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 12054 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[41] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0303672288
+    Transaction: 1ZG5319A0303672288
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $16.50
+    Expected:    $0.00
+    Discrepancy: $16.50 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 96768 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[42] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0303701719
+    Transaction: 1ZG5319A0303701719
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 12566 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[43] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0304981666
+    Transaction: 1ZG5319A0304981666
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 17745 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[44] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0305378398
+    Transaction: 1ZG5319A0305378398
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 30215 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[45] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0306293647
+    Transaction: 1ZG5319A0306293647
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 33024 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[46] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0306726769
+    Transaction: 1ZG5319A0306726769
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $4.42
+    Expected:    $0.00
+    Discrepancy: $4.42 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 24230 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[47] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0307470257
+    Transaction: 1ZG5319A0307470257
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 17745 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[48] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0313292125
+    Transaction: 1ZG5319A0313292125
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $4.42
+    Expected:    $0.00
+    Discrepancy: $4.42 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 18411 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[49] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0314736877
+    Transaction: 1ZG5319A0314736877
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 37015 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[50] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0315576459
+    Transaction: 1ZG5319A0315576459
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 11946 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[51] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0316134728
+    Transaction: 1ZG5319A0316134728
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 08759 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[52] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0320687034
+    Transaction: 1ZG5319A0320687034
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 33187 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[53] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0324950652
+    Transaction: 1ZG5319A0324950652
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 55024 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[54] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0330360984
+    Transaction: 1ZG5319A0330360984
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 07871 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[55] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0332076421
+    Transaction: 1ZG5319A0332076421
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $4.42
+    Expected:    $0.00
+    Discrepancy: $4.42 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 11236 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[56] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0333100026
+    Transaction: 1ZG5319A0333100026
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 16641 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[57] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0334634378
+    Transaction: 1ZG5319A0334634378
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $4.42
+    Expected:    $0.00
+    Discrepancy: $4.42 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 35634 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[58] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0335650643
+    Transaction: 1ZG5319A0335650643
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $4.42
+    Expected:    $0.00
+    Discrepancy: $4.42 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 87068 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[59] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0336200798
+    Transaction: 1ZG5319A0336200798
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $8.25
+    Expected:    $0.00
+    Discrepancy: $8.25 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 80440 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[60] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0338555929
+    Transaction: 1ZG5319A0338555929
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 08759 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[61] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0339810276
+    Transaction: 1ZG5319A0339810276
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 78380 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[62] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0300466435
+    Transaction: 1ZG5319A0300466435
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $4.42
+    Expected:    $0.00
+    Discrepancy: $4.42 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 22969 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[63] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0300999146
+    Transaction: 1ZG5319A0300999146
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $4.42
+    Expected:    $0.00
+    Discrepancy: $4.42 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 60424 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[64] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0303004464
+    Transaction: 1ZG5319A0303004464
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 32169 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[65] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0304151491
+    Transaction: 1ZG5319A0304151491
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $4.42
+    Expected:    $0.00
+    Discrepancy: $4.42 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 85735 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[66] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0305307455
+    Transaction: 1ZG5319A0305307455
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 47025 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[67] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0306867090
+    Transaction: 1ZG5319A0306867090
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 06831 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[68] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0308028984
+    Transaction: 1ZG5319A0308028984
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 57103 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[69] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0309218044
+    Transaction: 1ZG5319A0309218044
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 11433 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[70] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0311569198
+    Transaction: 1ZG5319A0311569198
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 11233 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[71] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0312434312
+    Transaction: 1ZG5319A0312434312
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 07871 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[72] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0312687200
+    Transaction: 1ZG5319A0312687200
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 60096 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[73] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0313056096
+    Transaction: 1ZG5319A0313056096
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $4.42
+    Expected:    $0.00
+    Discrepancy: $4.42 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 28504 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[74] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0313944868
+    Transaction: 1ZG5319A0313944868
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 44676 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[75] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0315545385
+    Transaction: 1ZG5319A0315545385
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $4.42
+    Expected:    $0.00
+    Discrepancy: $4.42 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 78681 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[76] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0321955117
+    Transaction: 1ZG5319A0321955117
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 04096 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[77] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0322061465
+    Transaction: 1ZG5319A0322061465
+    Ship Date:   2026-03-07
+    Service:     Ground Commercial
+    Billed:      $8.25
+    Expected:    $0.00
+    Discrepancy: $8.25 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 97530 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[78] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0329784332
+    Transaction: 1ZG5319A0329784332
+    Ship Date:   2026-03-07
+    Service:     Ground Commercial
+    Billed:      $2.85
+    Expected:    $0.00
+    Discrepancy: $2.85 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 05843 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[79] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0321148721
+    Transaction: 1ZG5319A0321148721
+    Ship Date:   2026-03-07
+    Service:     Ground Commercial
+    Billed:      $5.70
+    Expected:    $0.00
+    Discrepancy: $5.70 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 30513 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[80] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0301466675
+    Transaction: 1ZG5319A0301466675
+    Ship Date:   2026-03-07
+    Service:     Ground Commercial
+    Billed:      $4.50
+    Expected:    $0.00
+    Discrepancy: $4.50 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 35016 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[81] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0317014703
+    Transaction: 1ZG5319A0317014703
+    Ship Date:   2026-03-07
+    Service:     Ground Commercial
+    Billed:      $2.25
+    Expected:    $0.00
+    Discrepancy: $2.25 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 35016 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[82] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0317474485
+    Transaction: 1ZG5319A0317474485
+    Ship Date:   2026-03-07
+    Service:     Ground Commercial
+    Billed:      $2.25
+    Expected:    $0.00
+    Discrepancy: $2.25 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 35016 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[83] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0302224826
+    Transaction: 1ZG5319A0302224826
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $6.54
+    Expected:    $0.00
+    Discrepancy: $6.54 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 55057 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[84] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0303085314
+    Transaction: 1ZG5319A0303085314
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 85138 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[85] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0307855510
+    Transaction: 1ZG5319A0307855510
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 48738 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[86] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0309566892
+    Transaction: 1ZG5319A0309566892
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $4.42
+    Expected:    $0.00
+    Discrepancy: $4.42 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 39355 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[87] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0310878801
+    Transaction: 1ZG5319A0310878801
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 30331 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[88] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0319886063
+    Transaction: 1ZG5319A0319886063
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 41091 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[89] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0322283190
+    Transaction: 1ZG5319A0322283190
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 85029 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[90] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0338732219
+    Transaction: 1ZG5319A0338732219
+    Ship Date:   2026-03-07
+    Service:     Ground Commercial
+    Billed:      $2.85
+    Expected:    $0.00
+    Discrepancy: $2.85 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 07090 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[91] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0322698788
+    Transaction: 1ZG5319A0322698788
+    Ship Date:   2026-03-07
+    Service:     Ground Commercial
+    Billed:      $2.85
+    Expected:    $0.00
+    Discrepancy: $2.85 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 97862 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[92] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0326699976
+    Transaction: 1ZG5319A0326699976
+    Ship Date:   2026-03-07
+    Service:     Ground Commercial
+    Billed:      $2.85
+    Expected:    $0.00
+    Discrepancy: $2.85 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 97862 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[93] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0326794809
+    Transaction: 1ZG5319A0326794809
+    Ship Date:   2026-03-07
+    Service:     Ground Commercial
+    Billed:      $5.70
+    Expected:    $0.00
+    Discrepancy: $5.70 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 97862 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[94] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0338602396
+    Transaction: 1ZG5319A0338602396
+    Ship Date:   2026-03-07
+    Service:     Ground Commercial
+    Billed:      $2.85
+    Expected:    $0.00
+    Discrepancy: $2.85 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 97862 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[95] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0328814828
+    Transaction: 1ZG5319A0328814828
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 36065 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[96] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0334001631
+    Transaction: 1ZG5319A0334001631
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 36065 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[97] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0330187681
+    Transaction: 1ZG5319A0330187681
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $4.42
+    Expected:    $0.00
+    Discrepancy: $4.42 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 70534 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[98] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0330571774
+    Transaction: 1ZG5319A0330571774
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 18337 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[99] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0330932446
+    Transaction: 1ZG5319A0330932446
+    Ship Date:   2026-03-07
+    Service:     Ground Commercial
+    Billed:      $2.25
+    Expected:    $0.00
+    Discrepancy: $2.25 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 47250 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[100] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0331332940
+    Transaction: 1ZG5319A0331332940
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $4.42
+    Expected:    $0.00
+    Discrepancy: $4.42 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 40071 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[101] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0331536435
+    Transaction: 1ZG5319A0331536435
+    Ship Date:   2026-03-07
+    Service:     Ground Commercial
+    Billed:      $2.85
+    Expected:    $0.00
+    Discrepancy: $2.85 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 93446 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[102] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0329835616
+    Transaction: 1ZG5319A0329835616
+    Ship Date:   2026-03-07
+    Service:     Ground Commercial
+    Billed:      $2.25
+    Expected:    $0.00
+    Discrepancy: $2.25 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 92075 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[103] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0334442405
+    Transaction: 1ZG5319A0334442405
+    Ship Date:   2026-03-07
+    Service:     Ground Commercial
+    Billed:      $2.25
+    Expected:    $0.00
+    Discrepancy: $2.25 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 92075 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[104] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0336685622
+    Transaction: 1ZG5319A0336685622
+    Ship Date:   2026-03-07
+    Service:     Ground Commercial
+    Billed:      $2.25
+    Expected:    $0.00
+    Discrepancy: $2.25 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 92075 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[105] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0339933661
+    Transaction: 1ZG5319A0339933661
+    Ship Date:   2026-03-07
+    Service:     Ground Commercial
+    Billed:      $7.69
+    Expected:    $0.00
+    Discrepancy: $7.69 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 47404 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[106] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0305115957
+    Transaction: 1ZG5319A0305115957
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $8.25
+    Expected:    $0.00
+    Discrepancy: $8.25 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 75433 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[107] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0314489724
+    Transaction: 1ZG5319A0314489724
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 15613 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[108] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0316331907
+    Transaction: 1ZG5319A0316331907
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 71220 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[109] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0321125077
+    Transaction: 1ZG5319A0321125077
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $4.42
+    Expected:    $0.00
+    Discrepancy: $4.42 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 85374 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[110] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0322961751
+    Transaction: 1ZG5319A0322961751
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $4.42
+    Expected:    $0.00
+    Discrepancy: $4.42 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 76270 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[111] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0325042757
+    Transaction: 1ZG5319A0325042757
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 78245 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[112] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0336363907
+    Transaction: 1ZG5319A0336363907
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 89451 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[113] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0339341014
+    Transaction: 1ZG5319A0339341014
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 60451 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[114] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0314407713
+    Transaction: 1ZG5319A0314407713
+    Ship Date:   2026-03-07
+    Service:     Ground Commercial Third78624 6 20 0.00 0.00
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 00000 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[115] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0310997076
+    Transaction: 1ZG5319A0310997076
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 97701 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[116] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0312118388
+    Transaction: 1ZG5319A0312118388
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $5.52
+    Expected:    $0.00
+    Discrepancy: $5.52 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 73025 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[117] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0319669539
+    Transaction: 1ZG5319A0319669539
+    Ship Date:   2026-03-07
+    Service:     Ground Commercial
+    Billed:      $2.25
+    Expected:    $0.00
+    Discrepancy: $2.25 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 97058 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[118] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0316528400
+    Transaction: 1ZG5319A0316528400
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $8.25
+    Expected:    $0.00
+    Discrepancy: $8.25 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 97761 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[119] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0321254642
+    Transaction: 1ZG5319A0321254642
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $6.54
+    Expected:    $0.00
+    Discrepancy: $6.54 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 95949 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[120] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0321627052
+    Transaction: 1ZG5319A0321627052
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 92399 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[121] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0329494842
+    Transaction: 1ZG5319A0329494842
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $4.42
+    Expected:    $0.00
+    Discrepancy: $4.42 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 20901 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[122] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0301533879
+    Transaction: 1ZG5319A0301533879
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 32967 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[123] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0302787255
+    Transaction: 1ZG5319A0302787255
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 92028 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[124] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0303134921
+    Transaction: 1ZG5319A0303134921
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 10457 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[125] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0306922949
+    Transaction: 1ZG5319A0306922949
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $4.42
+    Expected:    $0.00
+    Discrepancy: $4.42 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 47978 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[126] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0307323362
+    Transaction: 1ZG5319A0307323362
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 20616 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[127] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0307357693
+    Transaction: 1ZG5319A0307357693
+    Ship Date:   2026-03-07
+    Service:     Ground Commercial
+    Billed:      $2.85
+    Expected:    $0.00
+    Discrepancy: $2.85 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 42629 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[128] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0307699869
+    Transaction: 1ZG5319A0307699869
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 86406 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[129] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0310808467
+    Transaction: 1ZG5319A0310808467
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 77355 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[130] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0314564151
+    Transaction: 1ZG5319A0314564151
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $7.69
+    Expected:    $0.00
+    Discrepancy: $7.69 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 98368 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[131] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0319687340
+    Transaction: 1ZG5319A0319687340
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $4.42
+    Expected:    $0.00
+    Discrepancy: $4.42 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 89027 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[132] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0327582607
+    Transaction: 1ZG5319A0327582607
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 47834 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[133] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0327804135
+    Transaction: 1ZG5319A0327804135
+    Ship Date:   2026-03-07
+    Service:     Ground Residential Third
+    Billed:      $4.42
+    Expected:    $0.00
+    Discrepancy: $4.42 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 94505 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[134] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0330171858
+    Transaction: 1ZG5319A0330171858
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 08863 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[135] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0338701609
+    Transaction: 1ZG5319A0338701609
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $4.42
+    Expected:    $0.00
+    Discrepancy: $4.42 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 30513 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[136] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0338894009
+    Transaction: 1ZG5319A0338894009
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 08005 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[137] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0301345886
+    Transaction: 1ZG5319A0301345886
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 94121 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[138] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0301682379
+    Transaction: 1ZG5319A0301682379
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 72335 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[139] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0302952110
+    Transaction: 1ZG5319A0302952110
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 94541 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[140] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0307224273
+    Transaction: 1ZG5319A0307224273
+    Ship Date:   2026-03-07
+    Service:     Ground Residential Third
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 78215 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[141] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0309417874
+    Transaction: 1ZG5319A0309417874
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 85739 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[142] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0309587600
+    Transaction: 1ZG5319A0309587600
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $8.25
+    Expected:    $0.00
+    Discrepancy: $8.25 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 79756 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[143] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0313582286
+    Transaction: 1ZG5319A0313582286
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 16142 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[144] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0315573283
+    Transaction: 1ZG5319A0315573283
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 79766 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[145] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0325487198
+    Transaction: 1ZG5319A0325487198
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 92210 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[146] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0327829556
+    Transaction: 1ZG5319A0327829556
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 95242 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[147] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0329558158
+    Transaction: 1ZG5319A0329558158
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $4.42
+    Expected:    $0.00
+    Discrepancy: $4.42 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 96080 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[148] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0334206901
+    Transaction: 1ZG5319A0334206901
+    Ship Date:   2026-03-07
+    Service:     Ground Residential Third
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 89411 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[149] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0337373538
+    Transaction: 1ZG5319A0337373538
+    Ship Date:   2026-03-07
+    Service:     Ground Residential
+    Billed:      $6.54
+    Expected:    $0.00
+    Discrepancy: $6.54 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 96150 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[150] UNSUPPORTED FEE
+    Tracking:    1ZG5319A1226899322
+    Transaction: 1ZG5319A1226899322
+    Ship Date:   2026-03-07
+    Service:     3 Day Select Residential
+    Billed:      $4.42
+    Expected:    $0.00
+    Discrepancy: $4.42 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 54126 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[151] UNSUPPORTED FEE
+    Tracking:    1ZG5319A1228521118
+    Transaction: 1ZG5319A1228521118
+    Ship Date:   2026-03-07
+    Service:     3 Day Select Residential
+    Billed:      $6.54
+    Expected:    $0.00
+    Discrepancy: $6.54 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 01568 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[152] UNSUPPORTED FEE
+    Tracking:    1ZG5319A1239933859
+    Transaction: 1ZG5319A1239933859
+    Ship Date:   2026-03-07
+    Service:     3 Day Select Residential
+    Billed:      $3.27
+    Expected:    $0.00
+    Discrepancy: $3.27 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 70764 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+[153] UNSUPPORTED FEE
+    Tracking:    1ZG5319A0308963473
+    Transaction: 1ZG5319A0308963473
+    Ship Date:   2026-03-07
+    Service:     Ground Commercial
+    Billed:      $2.25
+    Expected:    $0.00
+    Discrepancy: $2.25 overcharge
+    Why:         DAS billed on ZIP not present in carrier DAS mapping.
+    Basis:       ZIP 80302 is not on UPS DAS list but DAS was charged
+    Action:      Dispute unsupported fee and request credit.
+
+========================================================================
+SUMMARY BY DISCREPANCY TYPE
+------------------------------------------------------------------------
+Unsupported Fee             153 shipments    $596.70
+------------------------------------------------------------------------
+TOTAL RECOVERY POTENTIAL                  $596.70
+========================================================================
