@@ -223,7 +223,6 @@ def render_discrepancy_text_report(report: InvoiceAuditReport) -> str:
     lines = [
         "71lbs Invoice Audit Report",
         "=" * 72,
-        f"Company: {report.company_name}",
         f"Company:        {report.company_name}",
         f"Agreement ID:   {report.agreement_id}",
         f"Carrier:        {report.carrier or 'Unknown'}",
@@ -254,9 +253,8 @@ def render_discrepancy_text_report(report: InvoiceAuditReport) -> str:
                 f"    Service:     {d.service_or_charge_type or 'Unknown'}",
                 f"    Billed:      ${((d.billed_value if d.billed_value is not None else d.billed_amount) or 0.0):.2f}",
                 f"    Expected:    ${((d.expected_value if d.expected_value is not None else d.expected_amount) or 0.0):.2f}",
-                f"    Dollar Discrepancy: ${(d.dollar_impact or 0.0):.2f}",
                 f"    Discrepancy: ${abs(d.dollar_impact or 0.0):.2f} {'overcharge' if (d.dollar_impact or 0.0) >= 0 else 'undercharge'}",
-                f"    Why:         {d.explanation or d.why_discrepancy}",
+                f"    Why:         {d.why_discrepancy or d.explanation}",
                 f"    Basis:       {d.explanation or d.why_discrepancy}",
                 f"    Action:      {_action_for(d)}",
                 "",

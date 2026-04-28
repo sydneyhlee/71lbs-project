@@ -240,7 +240,10 @@ def audit_duplicates(invoice_lines: list[InvoiceLineItem]) -> list[AuditDiscrepa
     seen = {}
     results: list[AuditDiscrepancy] = []
     for line in invoice_lines:
-        key = (line.tracking_number, line.ship_date)
+        tracking = (line.tracking_number or "").strip()
+        if not tracking or tracking.lower() == "unknown":
+            continue
+        key = (tracking, line.ship_date)
         if key in seen and line.total_billed > 0:
             results.append(
                 AuditDiscrepancy(

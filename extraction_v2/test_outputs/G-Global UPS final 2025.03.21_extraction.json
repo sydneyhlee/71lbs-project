@@ -1,0 +1,4156 @@
+{
+  "id": "8bee45d5-b7c8-48c3-be83-a5529b39343f",
+  "file_name": "G-Global UPS final 2025.03.21.pdf",
+  "file_path": "ingestion/data/G-Global UPS final 2025.03.21.pdf",
+  "extraction_timestamp": "2026-04-02T21:12:36.897567",
+  "status": "pending_review",
+  "metadata": {
+    "customer_name": {
+      "value": "G-FULFILLMENTLLC",
+      "confidence": 0.88,
+      "source_page": 1,
+      "source_text": "ement(\"Agreement\")ismadeandenteredintobyandbetweenG-FULFILLMENTLLC(\"Customer\")andUnited",
+      "needs_review": false,
+      "reviewer_override": null
+    },
+    "account_number": {
+      "value": "FILLMENTLLC",
+      "confidence": 0.78,
+      "source_page": 1,
+      "source_text": "eInc.G-FULFILLMENTLLC By:\\s1\\By:\\s2\\ Title:",
+      "needs_review": false,
+      "reviewer_override": null
+    },
+    "agreement_number": {
+      "value": "P710041190-01",
+      "confidence": 0.83,
+      "source_page": 1,
+      "source_text": "st\u00ae. \\bns\\P710041190-01\\bne\\ CarrierAgreeme",
+      "needs_review": false,
+      "reviewer_override": null
+    },
+    "version_number": {
+      "value": null,
+      "confidence": 0.0,
+      "source_page": null,
+      "source_text": null,
+      "needs_review": false,
+      "reviewer_override": null
+    },
+    "effective_date": {
+      "value": null,
+      "confidence": 0.0,
+      "source_page": null,
+      "source_text": null,
+      "needs_review": true,
+      "reviewer_override": null
+    },
+    "term_start": {
+      "value": null,
+      "confidence": 0.0,
+      "source_page": null,
+      "source_text": null,
+      "needs_review": false,
+      "reviewer_override": null
+    },
+    "term_end": {
+      "value": null,
+      "confidence": 0.0,
+      "source_page": null,
+      "source_text": null,
+      "needs_review": false,
+      "reviewer_override": null
+    },
+    "payment_terms": {
+      "value": null,
+      "confidence": 0.0,
+      "source_page": null,
+      "source_text": null,
+      "needs_review": false,
+      "reviewer_override": null
+    },
+    "carrier": {
+      "value": "UPS",
+      "confidence": 0.98,
+      "source_page": 1,
+      "source_text": ",anOhiocorporation(\"UPS\"). Pricing.UPSwillp",
+      "needs_review": false,
+      "reviewer_override": null
+    }
+  },
+  "service_terms": [],
+  "surcharges": [
+    {
+      "surcharge_name": {
+        "value": "UPSNextDayAirEarly - FuelSurcharge",
+        "confidence": 0.93,
+        "source_page": 4,
+        "source_text": "UPSNextDayAirEarly - FuelSurcharge",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "UPSNextDayAirEarly",
+        "confidence": 0.88,
+        "source_page": 4,
+        "source_text": "UPSNextDayAirEarly",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": "All Zones",
+        "confidence": 0.88,
+        "source_page": 4,
+        "source_text": "All Zones",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "- 20.0%",
+        "confidence": 0.93,
+        "source_page": 4,
+        "source_text": "- 20.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 20.0,
+        "confidence": 0.93,
+        "source_page": 4,
+        "source_text": "- 20.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "surcharge_name": {
+        "value": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPSNextDayAirEarly - ResidentialDeliverySurcharge",
+        "confidence": 0.93,
+        "source_page": 4,
+        "source_text": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPSNextDayAirEarly - ResidentialDeliverySurcharge",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPSNextDayAirEarly",
+        "confidence": 0.88,
+        "source_page": 4,
+        "source_text": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPSNextDayAirEarly",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": "All Zones",
+        "confidence": 0.88,
+        "source_page": 4,
+        "source_text": "All Zones",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "- 50.0%",
+        "confidence": 0.93,
+        "source_page": 4,
+        "source_text": "- 50.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 50.0,
+        "confidence": 0.93,
+        "source_page": 4,
+        "source_text": "- 50.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "surcharge_name": {
+        "value": "UPSNextDayAir - FuelSurcharge",
+        "confidence": 0.93,
+        "source_page": 4,
+        "source_text": "UPSNextDayAir - FuelSurcharge",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "UPSNextDayAir",
+        "confidence": 0.88,
+        "source_page": 4,
+        "source_text": "UPSNextDayAir",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": "All Zones",
+        "confidence": 0.88,
+        "source_page": 4,
+        "source_text": "All Zones",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "- 20.0%",
+        "confidence": 0.93,
+        "source_page": 4,
+        "source_text": "- 20.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 20.0,
+        "confidence": 0.93,
+        "source_page": 4,
+        "source_text": "- 20.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "surcharge_name": {
+        "value": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPSNextDayAir - ResidentialDeliverySurcharge",
+        "confidence": 0.93,
+        "source_page": 4,
+        "source_text": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPSNextDayAir - ResidentialDeliverySurcharge",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPSNextDayAir",
+        "confidence": 0.88,
+        "source_page": 4,
+        "source_text": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPSNextDayAir",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": "All Zones",
+        "confidence": 0.88,
+        "source_page": 4,
+        "source_text": "All Zones",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "- 50.0%",
+        "confidence": 0.93,
+        "source_page": 4,
+        "source_text": "- 50.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 50.0,
+        "confidence": 0.93,
+        "source_page": 4,
+        "source_text": "- 50.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "surcharge_name": {
+        "value": "UPSNextDayAirSaver - FuelSurcharge",
+        "confidence": 0.93,
+        "source_page": 4,
+        "source_text": "UPSNextDayAirSaver - FuelSurcharge",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "UPSNextDayAirSaver",
+        "confidence": 0.88,
+        "source_page": 4,
+        "source_text": "UPSNextDayAirSaver",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": "All Zones",
+        "confidence": 0.88,
+        "source_page": 4,
+        "source_text": "All Zones",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "- 20.0%",
+        "confidence": 0.93,
+        "source_page": 4,
+        "source_text": "- 20.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 20.0,
+        "confidence": 0.93,
+        "source_page": 4,
+        "source_text": "- 20.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "surcharge_name": {
+        "value": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPSNextDayAirSaver - ResidentialDeliverySurcharge",
+        "confidence": 0.93,
+        "source_page": 4,
+        "source_text": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPSNextDayAirSaver - ResidentialDeliverySurcharge",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPSNextDayAirSaver",
+        "confidence": 0.88,
+        "source_page": 4,
+        "source_text": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPSNextDayAirSaver",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": "All Zones",
+        "confidence": 0.88,
+        "source_page": 4,
+        "source_text": "All Zones",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "- 50.0%",
+        "confidence": 0.93,
+        "source_page": 4,
+        "source_text": "- 50.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 50.0,
+        "confidence": 0.93,
+        "source_page": 4,
+        "source_text": "- 50.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "surcharge_name": {
+        "value": "UPS2ndDayAirA.M. - FuelSurcharge",
+        "confidence": 0.93,
+        "source_page": 4,
+        "source_text": "UPS2ndDayAirA.M. - FuelSurcharge",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "UPS2ndDayAirA.M.",
+        "confidence": 0.88,
+        "source_page": 4,
+        "source_text": "UPS2ndDayAirA.M.",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": "All Zones",
+        "confidence": 0.88,
+        "source_page": 4,
+        "source_text": "All Zones",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "- 20.0%",
+        "confidence": 0.93,
+        "source_page": 4,
+        "source_text": "- 20.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 20.0,
+        "confidence": 0.93,
+        "source_page": 4,
+        "source_text": "- 20.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "surcharge_name": {
+        "value": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPS2ndDayAirA.M. - ResidentialDeliverySurcharge",
+        "confidence": 0.93,
+        "source_page": 4,
+        "source_text": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPS2ndDayAirA.M. - ResidentialDeliverySurcharge",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPS2ndDayAirA.M.",
+        "confidence": 0.88,
+        "source_page": 4,
+        "source_text": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPS2ndDayAirA.M.",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": "All Zones",
+        "confidence": 0.88,
+        "source_page": 4,
+        "source_text": "All Zones",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "- 50.0%",
+        "confidence": 0.93,
+        "source_page": 4,
+        "source_text": "- 50.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 50.0,
+        "confidence": 0.93,
+        "source_page": 4,
+        "source_text": "- 50.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "surcharge_name": {
+        "value": "UPS2ndDayAir - FuelSurcharge",
+        "confidence": 0.93,
+        "source_page": 4,
+        "source_text": "UPS2ndDayAir - FuelSurcharge",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "UPS2ndDayAir",
+        "confidence": 0.88,
+        "source_page": 4,
+        "source_text": "UPS2ndDayAir",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": "All Zones",
+        "confidence": 0.88,
+        "source_page": 4,
+        "source_text": "All Zones",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "- 20.0%",
+        "confidence": 0.93,
+        "source_page": 4,
+        "source_text": "- 20.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 20.0,
+        "confidence": 0.93,
+        "source_page": 4,
+        "source_text": "- 20.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "surcharge_name": {
+        "value": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPS2ndDayAir - ResidentialDeliverySurcharge",
+        "confidence": 0.93,
+        "source_page": 4,
+        "source_text": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPS2ndDayAir - ResidentialDeliverySurcharge",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPS2ndDayAir",
+        "confidence": 0.88,
+        "source_page": 4,
+        "source_text": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPS2ndDayAir",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": "All Zones",
+        "confidence": 0.88,
+        "source_page": 4,
+        "source_text": "All Zones",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "- 50.0%",
+        "confidence": 0.93,
+        "source_page": 4,
+        "source_text": "- 50.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 50.0,
+        "confidence": 0.93,
+        "source_page": 4,
+        "source_text": "- 50.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "surcharge_name": {
+        "value": "UPS3DaySelect - FuelSurcharge",
+        "confidence": 0.93,
+        "source_page": 4,
+        "source_text": "UPS3DaySelect - FuelSurcharge",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "UPS3DaySelect",
+        "confidence": 0.88,
+        "source_page": 4,
+        "source_text": "UPS3DaySelect",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": "All Zones",
+        "confidence": 0.88,
+        "source_page": 4,
+        "source_text": "All Zones",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "- 20.0%",
+        "confidence": 0.93,
+        "source_page": 4,
+        "source_text": "- 20.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 20.0,
+        "confidence": 0.93,
+        "source_page": 4,
+        "source_text": "- 20.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "surcharge_name": {
+        "value": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPS3DaySelect - ResidentialDeliverySurcharge",
+        "confidence": 0.93,
+        "source_page": 4,
+        "source_text": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPS3DaySelect - ResidentialDeliverySurcharge",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPS3DaySelect",
+        "confidence": 0.88,
+        "source_page": 4,
+        "source_text": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPS3DaySelect",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": "All Zones",
+        "confidence": 0.88,
+        "source_page": 4,
+        "source_text": "All Zones",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "- 50.0%",
+        "confidence": 0.93,
+        "source_page": 4,
+        "source_text": "- 50.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 50.0,
+        "confidence": 0.93,
+        "source_page": 4,
+        "source_text": "- 50.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "surcharge_name": {
+        "value": "UPSGround - FuelSurcharge",
+        "confidence": 0.93,
+        "source_page": 4,
+        "source_text": "UPSGround - FuelSurcharge",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "UPSGround",
+        "confidence": 0.88,
+        "source_page": 4,
+        "source_text": "UPSGround",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": "All Zones",
+        "confidence": 0.88,
+        "source_page": 4,
+        "source_text": "All Zones",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "- 20.0%",
+        "confidence": 0.93,
+        "source_page": 4,
+        "source_text": "- 20.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 20.0,
+        "confidence": 0.93,
+        "source_page": 4,
+        "source_text": "- 20.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "surcharge_name": {
+        "value": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPSGround - ResidentialDeliverySurcharge",
+        "confidence": 0.93,
+        "source_page": 4,
+        "source_text": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPSGround - ResidentialDeliverySurcharge",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPSGround",
+        "confidence": 0.88,
+        "source_page": 4,
+        "source_text": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPSGround",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": "All Zones",
+        "confidence": 0.88,
+        "source_page": 4,
+        "source_text": "All Zones",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "- 60.0%",
+        "confidence": 0.93,
+        "source_page": 4,
+        "source_text": "- 60.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 60.0,
+        "confidence": 0.93,
+        "source_page": 4,
+        "source_text": "- 60.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "surcharge_name": {
+        "value": "UPSBasic - FuelSurcharge",
+        "confidence": 0.93,
+        "source_page": 4,
+        "source_text": "UPSBasic - FuelSurcharge",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "UPSBasic",
+        "confidence": 0.88,
+        "source_page": 4,
+        "source_text": "UPSBasic",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": "All Zones",
+        "confidence": 0.88,
+        "source_page": 4,
+        "source_text": "All Zones",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "- 20.0%",
+        "confidence": 0.93,
+        "source_page": 4,
+        "source_text": "- 20.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 20.0,
+        "confidence": 0.93,
+        "source_page": 4,
+        "source_text": "- 20.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "surcharge_name": {
+        "value": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPSSurePost - FuelSurcharge",
+        "confidence": 0.93,
+        "source_page": 4,
+        "source_text": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPSSurePost - FuelSurcharge",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPSSurePost",
+        "confidence": 0.88,
+        "source_page": 4,
+        "source_text": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPSSurePost",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": "All Zones",
+        "confidence": 0.88,
+        "source_page": 4,
+        "source_text": "All Zones",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "- 20.0%",
+        "confidence": 0.93,
+        "source_page": 4,
+        "source_text": "- 20.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 20.0,
+        "confidence": 0.93,
+        "source_page": 4,
+        "source_text": "- 20.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "surcharge_name": {
+        "value": "UPSSurePost - FuelSurcharge",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "UPSSurePost - FuelSurcharge",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "UPSSurePost",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "UPSSurePost",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": "All Zones",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "All Zones",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "- 20.0%",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 20.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 20.0,
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 20.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "surcharge_name": {
+        "value": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPSSurePost - FuelSurcharge",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPSSurePost - FuelSurcharge",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPSSurePost",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPSSurePost",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": "All Zones",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "All Zones",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "- 20.0%",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 20.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 20.0,
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 20.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "surcharge_name": {
+        "value": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPSSurePost - FuelSurcharge",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPSSurePost - FuelSurcharge",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPSSurePost",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPSSurePost",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": "All Zones",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "All Zones",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "- 20.0%",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 20.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 20.0,
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 20.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "surcharge_name": {
+        "value": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied. All UPSWorldwideExpress - Prepaid",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied. All UPSWorldwideExpress - Prepaid",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied. All UPSWorldwideExpress",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied. All UPSWorldwideExpress",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": "All Zones",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "All Zones",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "- 60.0%",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 60.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 60.0,
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 60.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "surcharge_name": {
+        "value": "UPSWorldwideExpress - Prepaid",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "UPSWorldwideExpress - Prepaid",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "UPSWorldwideExpress",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "UPSWorldwideExpress",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": "All Zones",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "All Zones",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "- 60.0%",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 60.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 60.0,
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 60.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "surcharge_name": {
+        "value": "UPSWorldwideExpress - Prepaid",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "UPSWorldwideExpress - Prepaid",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "UPSWorldwideExpress",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "UPSWorldwideExpress",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": "All Zones",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "All Zones",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "- 60.0%",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 60.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 60.0,
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 60.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "surcharge_name": {
+        "value": "UPSWorldwideExpress - Prepaid",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "UPSWorldwideExpress - Prepaid",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "UPSWorldwideExpress",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "UPSWorldwideExpress",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": "All Zones",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "All Zones",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "- 60.0%",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 60.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 60.0,
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 60.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "surcharge_name": {
+        "value": "UPSWorldwideSaver - Prepaid",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "UPSWorldwideSaver - Prepaid",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "UPSWorldwideSaver",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "UPSWorldwideSaver",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": "All Zones",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "All Zones",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "- 60.0%",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 60.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 60.0,
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 60.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "surcharge_name": {
+        "value": "UPSWorldwideSaver - Prepaid",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "UPSWorldwideSaver - Prepaid",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "UPSWorldwideSaver",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "UPSWorldwideSaver",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": "All Zones",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "All Zones",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "- 60.0%",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 60.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 60.0,
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 60.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "surcharge_name": {
+        "value": "UPSWorldwideSaver - Prepaid",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "UPSWorldwideSaver - Prepaid",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "UPSWorldwideSaver",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "UPSWorldwideSaver",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": "All Zones",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "All Zones",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "- 60.0%",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 60.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 60.0,
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 60.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "surcharge_name": {
+        "value": "UPSWorldwideSaver - Prepaid",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "UPSWorldwideSaver - Prepaid",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "UPSWorldwideSaver",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "UPSWorldwideSaver",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": "All Zones",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "All Zones",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "- 60.0%",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 60.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 60.0,
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 60.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "surcharge_name": {
+        "value": "UPSWorldwideExportExpressFreightMiddayPalletAll - General Incentive",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "UPSWorldwideExportExpressFreightMiddayPalletAll - General Incentive",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "UPSWorldwideExportExpressFreightMiddayPalletAll",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "UPSWorldwideExportExpressFreightMiddayPalletAll",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": "All Zones",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "All Zones",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "- 60.0%",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 60.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 60.0,
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 60.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "surcharge_name": {
+        "value": "UPSWorldwideExportExpressFreightPalletAll - General Incentive",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "UPSWorldwideExportExpressFreightPalletAll - General Incentive",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "UPSWorldwideExportExpressFreightPalletAll",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "UPSWorldwideExportExpressFreightPalletAll",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": "All Zones",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "All Zones",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "- 60.0%",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 60.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 60.0,
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 60.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "surcharge_name": {
+        "value": "UPSWorldwideExpedited - Prepaid",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "UPSWorldwideExpedited - Prepaid",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "UPSWorldwideExpedited",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "UPSWorldwideExpedited",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": "All Zones",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "All Zones",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "- 60.0%",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 60.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 60.0,
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 60.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "surcharge_name": {
+        "value": "UPSWorldwideExpedited - Prepaid",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "UPSWorldwideExpedited - Prepaid",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "UPSWorldwideExpedited",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "UPSWorldwideExpedited",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": "All Zones",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "All Zones",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "- 60.0%",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 60.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 60.0,
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 60.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "surcharge_name": {
+        "value": "UPSStandardtoCanada - Prepaid",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "UPSStandardtoCanada - Prepaid",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "UPSStandardtoCanada",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "UPSStandardtoCanada",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": "All Zones",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "All Zones",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "- 27.0%",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 27.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 27.0,
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 27.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "surcharge_name": {
+        "value": "UPSStandardtoMexico - Prepaid",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "UPSStandardtoMexico - Prepaid",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "UPSStandardtoMexico",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "UPSStandardtoMexico",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": "All Zones",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "All Zones",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "- 42.0%",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 42.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 42.0,
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 42.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "surcharge_name": {
+        "value": "UPSStandardtoMexico - Prepaid",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "UPSStandardtoMexico - Prepaid",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "UPSStandardtoMexico",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "UPSStandardtoMexico",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": "All Zones",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "All Zones",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "- 42.0%",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 42.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 42.0,
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 42.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "surcharge_name": {
+        "value": "UPSWorldwideExpress - FreightCollect",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "UPSWorldwideExpress - FreightCollect",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "UPSWorldwideExpress",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "UPSWorldwideExpress",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": "All Zones",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "All Zones",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "- 56.0%",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 56.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 56.0,
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 56.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "surcharge_name": {
+        "value": "UPSWorldwideExpress - FreightCollect",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "UPSWorldwideExpress - FreightCollect",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "UPSWorldwideExpress",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "UPSWorldwideExpress",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": "All Zones",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "All Zones",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "- 56.0%",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 56.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 56.0,
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 56.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "surcharge_name": {
+        "value": "UPSWorldwideExpress - FreightCollect",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "UPSWorldwideExpress - FreightCollect",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "UPSWorldwideExpress",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "UPSWorldwideExpress",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": "All Zones",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "All Zones",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "- 56.0%",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 56.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 56.0,
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 56.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "surcharge_name": {
+        "value": "UPSWorldwideSaver - FreightCollect",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "UPSWorldwideSaver - FreightCollect",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "UPSWorldwideSaver",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "UPSWorldwideSaver",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": "All Zones",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "All Zones",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "- 56.0%",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 56.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 56.0,
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 56.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "surcharge_name": {
+        "value": "UPSWorldwideSaver - FreightCollect",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "UPSWorldwideSaver - FreightCollect",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "UPSWorldwideSaver",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "UPSWorldwideSaver",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": "All Zones",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "All Zones",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "- 56.0%",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 56.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 56.0,
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 56.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "surcharge_name": {
+        "value": "UPSWorldwideSaver - FreightCollect",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "UPSWorldwideSaver - FreightCollect",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "UPSWorldwideSaver",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "UPSWorldwideSaver",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": "All Zones",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "All Zones",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "- 56.0%",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 56.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 56.0,
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 56.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "surcharge_name": {
+        "value": "UPSWorldwideImportExpressFreightMiddayPalletAll - General Incentive",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "UPSWorldwideImportExpressFreightMiddayPalletAll - General Incentive",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "UPSWorldwideImportExpressFreightMiddayPalletAll",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "UPSWorldwideImportExpressFreightMiddayPalletAll",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": "All Zones",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "All Zones",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "- 56.0%",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 56.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 56.0,
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 56.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "surcharge_name": {
+        "value": "UPSWorldwideImportExpressFreightPalletAll - General Incentive",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "UPSWorldwideImportExpressFreightPalletAll - General Incentive",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "UPSWorldwideImportExpressFreightPalletAll",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "UPSWorldwideImportExpressFreightPalletAll",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": "All Zones",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "All Zones",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "- 56.0%",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 56.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 56.0,
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 56.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "surcharge_name": {
+        "value": "UPSWorldwideExpedited - FreightCollect",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "UPSWorldwideExpedited - FreightCollect",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "UPSWorldwideExpedited",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "UPSWorldwideExpedited",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": "All Zones",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "All Zones",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "- 56.0%",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 56.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 56.0,
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 56.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "surcharge_name": {
+        "value": "UPSWorldwideExpedited - FreightCollect",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "UPSWorldwideExpedited - FreightCollect",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "UPSWorldwideExpedited",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "UPSWorldwideExpedited",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": "All Zones",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "All Zones",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "- 56.0%",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 56.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 56.0,
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 56.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "surcharge_name": {
+        "value": "UPSStandardfromCanada - FreightCollect",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "UPSStandardfromCanada - FreightCollect",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "UPSStandardfromCanada",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "UPSStandardfromCanada",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": "All Zones",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "All Zones",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "- 27.0%",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 27.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 27.0,
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 27.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "surcharge_name": {
+        "value": "UPSStandardfromMexico - FreightCollect",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "UPSStandardfromMexico - FreightCollect",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "UPSStandardfromMexico",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "UPSStandardfromMexico",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": "All Zones",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "All Zones",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "- 42.0%",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 42.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 42.0,
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 42.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "surcharge_name": {
+        "value": "UPSStandardfromMexico - FreightCollect",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "UPSStandardfromMexico - FreightCollect",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "application": {
+        "value": "UPSStandardfromMexico",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "UPSStandardfromMexico",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_zones": {
+        "value": "All Zones",
+        "confidence": 0.88,
+        "source_page": 5,
+        "source_text": "All Zones",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "modification": {
+        "value": "- 42.0%",
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 42.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "discount_percentage": {
+        "value": 42.0,
+        "confidence": 0.93,
+        "source_page": 5,
+        "source_text": "- 42.0%",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "effective_date": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    }
+  ],
+  "dim_rules": [
+    {
+      "dim_divisor": {
+        "value": 194.0,
+        "confidence": 0.98,
+        "source_page": 6,
+        "source_text": "DIM Divisor (UPS Service)",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_services": {
+        "value": "UPS Service",
+        "confidence": 0.88,
+        "source_page": 6,
+        "source_text": "UPS Service",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "conditions": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "dim_divisor": {
+        "value": 225.0,
+        "confidence": 0.98,
+        "source_page": 6,
+        "source_text": "DIM Divisor (UPS Service)",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_services": {
+        "value": "UPS Service",
+        "confidence": 0.88,
+        "source_page": 6,
+        "source_text": "UPS Service",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "conditions": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    },
+    {
+      "dim_divisor": {
+        "value": 166.0,
+        "confidence": 0.98,
+        "source_page": 6,
+        "source_text": "DIM Divisor (UPS Service)",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "applicable_services": {
+        "value": "UPS Service",
+        "confidence": 0.88,
+        "source_page": 6,
+        "source_text": "UPS Service",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "conditions": {
+        "value": null,
+        "confidence": 0.0,
+        "source_page": null,
+        "source_text": null,
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    }
+  ],
+  "special_terms": [],
+  "amendments": [],
+  "overall_confidence": 0.91,
+  "fields_needing_review": 0,
+  "total_fields_extracted": 245,
+  "review_notes": null,
+  "active_terms_snapshot": {
+    "resolved_at": "2026-04-02",
+    "amendments_applied": [],
+    "service_terms": [],
+    "surcharges": [
+      {
+        "surcharge_name": {
+          "value": "UPSNextDayAirEarly - FuelSurcharge",
+          "confidence": 0.93,
+          "source_page": 4,
+          "source_text": "UPSNextDayAirEarly - FuelSurcharge",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "application": {
+          "value": "UPSNextDayAirEarly",
+          "confidence": 0.88,
+          "source_page": 4,
+          "source_text": "UPSNextDayAirEarly",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "applicable_zones": {
+          "value": "All Zones",
+          "confidence": 0.88,
+          "source_page": 4,
+          "source_text": "All Zones",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "modification": {
+          "value": "- 20.0%",
+          "confidence": 0.93,
+          "source_page": 4,
+          "source_text": "- 20.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "discount_percentage": {
+          "value": 20.0,
+          "confidence": 0.93,
+          "source_page": 4,
+          "source_text": "- 20.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "effective_date": {
+          "value": null,
+          "confidence": 0.0,
+          "source_page": null,
+          "source_text": null,
+          "needs_review": false,
+          "reviewer_override": null
+        }
+      },
+      {
+        "surcharge_name": {
+          "value": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPSNextDayAirEarly - ResidentialDeliverySurcharge",
+          "confidence": 0.93,
+          "source_page": 4,
+          "source_text": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPSNextDayAirEarly - ResidentialDeliverySurcharge",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "application": {
+          "value": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPSNextDayAirEarly",
+          "confidence": 0.88,
+          "source_page": 4,
+          "source_text": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPSNextDayAirEarly",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "applicable_zones": {
+          "value": "All Zones",
+          "confidence": 0.88,
+          "source_page": 4,
+          "source_text": "All Zones",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "modification": {
+          "value": "- 50.0%",
+          "confidence": 0.93,
+          "source_page": 4,
+          "source_text": "- 50.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "discount_percentage": {
+          "value": 50.0,
+          "confidence": 0.93,
+          "source_page": 4,
+          "source_text": "- 50.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "effective_date": {
+          "value": null,
+          "confidence": 0.0,
+          "source_page": null,
+          "source_text": null,
+          "needs_review": false,
+          "reviewer_override": null
+        }
+      },
+      {
+        "surcharge_name": {
+          "value": "UPSNextDayAir - FuelSurcharge",
+          "confidence": 0.93,
+          "source_page": 4,
+          "source_text": "UPSNextDayAir - FuelSurcharge",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "application": {
+          "value": "UPSNextDayAir",
+          "confidence": 0.88,
+          "source_page": 4,
+          "source_text": "UPSNextDayAir",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "applicable_zones": {
+          "value": "All Zones",
+          "confidence": 0.88,
+          "source_page": 4,
+          "source_text": "All Zones",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "modification": {
+          "value": "- 20.0%",
+          "confidence": 0.93,
+          "source_page": 4,
+          "source_text": "- 20.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "discount_percentage": {
+          "value": 20.0,
+          "confidence": 0.93,
+          "source_page": 4,
+          "source_text": "- 20.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "effective_date": {
+          "value": null,
+          "confidence": 0.0,
+          "source_page": null,
+          "source_text": null,
+          "needs_review": false,
+          "reviewer_override": null
+        }
+      },
+      {
+        "surcharge_name": {
+          "value": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPSNextDayAir - ResidentialDeliverySurcharge",
+          "confidence": 0.93,
+          "source_page": 4,
+          "source_text": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPSNextDayAir - ResidentialDeliverySurcharge",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "application": {
+          "value": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPSNextDayAir",
+          "confidence": 0.88,
+          "source_page": 4,
+          "source_text": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPSNextDayAir",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "applicable_zones": {
+          "value": "All Zones",
+          "confidence": 0.88,
+          "source_page": 4,
+          "source_text": "All Zones",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "modification": {
+          "value": "- 50.0%",
+          "confidence": 0.93,
+          "source_page": 4,
+          "source_text": "- 50.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "discount_percentage": {
+          "value": 50.0,
+          "confidence": 0.93,
+          "source_page": 4,
+          "source_text": "- 50.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "effective_date": {
+          "value": null,
+          "confidence": 0.0,
+          "source_page": null,
+          "source_text": null,
+          "needs_review": false,
+          "reviewer_override": null
+        }
+      },
+      {
+        "surcharge_name": {
+          "value": "UPSNextDayAirSaver - FuelSurcharge",
+          "confidence": 0.93,
+          "source_page": 4,
+          "source_text": "UPSNextDayAirSaver - FuelSurcharge",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "application": {
+          "value": "UPSNextDayAirSaver",
+          "confidence": 0.88,
+          "source_page": 4,
+          "source_text": "UPSNextDayAirSaver",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "applicable_zones": {
+          "value": "All Zones",
+          "confidence": 0.88,
+          "source_page": 4,
+          "source_text": "All Zones",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "modification": {
+          "value": "- 20.0%",
+          "confidence": 0.93,
+          "source_page": 4,
+          "source_text": "- 20.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "discount_percentage": {
+          "value": 20.0,
+          "confidence": 0.93,
+          "source_page": 4,
+          "source_text": "- 20.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "effective_date": {
+          "value": null,
+          "confidence": 0.0,
+          "source_page": null,
+          "source_text": null,
+          "needs_review": false,
+          "reviewer_override": null
+        }
+      },
+      {
+        "surcharge_name": {
+          "value": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPSNextDayAirSaver - ResidentialDeliverySurcharge",
+          "confidence": 0.93,
+          "source_page": 4,
+          "source_text": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPSNextDayAirSaver - ResidentialDeliverySurcharge",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "application": {
+          "value": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPSNextDayAirSaver",
+          "confidence": 0.88,
+          "source_page": 4,
+          "source_text": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPSNextDayAirSaver",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "applicable_zones": {
+          "value": "All Zones",
+          "confidence": 0.88,
+          "source_page": 4,
+          "source_text": "All Zones",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "modification": {
+          "value": "- 50.0%",
+          "confidence": 0.93,
+          "source_page": 4,
+          "source_text": "- 50.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "discount_percentage": {
+          "value": 50.0,
+          "confidence": 0.93,
+          "source_page": 4,
+          "source_text": "- 50.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "effective_date": {
+          "value": null,
+          "confidence": 0.0,
+          "source_page": null,
+          "source_text": null,
+          "needs_review": false,
+          "reviewer_override": null
+        }
+      },
+      {
+        "surcharge_name": {
+          "value": "UPS2ndDayAirA.M. - FuelSurcharge",
+          "confidence": 0.93,
+          "source_page": 4,
+          "source_text": "UPS2ndDayAirA.M. - FuelSurcharge",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "application": {
+          "value": "UPS2ndDayAirA.M.",
+          "confidence": 0.88,
+          "source_page": 4,
+          "source_text": "UPS2ndDayAirA.M.",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "applicable_zones": {
+          "value": "All Zones",
+          "confidence": 0.88,
+          "source_page": 4,
+          "source_text": "All Zones",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "modification": {
+          "value": "- 20.0%",
+          "confidence": 0.93,
+          "source_page": 4,
+          "source_text": "- 20.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "discount_percentage": {
+          "value": 20.0,
+          "confidence": 0.93,
+          "source_page": 4,
+          "source_text": "- 20.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "effective_date": {
+          "value": null,
+          "confidence": 0.0,
+          "source_page": null,
+          "source_text": null,
+          "needs_review": false,
+          "reviewer_override": null
+        }
+      },
+      {
+        "surcharge_name": {
+          "value": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPS2ndDayAirA.M. - ResidentialDeliverySurcharge",
+          "confidence": 0.93,
+          "source_page": 4,
+          "source_text": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPS2ndDayAirA.M. - ResidentialDeliverySurcharge",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "application": {
+          "value": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPS2ndDayAirA.M.",
+          "confidence": 0.88,
+          "source_page": 4,
+          "source_text": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPS2ndDayAirA.M.",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "applicable_zones": {
+          "value": "All Zones",
+          "confidence": 0.88,
+          "source_page": 4,
+          "source_text": "All Zones",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "modification": {
+          "value": "- 50.0%",
+          "confidence": 0.93,
+          "source_page": 4,
+          "source_text": "- 50.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "discount_percentage": {
+          "value": 50.0,
+          "confidence": 0.93,
+          "source_page": 4,
+          "source_text": "- 50.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "effective_date": {
+          "value": null,
+          "confidence": 0.0,
+          "source_page": null,
+          "source_text": null,
+          "needs_review": false,
+          "reviewer_override": null
+        }
+      },
+      {
+        "surcharge_name": {
+          "value": "UPS2ndDayAir - FuelSurcharge",
+          "confidence": 0.93,
+          "source_page": 4,
+          "source_text": "UPS2ndDayAir - FuelSurcharge",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "application": {
+          "value": "UPS2ndDayAir",
+          "confidence": 0.88,
+          "source_page": 4,
+          "source_text": "UPS2ndDayAir",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "applicable_zones": {
+          "value": "All Zones",
+          "confidence": 0.88,
+          "source_page": 4,
+          "source_text": "All Zones",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "modification": {
+          "value": "- 20.0%",
+          "confidence": 0.93,
+          "source_page": 4,
+          "source_text": "- 20.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "discount_percentage": {
+          "value": 20.0,
+          "confidence": 0.93,
+          "source_page": 4,
+          "source_text": "- 20.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "effective_date": {
+          "value": null,
+          "confidence": 0.0,
+          "source_page": null,
+          "source_text": null,
+          "needs_review": false,
+          "reviewer_override": null
+        }
+      },
+      {
+        "surcharge_name": {
+          "value": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPS2ndDayAir - ResidentialDeliverySurcharge",
+          "confidence": 0.93,
+          "source_page": 4,
+          "source_text": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPS2ndDayAir - ResidentialDeliverySurcharge",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "application": {
+          "value": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPS2ndDayAir",
+          "confidence": 0.88,
+          "source_page": 4,
+          "source_text": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPS2ndDayAir",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "applicable_zones": {
+          "value": "All Zones",
+          "confidence": 0.88,
+          "source_page": 4,
+          "source_text": "All Zones",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "modification": {
+          "value": "- 50.0%",
+          "confidence": 0.93,
+          "source_page": 4,
+          "source_text": "- 50.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "discount_percentage": {
+          "value": 50.0,
+          "confidence": 0.93,
+          "source_page": 4,
+          "source_text": "- 50.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "effective_date": {
+          "value": null,
+          "confidence": 0.0,
+          "source_page": null,
+          "source_text": null,
+          "needs_review": false,
+          "reviewer_override": null
+        }
+      },
+      {
+        "surcharge_name": {
+          "value": "UPS3DaySelect - FuelSurcharge",
+          "confidence": 0.93,
+          "source_page": 4,
+          "source_text": "UPS3DaySelect - FuelSurcharge",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "application": {
+          "value": "UPS3DaySelect",
+          "confidence": 0.88,
+          "source_page": 4,
+          "source_text": "UPS3DaySelect",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "applicable_zones": {
+          "value": "All Zones",
+          "confidence": 0.88,
+          "source_page": 4,
+          "source_text": "All Zones",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "modification": {
+          "value": "- 20.0%",
+          "confidence": 0.93,
+          "source_page": 4,
+          "source_text": "- 20.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "discount_percentage": {
+          "value": 20.0,
+          "confidence": 0.93,
+          "source_page": 4,
+          "source_text": "- 20.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "effective_date": {
+          "value": null,
+          "confidence": 0.0,
+          "source_page": null,
+          "source_text": null,
+          "needs_review": false,
+          "reviewer_override": null
+        }
+      },
+      {
+        "surcharge_name": {
+          "value": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPS3DaySelect - ResidentialDeliverySurcharge",
+          "confidence": 0.93,
+          "source_page": 4,
+          "source_text": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPS3DaySelect - ResidentialDeliverySurcharge",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "application": {
+          "value": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPS3DaySelect",
+          "confidence": 0.88,
+          "source_page": 4,
+          "source_text": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPS3DaySelect",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "applicable_zones": {
+          "value": "All Zones",
+          "confidence": 0.88,
+          "source_page": 4,
+          "source_text": "All Zones",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "modification": {
+          "value": "- 50.0%",
+          "confidence": 0.93,
+          "source_page": 4,
+          "source_text": "- 50.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "discount_percentage": {
+          "value": 50.0,
+          "confidence": 0.93,
+          "source_page": 4,
+          "source_text": "- 50.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "effective_date": {
+          "value": null,
+          "confidence": 0.0,
+          "source_page": null,
+          "source_text": null,
+          "needs_review": false,
+          "reviewer_override": null
+        }
+      },
+      {
+        "surcharge_name": {
+          "value": "UPSGround - FuelSurcharge",
+          "confidence": 0.93,
+          "source_page": 4,
+          "source_text": "UPSGround - FuelSurcharge",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "application": {
+          "value": "UPSGround",
+          "confidence": 0.88,
+          "source_page": 4,
+          "source_text": "UPSGround",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "applicable_zones": {
+          "value": "All Zones",
+          "confidence": 0.88,
+          "source_page": 4,
+          "source_text": "All Zones",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "modification": {
+          "value": "- 20.0%",
+          "confidence": 0.93,
+          "source_page": 4,
+          "source_text": "- 20.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "discount_percentage": {
+          "value": 20.0,
+          "confidence": 0.93,
+          "source_page": 4,
+          "source_text": "- 20.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "effective_date": {
+          "value": null,
+          "confidence": 0.0,
+          "source_page": null,
+          "source_text": null,
+          "needs_review": false,
+          "reviewer_override": null
+        }
+      },
+      {
+        "surcharge_name": {
+          "value": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPSGround - ResidentialDeliverySurcharge",
+          "confidence": 0.93,
+          "source_page": 4,
+          "source_text": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPSGround - ResidentialDeliverySurcharge",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "application": {
+          "value": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPSGround",
+          "confidence": 0.88,
+          "source_page": 4,
+          "source_text": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPSGround",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "applicable_zones": {
+          "value": "All Zones",
+          "confidence": 0.88,
+          "source_page": 4,
+          "source_text": "All Zones",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "modification": {
+          "value": "- 60.0%",
+          "confidence": 0.93,
+          "source_page": 4,
+          "source_text": "- 60.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "discount_percentage": {
+          "value": 60.0,
+          "confidence": 0.93,
+          "source_page": 4,
+          "source_text": "- 60.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "effective_date": {
+          "value": null,
+          "confidence": 0.0,
+          "source_page": null,
+          "source_text": null,
+          "needs_review": false,
+          "reviewer_override": null
+        }
+      },
+      {
+        "surcharge_name": {
+          "value": "UPSBasic - FuelSurcharge",
+          "confidence": 0.93,
+          "source_page": 4,
+          "source_text": "UPSBasic - FuelSurcharge",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "application": {
+          "value": "UPSBasic",
+          "confidence": 0.88,
+          "source_page": 4,
+          "source_text": "UPSBasic",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "applicable_zones": {
+          "value": "All Zones",
+          "confidence": 0.88,
+          "source_page": 4,
+          "source_text": "All Zones",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "modification": {
+          "value": "- 20.0%",
+          "confidence": 0.93,
+          "source_page": 4,
+          "source_text": "- 20.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "discount_percentage": {
+          "value": 20.0,
+          "confidence": 0.93,
+          "source_page": 4,
+          "source_text": "- 20.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "effective_date": {
+          "value": null,
+          "confidence": 0.0,
+          "source_page": null,
+          "source_text": null,
+          "needs_review": false,
+          "reviewer_override": null
+        }
+      },
+      {
+        "surcharge_name": {
+          "value": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPSSurePost - FuelSurcharge",
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPSSurePost - FuelSurcharge",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "application": {
+          "value": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPSSurePost",
+          "confidence": 0.88,
+          "source_page": 5,
+          "source_text": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied.  UPSSurePost",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "applicable_zones": {
+          "value": "All Zones",
+          "confidence": 0.88,
+          "source_page": 5,
+          "source_text": "All Zones",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "modification": {
+          "value": "- 20.0%",
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "- 20.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "discount_percentage": {
+          "value": 20.0,
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "- 20.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "effective_date": {
+          "value": null,
+          "confidence": 0.0,
+          "source_page": null,
+          "source_text": null,
+          "needs_review": false,
+          "reviewer_override": null
+        }
+      },
+      {
+        "surcharge_name": {
+          "value": "UPSSurePost - FuelSurcharge",
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "UPSSurePost - FuelSurcharge",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "application": {
+          "value": "UPSSurePost",
+          "confidence": 0.88,
+          "source_page": 5,
+          "source_text": "UPSSurePost",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "applicable_zones": {
+          "value": "All Zones",
+          "confidence": 0.88,
+          "source_page": 5,
+          "source_text": "All Zones",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "modification": {
+          "value": "- 20.0%",
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "- 20.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "discount_percentage": {
+          "value": 20.0,
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "- 20.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "effective_date": {
+          "value": null,
+          "confidence": 0.0,
+          "source_page": null,
+          "source_text": null,
+          "needs_review": false,
+          "reviewer_override": null
+        }
+      },
+      {
+        "surcharge_name": {
+          "value": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied. All UPSWorldwideExpress - Prepaid",
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied. All UPSWorldwideExpress - Prepaid",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "application": {
+          "value": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied. All UPSWorldwideExpress",
+          "confidence": 0.88,
+          "source_page": 5,
+          "source_text": "UPSRateandServiceGuide,anincentiveof20.00%willbeapplied. All UPSWorldwideExpress",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "applicable_zones": {
+          "value": "All Zones",
+          "confidence": 0.88,
+          "source_page": 5,
+          "source_text": "All Zones",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "modification": {
+          "value": "- 60.0%",
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "- 60.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "discount_percentage": {
+          "value": 60.0,
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "- 60.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "effective_date": {
+          "value": null,
+          "confidence": 0.0,
+          "source_page": null,
+          "source_text": null,
+          "needs_review": false,
+          "reviewer_override": null
+        }
+      },
+      {
+        "surcharge_name": {
+          "value": "UPSWorldwideExpress - Prepaid",
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "UPSWorldwideExpress - Prepaid",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "application": {
+          "value": "UPSWorldwideExpress",
+          "confidence": 0.88,
+          "source_page": 5,
+          "source_text": "UPSWorldwideExpress",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "applicable_zones": {
+          "value": "All Zones",
+          "confidence": 0.88,
+          "source_page": 5,
+          "source_text": "All Zones",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "modification": {
+          "value": "- 60.0%",
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "- 60.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "discount_percentage": {
+          "value": 60.0,
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "- 60.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "effective_date": {
+          "value": null,
+          "confidence": 0.0,
+          "source_page": null,
+          "source_text": null,
+          "needs_review": false,
+          "reviewer_override": null
+        }
+      },
+      {
+        "surcharge_name": {
+          "value": "UPSWorldwideSaver - Prepaid",
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "UPSWorldwideSaver - Prepaid",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "application": {
+          "value": "UPSWorldwideSaver",
+          "confidence": 0.88,
+          "source_page": 5,
+          "source_text": "UPSWorldwideSaver",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "applicable_zones": {
+          "value": "All Zones",
+          "confidence": 0.88,
+          "source_page": 5,
+          "source_text": "All Zones",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "modification": {
+          "value": "- 60.0%",
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "- 60.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "discount_percentage": {
+          "value": 60.0,
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "- 60.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "effective_date": {
+          "value": null,
+          "confidence": 0.0,
+          "source_page": null,
+          "source_text": null,
+          "needs_review": false,
+          "reviewer_override": null
+        }
+      },
+      {
+        "surcharge_name": {
+          "value": "UPSWorldwideExportExpressFreightMiddayPalletAll - General Incentive",
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "UPSWorldwideExportExpressFreightMiddayPalletAll - General Incentive",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "application": {
+          "value": "UPSWorldwideExportExpressFreightMiddayPalletAll",
+          "confidence": 0.88,
+          "source_page": 5,
+          "source_text": "UPSWorldwideExportExpressFreightMiddayPalletAll",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "applicable_zones": {
+          "value": "All Zones",
+          "confidence": 0.88,
+          "source_page": 5,
+          "source_text": "All Zones",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "modification": {
+          "value": "- 60.0%",
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "- 60.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "discount_percentage": {
+          "value": 60.0,
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "- 60.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "effective_date": {
+          "value": null,
+          "confidence": 0.0,
+          "source_page": null,
+          "source_text": null,
+          "needs_review": false,
+          "reviewer_override": null
+        }
+      },
+      {
+        "surcharge_name": {
+          "value": "UPSWorldwideExportExpressFreightPalletAll - General Incentive",
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "UPSWorldwideExportExpressFreightPalletAll - General Incentive",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "application": {
+          "value": "UPSWorldwideExportExpressFreightPalletAll",
+          "confidence": 0.88,
+          "source_page": 5,
+          "source_text": "UPSWorldwideExportExpressFreightPalletAll",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "applicable_zones": {
+          "value": "All Zones",
+          "confidence": 0.88,
+          "source_page": 5,
+          "source_text": "All Zones",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "modification": {
+          "value": "- 60.0%",
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "- 60.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "discount_percentage": {
+          "value": 60.0,
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "- 60.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "effective_date": {
+          "value": null,
+          "confidence": 0.0,
+          "source_page": null,
+          "source_text": null,
+          "needs_review": false,
+          "reviewer_override": null
+        }
+      },
+      {
+        "surcharge_name": {
+          "value": "UPSWorldwideExpedited - Prepaid",
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "UPSWorldwideExpedited - Prepaid",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "application": {
+          "value": "UPSWorldwideExpedited",
+          "confidence": 0.88,
+          "source_page": 5,
+          "source_text": "UPSWorldwideExpedited",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "applicable_zones": {
+          "value": "All Zones",
+          "confidence": 0.88,
+          "source_page": 5,
+          "source_text": "All Zones",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "modification": {
+          "value": "- 60.0%",
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "- 60.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "discount_percentage": {
+          "value": 60.0,
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "- 60.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "effective_date": {
+          "value": null,
+          "confidence": 0.0,
+          "source_page": null,
+          "source_text": null,
+          "needs_review": false,
+          "reviewer_override": null
+        }
+      },
+      {
+        "surcharge_name": {
+          "value": "UPSStandardtoCanada - Prepaid",
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "UPSStandardtoCanada - Prepaid",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "application": {
+          "value": "UPSStandardtoCanada",
+          "confidence": 0.88,
+          "source_page": 5,
+          "source_text": "UPSStandardtoCanada",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "applicable_zones": {
+          "value": "All Zones",
+          "confidence": 0.88,
+          "source_page": 5,
+          "source_text": "All Zones",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "modification": {
+          "value": "- 27.0%",
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "- 27.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "discount_percentage": {
+          "value": 27.0,
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "- 27.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "effective_date": {
+          "value": null,
+          "confidence": 0.0,
+          "source_page": null,
+          "source_text": null,
+          "needs_review": false,
+          "reviewer_override": null
+        }
+      },
+      {
+        "surcharge_name": {
+          "value": "UPSStandardtoMexico - Prepaid",
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "UPSStandardtoMexico - Prepaid",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "application": {
+          "value": "UPSStandardtoMexico",
+          "confidence": 0.88,
+          "source_page": 5,
+          "source_text": "UPSStandardtoMexico",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "applicable_zones": {
+          "value": "All Zones",
+          "confidence": 0.88,
+          "source_page": 5,
+          "source_text": "All Zones",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "modification": {
+          "value": "- 42.0%",
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "- 42.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "discount_percentage": {
+          "value": 42.0,
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "- 42.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "effective_date": {
+          "value": null,
+          "confidence": 0.0,
+          "source_page": null,
+          "source_text": null,
+          "needs_review": false,
+          "reviewer_override": null
+        }
+      },
+      {
+        "surcharge_name": {
+          "value": "UPSWorldwideExpress - FreightCollect",
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "UPSWorldwideExpress - FreightCollect",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "application": {
+          "value": "UPSWorldwideExpress",
+          "confidence": 0.88,
+          "source_page": 5,
+          "source_text": "UPSWorldwideExpress",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "applicable_zones": {
+          "value": "All Zones",
+          "confidence": 0.88,
+          "source_page": 5,
+          "source_text": "All Zones",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "modification": {
+          "value": "- 56.0%",
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "- 56.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "discount_percentage": {
+          "value": 56.0,
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "- 56.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "effective_date": {
+          "value": null,
+          "confidence": 0.0,
+          "source_page": null,
+          "source_text": null,
+          "needs_review": false,
+          "reviewer_override": null
+        }
+      },
+      {
+        "surcharge_name": {
+          "value": "UPSWorldwideSaver - FreightCollect",
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "UPSWorldwideSaver - FreightCollect",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "application": {
+          "value": "UPSWorldwideSaver",
+          "confidence": 0.88,
+          "source_page": 5,
+          "source_text": "UPSWorldwideSaver",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "applicable_zones": {
+          "value": "All Zones",
+          "confidence": 0.88,
+          "source_page": 5,
+          "source_text": "All Zones",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "modification": {
+          "value": "- 56.0%",
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "- 56.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "discount_percentage": {
+          "value": 56.0,
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "- 56.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "effective_date": {
+          "value": null,
+          "confidence": 0.0,
+          "source_page": null,
+          "source_text": null,
+          "needs_review": false,
+          "reviewer_override": null
+        }
+      },
+      {
+        "surcharge_name": {
+          "value": "UPSWorldwideImportExpressFreightMiddayPalletAll - General Incentive",
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "UPSWorldwideImportExpressFreightMiddayPalletAll - General Incentive",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "application": {
+          "value": "UPSWorldwideImportExpressFreightMiddayPalletAll",
+          "confidence": 0.88,
+          "source_page": 5,
+          "source_text": "UPSWorldwideImportExpressFreightMiddayPalletAll",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "applicable_zones": {
+          "value": "All Zones",
+          "confidence": 0.88,
+          "source_page": 5,
+          "source_text": "All Zones",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "modification": {
+          "value": "- 56.0%",
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "- 56.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "discount_percentage": {
+          "value": 56.0,
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "- 56.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "effective_date": {
+          "value": null,
+          "confidence": 0.0,
+          "source_page": null,
+          "source_text": null,
+          "needs_review": false,
+          "reviewer_override": null
+        }
+      },
+      {
+        "surcharge_name": {
+          "value": "UPSWorldwideImportExpressFreightPalletAll - General Incentive",
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "UPSWorldwideImportExpressFreightPalletAll - General Incentive",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "application": {
+          "value": "UPSWorldwideImportExpressFreightPalletAll",
+          "confidence": 0.88,
+          "source_page": 5,
+          "source_text": "UPSWorldwideImportExpressFreightPalletAll",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "applicable_zones": {
+          "value": "All Zones",
+          "confidence": 0.88,
+          "source_page": 5,
+          "source_text": "All Zones",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "modification": {
+          "value": "- 56.0%",
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "- 56.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "discount_percentage": {
+          "value": 56.0,
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "- 56.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "effective_date": {
+          "value": null,
+          "confidence": 0.0,
+          "source_page": null,
+          "source_text": null,
+          "needs_review": false,
+          "reviewer_override": null
+        }
+      },
+      {
+        "surcharge_name": {
+          "value": "UPSWorldwideExpedited - FreightCollect",
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "UPSWorldwideExpedited - FreightCollect",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "application": {
+          "value": "UPSWorldwideExpedited",
+          "confidence": 0.88,
+          "source_page": 5,
+          "source_text": "UPSWorldwideExpedited",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "applicable_zones": {
+          "value": "All Zones",
+          "confidence": 0.88,
+          "source_page": 5,
+          "source_text": "All Zones",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "modification": {
+          "value": "- 56.0%",
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "- 56.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "discount_percentage": {
+          "value": 56.0,
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "- 56.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "effective_date": {
+          "value": null,
+          "confidence": 0.0,
+          "source_page": null,
+          "source_text": null,
+          "needs_review": false,
+          "reviewer_override": null
+        }
+      },
+      {
+        "surcharge_name": {
+          "value": "UPSStandardfromCanada - FreightCollect",
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "UPSStandardfromCanada - FreightCollect",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "application": {
+          "value": "UPSStandardfromCanada",
+          "confidence": 0.88,
+          "source_page": 5,
+          "source_text": "UPSStandardfromCanada",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "applicable_zones": {
+          "value": "All Zones",
+          "confidence": 0.88,
+          "source_page": 5,
+          "source_text": "All Zones",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "modification": {
+          "value": "- 27.0%",
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "- 27.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "discount_percentage": {
+          "value": 27.0,
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "- 27.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "effective_date": {
+          "value": null,
+          "confidence": 0.0,
+          "source_page": null,
+          "source_text": null,
+          "needs_review": false,
+          "reviewer_override": null
+        }
+      },
+      {
+        "surcharge_name": {
+          "value": "UPSStandardfromMexico - FreightCollect",
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "UPSStandardfromMexico - FreightCollect",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "application": {
+          "value": "UPSStandardfromMexico",
+          "confidence": 0.88,
+          "source_page": 5,
+          "source_text": "UPSStandardfromMexico",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "applicable_zones": {
+          "value": "All Zones",
+          "confidence": 0.88,
+          "source_page": 5,
+          "source_text": "All Zones",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "modification": {
+          "value": "- 42.0%",
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "- 42.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "discount_percentage": {
+          "value": 42.0,
+          "confidence": 0.93,
+          "source_page": 5,
+          "source_text": "- 42.0%",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "effective_date": {
+          "value": null,
+          "confidence": 0.0,
+          "source_page": null,
+          "source_text": null,
+          "needs_review": false,
+          "reviewer_override": null
+        }
+      }
+    ],
+    "dim_rules": [
+      {
+        "dim_divisor": {
+          "value": 166.0,
+          "confidence": 0.98,
+          "source_page": 6,
+          "source_text": "DIM Divisor (UPS Service)",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "applicable_services": {
+          "value": "UPS Service",
+          "confidence": 0.88,
+          "source_page": 6,
+          "source_text": "UPS Service",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "conditions": {
+          "value": null,
+          "confidence": 0.0,
+          "source_page": null,
+          "source_text": null,
+          "needs_review": false,
+          "reviewer_override": null
+        }
+      }
+    ],
+    "special_terms": []
+  }
+}

@@ -1,0 +1,152 @@
+{
+  "id": "8c888d4d-f067-41f1-b726-e74308643746",
+  "file_name": "Armoire FDX Dec1.pdf",
+  "file_path": "ingestion/data/Armoire/Armoire FDX Dec1.pdf",
+  "extraction_timestamp": "2026-03-31T06:20:34.026213",
+  "status": "pending_review",
+  "metadata": {
+    "customer_name": {
+      "value": null,
+      "confidence": 0.0,
+      "source_page": null,
+      "source_text": null,
+      "needs_review": true,
+      "reviewer_override": null
+    },
+    "account_number": {
+      "value": null,
+      "confidence": 0.0,
+      "source_page": null,
+      "source_text": null,
+      "needs_review": true,
+      "reviewer_override": null
+    },
+    "agreement_number": {
+      "value": null,
+      "confidence": 0.0,
+      "source_page": null,
+      "source_text": null,
+      "needs_review": true,
+      "reviewer_override": null
+    },
+    "version_number": {
+      "value": null,
+      "confidence": 0.0,
+      "source_page": null,
+      "source_text": null,
+      "needs_review": false,
+      "reviewer_override": null
+    },
+    "effective_date": {
+      "value": null,
+      "confidence": 0.0,
+      "source_page": null,
+      "source_text": null,
+      "needs_review": true,
+      "reviewer_override": null
+    },
+    "term_start": {
+      "value": null,
+      "confidence": 0.0,
+      "source_page": null,
+      "source_text": null,
+      "needs_review": false,
+      "reviewer_override": null
+    },
+    "term_end": {
+      "value": null,
+      "confidence": 0.0,
+      "source_page": null,
+      "source_text": null,
+      "needs_review": false,
+      "reviewer_override": null
+    },
+    "payment_terms": {
+      "value": null,
+      "confidence": 0.0,
+      "source_page": null,
+      "source_text": null,
+      "needs_review": false,
+      "reviewer_override": null
+    },
+    "carrier": {
+      "value": "FedEx",
+      "confidence": 0.98,
+      "source_page": 1,
+      "source_text": "Questions?\nContact FedEx Revenue Services AR",
+      "needs_review": false,
+      "reviewer_override": null
+    }
+  },
+  "service_terms": [],
+  "surcharges": [],
+  "dim_rules": [],
+  "special_terms": [
+    {
+      "term_name": {
+        "value": "Document Type",
+        "confidence": 0.98,
+        "source_page": 1,
+        "source_text": "Invoice",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "term_value": {
+        "value": "Invoice",
+        "confidence": 0.98,
+        "source_page": 1,
+        "source_text": "Invoice Number",
+        "needs_review": false,
+        "reviewer_override": null
+      },
+      "conditions": {
+        "value": "Classified by deterministic invoice markers",
+        "confidence": 0.78,
+        "source_page": 1,
+        "source_text": "Invoice Number / Invoice Date",
+        "needs_review": false,
+        "reviewer_override": null
+      }
+    }
+  ],
+  "amendments": [],
+  "overall_confidence": 0.93,
+  "fields_needing_review": 0,
+  "total_fields_extracted": 4,
+  "review_notes": null,
+  "active_terms_snapshot": {
+    "resolved_at": "2026-03-30",
+    "amendments_applied": [],
+    "service_terms": [],
+    "surcharges": [],
+    "dim_rules": [],
+    "special_terms": [
+      {
+        "term_name": {
+          "value": "Document Type",
+          "confidence": 0.98,
+          "source_page": 1,
+          "source_text": "Invoice",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "term_value": {
+          "value": "Invoice",
+          "confidence": 0.98,
+          "source_page": 1,
+          "source_text": "Invoice Number",
+          "needs_review": false,
+          "reviewer_override": null
+        },
+        "conditions": {
+          "value": "Classified by deterministic invoice markers",
+          "confidence": 0.78,
+          "source_page": 1,
+          "source_text": "Invoice Number / Invoice Date",
+          "needs_review": false,
+          "reviewer_override": null
+        }
+      }
+    ]
+  }
+}

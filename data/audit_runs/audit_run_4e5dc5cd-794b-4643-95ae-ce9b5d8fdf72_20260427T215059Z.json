@@ -1,0 +1,58 @@
+{
+  "audit_run_id": "4e5dc5cd-794b-4643-95ae-ce9b5d8fdf72",
+  "created_at_utc": "20260427T215059Z",
+  "company_name": "G-FULFILLMENT LLC",
+  "agreement_id": "1233cb29-8660-43ce-ab79-cf8fe2acbc87",
+  "invoice_files": [
+    "tmp42787i37.pdf",
+    "tmpsngy03sk.pdf",
+    "tmp3yxn_x6l.pdf"
+  ],
+  "lines_audited": 1723,
+  "lines_with_discrepancies": 1021,
+  "discrepancy_count": 2039,
+  "checks_evaluated": 17230,
+  "checks_without_result": 15191,
+  "total_recovery_potential": 13964.22,
+  "reference_health": {
+    "total": 5,
+    "stale_or_missing": 0,
+    "entries": [
+      {
+        "name": "fuel_weekly_rates",
+        "exists": true,
+        "age_days": 0.06,
+        "stale": false,
+        "path": "data/reference/fuel_surcharges/weekly_rates.json"
+      },
+      {
+        "name": "fedex_das_zips",
+        "exists": true,
+        "age_days": 0.06,
+        "stale": false,
+        "path": "data/reference/das_zips/fedex_das_zips.csv"
+      },
+      {
+        "name": "ups_das_zips",
+        "exists": true,
+        "age_days": 0.06,
+        "stale": false,
+        "path": "data/reference/das_zips/ups_das_zips.csv"
+      },
+      {
+        "name": "fedex_zone_map",
+        "exists": true,
+        "age_days": 0.06,
+        "stale": false,
+        "path": "data/reference/zone_maps/fedex_zones.csv"
+      },
+      {
+        "name": "ups_zone_map",
+        "exists": true,
+        "age_days": 0.06,
+        "stale": false,
+        "path": "data/reference/zone_maps/ups_zones.csv"
+      }
+    ]
+  }
+}
